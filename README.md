@@ -98,7 +98,7 @@ You're building a simplified **Investment Dashboard** app. The app contains thre
 
 ---
 
-## 🧾 (Internal Use)
+## 🧾 Internal Use
 
 - [Review focus](https://hello-stake.atlassian.net/wiki/spaces/DEV/pages/2172747777/Code+Review+Focus+internal+use+only)
-- [Assessment notes](https://hello-stake.atlassian.net/wiki/spaces/DEV/pages/2172452872/Reviewer+Notes+-+Front-End+Assessment)
+- Export as PDF to fill out [Assessment notes](https://hello-stake.atlassian.net/wiki/spaces/DEV/pages/2172452872/Reviewer+Notes+-+Front-End+Assessment)
