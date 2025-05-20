@@ -5,8 +5,7 @@
     "name": "Nike Inc. - Class D",
     "category": "Equity",
     "quantity": 37,
-    "avgBuyPrice": 101.37,
-    "currentPrice": 97.83
+    "avgBuyPrice": 101.3
   },
   {
     "id": "497dda3c-05e2-41c8-8f11-7a906d7014a3",
@@ -14,8 +13,7 @@
     "name": "Tesla Inc.",
     "category": "Equity",
     "quantity": 85,
-    "avgBuyPrice": 175.09,
-    "currentPrice": 182.45
+    "avgBuyPrice": 175.09
   },
   {
     "id": "3bba602a-edf2-4657-9eb5-6dab3cc4f3ea",
@@ -23,8 +21,7 @@
     "name": "IRRNH Investment Fund",
     "category": "Sustainable Fund",
     "quantity": 20,
-    "avgBuyPrice": 239.42,
-    "currentPrice": 223.77
+    "avgBuyPrice": 239.42
   },
   {
     "id": "dabc9ba4-1802-4cff-b1f1-df98a10c7a30",
@@ -32,8 +29,7 @@
     "name": "GSMC Investment Fund",
     "category": "Bond Fund",
     "quantity": 18,
-    "avgBuyPrice": 51.82,
-    "currentPrice": 47.13
+    "avgBuyPrice": 51.82
   },
   {
     "id": "21162587-277a-48b3-9736-94edc9bc3f50",
@@ -41,7 +37,6 @@
     "name": "WXKOQ Investment Fund",
     "category": "ETF",
     "quantity": 57,
-    "avgBuyPrice": 159.65,
-    "currentPrice": 175.53
+    "avgBuyPrice": 159.65
   }
 ]
