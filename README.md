@@ -35,7 +35,7 @@ You're building a simplified **Investment Dashboard** app. The app contains thre
 
 ### Portfolio Tab
 
-- Displays user’s current investments (from **your own mocked data**)
+- Displays user’s current investments (from **instrument-list.json**)
 - Each investment should show:
   - Investment name
   - Investment amount
@@ -43,7 +43,7 @@ You're building a simplified **Investment Dashboard** app. The app contains thre
 
 ### Market Tab
 
-- Displays a list of available investment products (from **mocked data found in file dummy-data.json**)
+- Displays a list of available investment products (from **portfolio-list.json**)
 - Each product should include:
   - Name
   - Price
