@@ -57,9 +57,9 @@ You're building a simplified **Investment Dashboard** app. The app contains thre
  
 ### Relevant dummy data
 
-1. List of instruments
-2. Portfolio
-3. Pricing data
+1. List of instruments **instrument-list.json**
+2. Portfolio **portfolio.json**
+3. Pricing data **pricing.json**
 
 ---
 
