@@ -1,0 +1,802 @@
+[
+  {
+    "id": "363fcd65-e45d-49ce-a335-1bf016c20c53",
+    "name": "DZWW Investment Fund",
+    "symbol": "DZWW",
+    "description": "DZWW Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Thematic Fund",
+    "price": 327.58
+  },
+  {
+    "id": "c6436ff9-a346-420f-bba8-426dbac4fcdb",
+    "name": "JWWYS Investment Fund",
+    "symbol": "JWWYS",
+    "description": "JWWYS Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Income Fund",
+    "price": 149.27
+  },
+  {
+    "id": "4203b826-7d57-4cc4-ae13-f3d8948fea69",
+    "name": "QBXCJ Investment Fund",
+    "symbol": "QBXCJ",
+    "description": "QBXCJ Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Income Fund",
+    "price": 191.59
+  },
+  {
+    "id": "158ad238-8c67-4a13-88a4-17e3b15bcd72",
+    "name": "PIPQE Investment Fund",
+    "symbol": "PIPQE",
+    "description": "PIPQE Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Income Fund",
+    "price": 217.2
+  },
+  {
+    "id": "f7e174c6-c0dc-4276-9d85-829981ce51ef",
+    "name": "GPDS Investment Fund",
+    "symbol": "GPDS",
+    "description": "GPDS Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Income Fund",
+    "price": 404.18
+  },
+  {
+    "id": "ac48d6a3-4674-48aa-a134-7ce3268c0c1d",
+    "name": "YKA Investment Fund",
+    "symbol": "YKA",
+    "description": "YKA Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Commodity Fund",
+    "price": 461.55
+  },
+  {
+    "id": "f79643b9-219e-4a45-a3aa-65a39ddb8e3b",
+    "name": "GLRXQ Investment Fund",
+    "symbol": "GLRXQ",
+    "description": "GLRXQ Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Income Fund",
+    "price": 265.37
+  },
+  {
+    "id": "bbb4293e-2db1-4c5b-b236-f479537e77a2",
+    "name": "ZIU Investment Fund",
+    "symbol": "ZIU",
+    "description": "ZIU Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Bond Fund",
+    "price": 78.98
+  },
+  {
+    "id": "1f05059d-d278-4684-9455-2fd499f27b66",
+    "name": "MYNND Investment Fund",
+    "symbol": "MYNND",
+    "description": "MYNND Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Thematic Fund",
+    "price": 22.15
+  },
+  {
+    "id": "14ce0793-a43e-41e6-a963-b618c99759fe",
+    "name": "RXSX Investment Fund",
+    "symbol": "RXSX",
+    "description": "RXSX Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "ETF",
+    "price": 183.38
+  },
+  {
+    "id": "25a53eb7-b400-4a36-838d-136c8cee89c8",
+    "name": "FOQF Investment Fund",
+    "symbol": "FOQF",
+    "description": "FOQF Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Bond Fund",
+    "price": 426.93
+  },
+  {
+    "id": "b9abcf54-d812-46eb-b111-e814f0ecb1c4",
+    "name": "RSHH Investment Fund",
+    "symbol": "RSHH",
+    "description": "RSHH Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Income Fund",
+    "price": 388.09
+  },
+  {
+    "id": "236769a1-820c-4568-8ded-ab7339f26052",
+    "name": "QWG Investment Fund",
+    "symbol": "QWG",
+    "description": "QWG Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Sustainable Fund",
+    "price": 99.25
+  },
+  {
+    "id": "4f6334d6-1dfd-48ea-8a33-34130417bb88",
+    "name": "PVA Investment Fund",
+    "symbol": "PVA",
+    "description": "PVA Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Income Fund",
+    "price": 163.53
+  },
+  {
+    "id": "9c4dc3f8-cd10-4181-861d-67d1293b920d",
+    "name": "NRCY Investment Fund",
+    "symbol": "NRCY",
+    "description": "NRCY Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Sustainable Fund",
+    "price": 294.66
+  },
+  {
+    "id": "b10c493e-b81c-43ba-8474-b5e8b3ce933d",
+    "name": "WENPU Investment Fund",
+    "symbol": "WENPU",
+    "description": "WENPU Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "ETF",
+    "price": 299.06
+  },
+  {
+    "id": "69736a67-e0bf-44df-8fc2-d82450bc4cbc",
+    "name": "CPK Investment Fund",
+    "symbol": "CPK",
+    "description": "CPK Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Income Fund",
+    "price": 118.98
+  },
+  {
+    "id": "9c528396-148a-45a4-877e-69778cb79696",
+    "name": "GTF Investment Fund",
+    "symbol": "GTF",
+    "description": "GTF Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "ETF",
+    "price": 270.52
+  },
+  {
+    "id": "ae07bb13-e6ac-4b0d-b3df-21aa4a65eead",
+    "name": "YUX Investment Fund",
+    "symbol": "YUX",
+    "description": "YUX Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Sustainable Fund",
+    "price": 353.6
+  },
+  {
+    "id": "dc537f25-b7b3-49a1-9076-773c8ac80fdd",
+    "name": "OAUVC Investment Fund",
+    "symbol": "OAUVC",
+    "description": "OAUVC Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Sustainable Fund",
+    "price": 300.3
+  },
+  {
+    "id": "d47d2591-cdd7-49b4-b8dc-951f252ee983",
+    "name": "JTP Investment Fund",
+    "symbol": "JTP",
+    "description": "JTP Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Sustainable Fund",
+    "price": 300.5
+  },
+  {
+    "id": "fc769327-63cd-4242-a525-8a3d551a1d89",
+    "name": "TVOJ Investment Fund",
+    "symbol": "TVOJ",
+    "description": "TVOJ Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Income Fund",
+    "price": 484.71
+  },
+  {
+    "id": "fdbd70d2-2e61-4be1-b3cc-1000942ebe48",
+    "name": "IRRNH Investment Fund",
+    "symbol": "IRRNH",
+    "description": "IRRNH Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Sustainable Fund",
+    "price": 223.77
+  },
+  {
+    "id": "6ab92e32-99a3-4532-9c6e-43ceca48035a",
+    "name": "AHR Investment Fund",
+    "symbol": "AHR",
+    "description": "AHR Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Bond Fund",
+    "price": 343.28
+  },
+  {
+    "id": "6120294f-ed64-4620-b8fa-6121386dc082",
+    "name": "CGEN Investment Fund",
+    "symbol": "CGEN",
+    "description": "CGEN Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "ETF",
+    "price": 493.76
+  },
+  {
+    "id": "914b6c38-cd50-4af1-8874-1da1e1060965",
+    "name": "UQR Investment Fund",
+    "symbol": "UQR",
+    "description": "UQR Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Thematic Fund",
+    "price": 175.98
+  },
+  {
+    "id": "a6015bd3-5bda-447d-93a4-b1eb07c70f11",
+    "name": "ZNGTF Investment Fund",
+    "symbol": "ZNGTF",
+    "description": "ZNGTF Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Sustainable Fund",
+    "price": 69.22
+  },
+  {
+    "id": "2685e3d3-3a25-474c-8a30-91dfd7c8a674",
+    "name": "FAGUR Investment Fund",
+    "symbol": "FAGUR",
+    "description": "FAGUR Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Commodity Fund",
+    "price": 48.87
+  },
+  {
+    "id": "af3855e9-a223-455c-a4f1-912bc320e22a",
+    "name": "IBGM Investment Fund",
+    "symbol": "IBGM",
+    "description": "IBGM Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Bond Fund",
+    "price": 51.65
+  },
+  {
+    "id": "ef9a6db8-c3c4-448c-a786-b36073036043",
+    "name": "WDBR Investment Fund",
+    "symbol": "WDBR",
+    "description": "WDBR Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Income Fund",
+    "price": 307.29
+  },
+  {
+    "id": "fb9f0e04-cacb-44f6-ab53-8258b10d8f1c",
+    "name": "OTFWG Investment Fund",
+    "symbol": "OTFWG",
+    "description": "OTFWG Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Sustainable Fund",
+    "price": 390.95
+  },
+  {
+    "id": "efccc8f0-839c-41a7-aeb4-800d36fb5020",
+    "name": "QECNB Investment Fund",
+    "symbol": "QECNB",
+    "description": "QECNB Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Commodity Fund",
+    "price": 271.44
+  },
+  {
+    "id": "027eb322-5b65-4ad7-92f8-ff3bf6a01e73",
+    "name": "DQO Investment Fund",
+    "symbol": "DQO",
+    "description": "DQO Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "ETF",
+    "price": 473.01
+  },
+  {
+    "id": "805ca4fe-05d0-444b-b166-fc24a714fcde",
+    "name": "DKT Investment Fund",
+    "symbol": "DKT",
+    "description": "DKT Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "ETF",
+    "price": 474.54
+  },
+  {
+    "id": "4b3f509a-6f60-4281-b185-8aa368f2151d",
+    "name": "IQC Investment Fund",
+    "symbol": "IQC",
+    "description": "IQC Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Commodity Fund",
+    "price": 497.59
+  },
+  {
+    "id": "722e5971-688f-4528-a759-e39072efc74e",
+    "name": "QHFI Investment Fund",
+    "symbol": "QHFI",
+    "description": "QHFI Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Commodity Fund",
+    "price": 398.28
+  },
+  {
+    "id": "7977eb34-780c-4c52-a80e-37922b3add55",
+    "name": "CPJDA Investment Fund",
+    "symbol": "CPJDA",
+    "description": "CPJDA Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Bond Fund",
+    "price": 58.9
+  },
+  {
+    "id": "0e7b89c8-7c86-43ca-b5f6-029bb28fd339",
+    "name": "VJU Investment Fund",
+    "symbol": "VJU",
+    "description": "VJU Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Income Fund",
+    "price": 400.91
+  },
+  {
+    "id": "9cb6b7af-2e10-4c9e-ac6a-e4281b11de77",
+    "name": "ZBP Investment Fund",
+    "symbol": "ZBP",
+    "description": "ZBP Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Sustainable Fund",
+    "price": 390.68
+  },
+  {
+    "id": "12c23f73-a121-4378-aad1-9df144d3e956",
+    "name": "ZHH Investment Fund",
+    "symbol": "ZHH",
+    "description": "ZHH Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Thematic Fund",
+    "price": 166.05
+  },
+  {
+    "id": "e6470101-70ff-42e2-b9b4-6bc2127d45e5",
+    "name": "TISZ Investment Fund",
+    "symbol": "TISZ",
+    "description": "TISZ Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Income Fund",
+    "price": 384.13
+  },
+  {
+    "id": "ffc7c5bd-8c96-4136-9127-c6d01c636fd6",
+    "name": "GKJC Investment Fund",
+    "symbol": "GKJC",
+    "description": "GKJC Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Income Fund",
+    "price": 353.31
+  },
+  {
+    "id": "40f9c97e-2c10-44ce-80ee-5f4299cfbb00",
+    "name": "NDFOZ Investment Fund",
+    "symbol": "NDFOZ",
+    "description": "NDFOZ Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "ETF",
+    "price": 384.04
+  },
+  {
+    "id": "6fa976a4-f1a8-4dff-9b3f-0fdba1717fee",
+    "name": "HDIK Investment Fund",
+    "symbol": "HDIK",
+    "description": "HDIK Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "ETF",
+    "price": 100.76
+  },
+  {
+    "id": "78006ab8-0d2a-4abb-8873-bc04d81e4803",
+    "name": "YKSDR Investment Fund",
+    "symbol": "YKSDR",
+    "description": "YKSDR Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Sustainable Fund",
+    "price": 129.25
+  },
+  {
+    "id": "3677f662-6d33-44e5-8cde-b95c5d271fc6",
+    "name": "YXE Investment Fund",
+    "symbol": "YXE",
+    "description": "YXE Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Thematic Fund",
+    "price": 232.84
+  },
+  {
+    "id": "f24d367d-d9de-4e56-be14-51c03fa96c97",
+    "name": "OAM Investment Fund",
+    "symbol": "OAM",
+    "description": "OAM Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Income Fund",
+    "price": 384.16
+  },
+  {
+    "id": "c770fc31-09aa-4961-a8a7-ef3883ddfe72",
+    "name": "DWM Investment Fund",
+    "symbol": "DWM",
+    "description": "DWM Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Income Fund",
+    "price": 360.32
+  },
+  {
+    "id": "2c9c769f-e654-4a48-8346-a96f68eb8f25",
+    "name": "DOJWS Investment Fund",
+    "symbol": "DOJWS",
+    "description": "DOJWS Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Sustainable Fund",
+    "price": 374.35
+  },
+  {
+    "id": "bc393dc4-7c8c-4e54-9f81-5fdfe93788f3",
+    "name": "VZFV Investment Fund",
+    "symbol": "VZFV",
+    "description": "VZFV Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Bond Fund",
+    "price": 81.43
+  },
+  {
+    "id": "ff40e7bf-8713-47c7-be22-79eaa548ace7",
+    "name": "ZIAJ Investment Fund",
+    "symbol": "ZIAJ",
+    "description": "ZIAJ Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Thematic Fund",
+    "price": 476.92
+  },
+  {
+    "id": "265aaf52-e871-45c4-bc02-fd75c3902318",
+    "name": "EHN Investment Fund",
+    "symbol": "EHN",
+    "description": "EHN Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "ETF",
+    "price": 88.84
+  },
+  {
+    "id": "381e4581-5935-41a8-b623-1452e7f179c1",
+    "name": "MUGQA Investment Fund",
+    "symbol": "MUGQA",
+    "description": "MUGQA Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Commodity Fund",
+    "price": 127.75
+  },
+  {
+    "id": "dded480d-415f-4685-b84a-f7d45d8759af",
+    "name": "YDEYA Investment Fund",
+    "symbol": "YDEYA",
+    "description": "YDEYA Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Income Fund",
+    "price": 99.12
+  },
+  {
+    "id": "925f2390-7bfa-49be-8ab7-f9050e9ab5a8",
+    "name": "FVFD Investment Fund",
+    "symbol": "FVFD",
+    "description": "FVFD Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Sustainable Fund",
+    "price": 64.75
+  },
+  {
+    "id": "b8f3fff4-c310-4fa4-b263-d67647bbd097",
+    "name": "ATP Investment Fund",
+    "symbol": "ATP",
+    "description": "ATP Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Income Fund",
+    "price": 120.9
+  },
+  {
+    "id": "e99a6a1a-fedb-4c92-8e34-25e88e887033",
+    "name": "EBO Investment Fund",
+    "symbol": "EBO",
+    "description": "EBO Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Thematic Fund",
+    "price": 466.96
+  },
+  {
+    "id": "0ae3d32f-4736-44dd-8536-5e715d57f6eb",
+    "name": "SDNL Investment Fund",
+    "symbol": "SDNL",
+    "description": "SDNL Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Sustainable Fund",
+    "price": 37.68
+  },
+  {
+    "id": "9a2f7caa-4c82-417e-8d31-a7bd0cdb79e9",
+    "name": "VDHET Investment Fund",
+    "symbol": "VDHET",
+    "description": "VDHET Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Sustainable Fund",
+    "price": 103.5
+  },
+  {
+    "id": "fdc08b4c-86ce-4061-a4c1-b1edf86c8e99",
+    "name": "FJXI Investment Fund",
+    "symbol": "FJXI",
+    "description": "FJXI Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Sustainable Fund",
+    "price": 157.38
+  },
+  {
+    "id": "7fd8911b-95d4-456c-872f-4b9053aed101",
+    "name": "MIG Investment Fund",
+    "symbol": "MIG",
+    "description": "MIG Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "ETF",
+    "price": 107.54
+  },
+  {
+    "id": "efdbff18-16b9-4993-bf52-1e061c89ebfc",
+    "name": "JHBE Investment Fund",
+    "symbol": "JHBE",
+    "description": "JHBE Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "ETF",
+    "price": 288.95
+  },
+  {
+    "id": "4689d2cc-043b-4987-bf52-09e889ed40c2",
+    "name": "PWJ Investment Fund",
+    "symbol": "PWJ",
+    "description": "PWJ Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Sustainable Fund",
+    "price": 15.29
+  },
+  {
+    "id": "826fefd5-187f-4d4e-9e8d-aea2376aabfe",
+    "name": "OZF Investment Fund",
+    "symbol": "OZF",
+    "description": "OZF Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Bond Fund",
+    "price": 405.65
+  },
+  {
+    "id": "b9d54807-cc48-4ce9-88b1-7298cb69abf6",
+    "name": "DOMU Investment Fund",
+    "symbol": "DOMU",
+    "description": "DOMU Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "ETF",
+    "price": 436.6
+  },
+  {
+    "id": "0cd9a7bf-961f-412b-9750-4573a7241887",
+    "name": "LMYT Investment Fund",
+    "symbol": "LMYT",
+    "description": "LMYT Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Commodity Fund",
+    "price": 173.35
+  },
+  {
+    "id": "2315414d-d037-4fcc-934f-43565c121ba6",
+    "name": "XXSHO Investment Fund",
+    "symbol": "XXSHO",
+    "description": "XXSHO Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Income Fund",
+    "price": 204.62
+  },
+  {
+    "id": "f7054793-75ab-48f2-9b9a-65caa55953f4",
+    "name": "HJPRS Investment Fund",
+    "symbol": "HJPRS",
+    "description": "HJPRS Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "ETF",
+    "price": 350.73
+  },
+  {
+    "id": "41c2d4d8-eb3c-422d-8e20-bf1389b45184",
+    "name": "WXKOQ Investment Fund",
+    "symbol": "WXKOQ",
+    "description": "WXKOQ Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "ETF",
+    "price": 175.53
+  },
+  {
+    "id": "f1692eca-b3f0-45d6-860a-02e5a1f84407",
+    "name": "SHKN Investment Fund",
+    "symbol": "SHKN",
+    "description": "SHKN Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Income Fund",
+    "price": 267.88
+  },
+  {
+    "id": "1e3f7cdc-941e-4b92-b9d8-efa025558134",
+    "name": "GSMC Investment Fund",
+    "symbol": "GSMC",
+    "description": "GSMC Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Bond Fund",
+    "price": 47.13
+  },
+  {
+    "id": "3c70ee00-d44b-4410-963e-f186c8ed4f77",
+    "name": "PJN Investment Fund",
+    "symbol": "PJN",
+    "description": "PJN Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Commodity Fund",
+    "price": 11.13
+  },
+  {
+    "id": "d674853f-cd2e-4d6d-b4f0-404590d0afd7",
+    "name": "OXZB Investment Fund",
+    "symbol": "OXZB",
+    "description": "OXZB Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Thematic Fund",
+    "price": 397.84
+  },
+  {
+    "id": "d797f65b-ab18-45e4-9062-31c8448bac15",
+    "name": "TYDJ Investment Fund",
+    "symbol": "TYDJ",
+    "description": "TYDJ Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Income Fund",
+    "price": 323.05
+  },
+  {
+    "id": "973c04b9-703c-4fcf-ad98-999302c3c9e9",
+    "name": "QXKX Investment Fund",
+    "symbol": "QXKX",
+    "description": "QXKX Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Thematic Fund",
+    "price": 125.53
+  },
+  {
+    "id": "be9922ea-a20c-4b18-8cd6-a21a7f3b9983",
+    "name": "SCYU Investment Fund",
+    "symbol": "SCYU",
+    "description": "SCYU Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Sustainable Fund",
+    "price": 21.66
+  },
+  {
+    "id": "dbe6ca0b-306a-4e38-8485-3c50cf547c87",
+    "name": "YBHR Investment Fund",
+    "symbol": "YBHR",
+    "description": "YBHR Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "ETF",
+    "price": 365.33
+  },
+  {
+    "id": "73a3329d-afca-4326-b216-a56acf374863",
+    "name": "IFI Investment Fund",
+    "symbol": "IFI",
+    "description": "IFI Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Commodity Fund",
+    "price": 290.9
+  },
+  {
+    "id": "53349fc1-e28c-421f-b469-df8f9a12076b",
+    "name": "YHCV Investment Fund",
+    "symbol": "YHCV",
+    "description": "YHCV Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Commodity Fund",
+    "price": 42.82
+  },
+  {
+    "id": "69054e0c-3093-4607-af74-3cdc97556d15",
+    "name": "IPQ Investment Fund",
+    "symbol": "IPQ",
+    "description": "IPQ Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Thematic Fund",
+    "price": 162.66
+  },
+  {
+    "id": "d59c8a82-da5b-4f69-abed-3fa2b19151d3",
+    "name": "GTJKP Investment Fund",
+    "symbol": "GTJKP",
+    "description": "GTJKP Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Thematic Fund",
+    "price": 35.3
+  },
+  {
+    "id": "2166365f-ca9a-44d9-abc3-144b2932a76c",
+    "name": "XQC Investment Fund",
+    "symbol": "XQC",
+    "description": "XQC Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Thematic Fund",
+    "price": 181.38
+  },
+  {
+    "id": "8b92854e-0d77-4ede-8aea-170e0b6e4fb8",
+    "name": "PCEA Investment Fund",
+    "symbol": "PCEA",
+    "description": "PCEA Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Commodity Fund",
+    "price": 296.35
+  },
+  {
+    "id": "3832b4c7-5838-464a-8910-079d613fe6dd",
+    "name": "VJU Investment Fund",
+    "symbol": "VJU",
+    "description": "VJU Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Income Fund",
+    "price": 284.57
+  },
+  {
+    "id": "18942e7c-9906-42d3-8b8f-36a884af6ff0",
+    "name": "RVY Investment Fund",
+    "symbol": "RVY",
+    "description": "RVY Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Sustainable Fund",
+    "price": 91.04
+  },
+  {
+    "id": "332b70ff-ff3c-4ed0-991e-a5d6e68942bf",
+    "name": "FQSE Investment Fund",
+    "symbol": "FQSE",
+    "description": "FQSE Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Commodity Fund",
+    "price": 225.4
+  },
+  {
+    "id": "a3e54181-40bb-4fac-a6d7-d94cb813166b",
+    "name": "WDG Investment Fund",
+    "symbol": "WDG",
+    "description": "WDG Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Income Fund",
+    "price": 480.63
+  },
+  {
+    "id": "35e3fda1-6002-40de-ae91-04ee0e20c8a5",
+    "name": "FONB Investment Fund",
+    "symbol": "FONB",
+    "description": "FONB Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "ETF",
+    "price": 423.76
+  },
+  {
+    "id": "1e86a882-4ca7-40a8-b3f3-023e70044b85",
+    "name": "ZNLRI Investment Fund",
+    "symbol": "ZNLRI",
+    "description": "ZNLRI Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Income Fund",
+    "price": 425.72
+  },
+  {
+    "id": "bdfa27ba-193b-43f9-a69c-20626a5f4d19",
+    "name": "ENQ Investment Fund",
+    "symbol": "ENQ",
+    "description": "ENQ Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Thematic Fund",
+    "price": 410.66
+  },
+  {
+    "id": "2848cf47-2775-4ee0-ab5a-130cd5c7407d",
+    "name": "EMC Investment Fund",
+    "symbol": "EMC",
+    "description": "EMC Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "ETF",
+    "price": 344.91
+  },
+  {
+    "id": "43a9d382-d474-4bd5-928c-7c55d03bc320",
+    "name": "EATA Investment Fund",
+    "symbol": "EATA",
+    "description": "EATA Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Thematic Fund",
+    "price": 168.81
+  },
+  {
+    "id": "4f3c7b46-53fd-444e-a3bd-99d24272b32b",
+    "name": "LVYQR Investment Fund",
+    "symbol": "LVYQR",
+    "description": "LVYQR Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "ETF",
+    "price": 31.7
+  },
+  {
+    "id": "4856b629-8733-4fc8-80d8-445575216d97",
+    "name": "XAUXW Investment Fund",
+    "symbol": "XAUXW",
+    "description": "XAUXW Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Income Fund",
+    "price": 41.92
+  },
+  {
+    "id": "04f04c32-3fae-42a8-915d-eef43b3a98b0",
+    "name": "CFRPV Investment Fund",
+    "symbol": "CFRPV",
+    "description": "CFRPV Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Sustainable Fund",
+    "price": 380.55
+  },
+  {
+    "id": "5cf72504-74de-43e0-92df-91e35a460726",
+    "name": "KZAWP Investment Fund",
+    "symbol": "KZAWP",
+    "description": "KZAWP Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Sustainable Fund",
+    "price": 413.53
+  },
+  {
+    "id": "a9ef648b-1abd-47fb-b55a-90a464f04a39",
+    "name": "XGD Investment Fund",
+    "symbol": "XGD",
+    "description": "XGD Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Thematic Fund",
+    "price": 154.09
+  },
+  {
+    "id": "9266287a-0745-4d05-a2c8-08b46e1a230b",
+    "name": "UITKO Investment Fund",
+    "symbol": "UITKO",
+    "description": "UITKO Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Bond Fund",
+    "price": 454.46
+  },
+  {
+    "id": "4330a46d-30a9-43d5-b746-0f6c3d464181",
+    "name": "JHLD Investment Fund",
+    "symbol": "JHLD",
+    "description": "JHLD Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Bond Fund",
+    "price": 35.67
+  },
+  {
+    "id": "8880438f-96b5-422f-bb7b-a51e928b3ece",
+    "name": "ZKVB Investment Fund",
+    "symbol": "ZKVB",
+    "description": "ZKVB Investment Fund provides diversified exposure to global and domestic markets.",
+    "category": "Bond Fund",
+    "price": 12.05
+  }
+]
