@@ -43,7 +43,7 @@ You're building a simplified **Investment Dashboard** app. The app contains thre
 
 ### Market Tab
 
-- Displays a list of available investment products (from **instrument-list.json**)
+- Displays a list of available investment products 
 - Each product should include:
   - Name
   - Symbol
@@ -54,6 +54,12 @@ You're building a simplified **Investment Dashboard** app. The app contains thre
   - Display full details
   - Allow the user to "Buy" and add the investment to their portfolio
   - Update their portfolio totals accordingly
+ 
+### Relevant dummy data
+
+1. List of instruments
+2. Portfolio
+3. Pricing data
 
 ---
 
