@@ -37,7 +37,7 @@ You're building a simplified **Investment Dashboard** app. The app contains thre
 
 - Displays user’s current investments (from **portfolio-list.json**)
 - Each investment should show:
-  - Investment name
+  - Investment symbol
   - Investment amount
   - Percentage of total portfolio
 
@@ -46,6 +46,7 @@ You're building a simplified **Investment Dashboard** app. The app contains thre
 - Displays a list of available investment products (from **instrument-list.json**)
 - Each product should include:
   - Name
+  - Symbol
   - Price
 
 - Clicking on a product should:
