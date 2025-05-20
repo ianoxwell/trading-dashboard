@@ -77,7 +77,7 @@ You're building a simplified **Investment Dashboard** app. The app contains thre
 ## ✨ Bonus Ideas (mid-senior levels)
 
 - Add **search**, **filter**, or **pagination** to the Market list  
-- Animate the portfolio when new items are added (e.g. market open effect)  
+- Animate the portfolio when pricings change (e.g. market open effect)  
 - Add **visual feedback** when a new investment is added  
 - Come up with your own enhancements or features
 
