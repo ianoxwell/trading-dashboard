@@ -22,18 +22,22 @@ You're building a simplified **Investment Dashboard** app. The app contains thre
 
 - Use **Angular 14** and **Ionic 7**
 - Responsive design and structured file layout
+- For junior to mid level roles who do not feel comfortable incorporating Ionic, please set up your Angular project using a "menu" approach
 
-### 2. Tab Structure
+### 2. Tab/Page Structure
 
 - Implement using `ion-tabs` with:
   - **Portfolio** tab
   - **Market** tab
+- Non ionic equivalent - implement a menu
+  - **Portfolio** menu item
+  - **Market** menu item
 
 ---
 
 ## 📊 Functional Requirements
 
-### Portfolio Tab
+### Portfolio Tab/Page
 
 - Displays user’s current investments (from **portfolio-list.json**)
 - Each investment should show:
@@ -41,7 +45,7 @@ You're building a simplified **Investment Dashboard** app. The app contains thre
   - Investment amount
   - Percentage of total portfolio
 
-### Market Tab
+### Market Tab/Page
 
 - Displays a list of available investment products 
 - Each product should include:
@@ -63,7 +67,7 @@ You're building a simplified **Investment Dashboard** app. The app contains thre
 
 ---
 
-## 🧰 Technical Areas to Consider
+## 🧰 Technical Areas to Consider (based on level)
 
 ### State Management
 
@@ -71,13 +75,11 @@ You're building a simplified **Investment Dashboard** app. The app contains thre
 
 ### RxJS Logic
 
-- Correct use of operators to handle data flow, tab sync, and UI updates
+- Correct use of operators to handle data flow, tab/page sync, and UI updates
 
 ### Styling
 
-- Apply theming with Ionic variables  
-- Use skeleton loaders where applicable  
-- Focus on polish, spacing, and UX consistency
+- Don’t forget: polish and visual quality matter too
 
 ---
 
