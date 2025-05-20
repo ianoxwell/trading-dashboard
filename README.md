@@ -35,7 +35,7 @@ You're building a simplified **Investment Dashboard** app. The app contains thre
 
 ### Portfolio Tab
 
-- Displays user’s current investments (from **instrument-list.json**)
+- Displays user’s current investments (from **portfolio-list.json**)
 - Each investment should show:
   - Investment name
   - Investment amount
@@ -43,18 +43,16 @@ You're building a simplified **Investment Dashboard** app. The app contains thre
 
 ### Market Tab
 
-- Displays a list of available investment products (from **portfolio-list.json**)
+- Displays a list of available investment products (from **instrument-list.json**)
 - Each product should include:
   - Name
   - Price
-  - Description
-  - **Buy** button
 
 - Clicking on a product should:
   - Navigate to a **Detail Page**
   - Display full details
   - Allow the user to "Buy" and add the investment to their portfolio
-  - Update the portfolio totals accordingly
+  - Update their portfolio totals accordingly
 
 ---
 
