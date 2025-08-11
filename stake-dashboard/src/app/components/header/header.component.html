@@ -9,6 +9,16 @@
   </div>
   
   <div slot="end">
+    <!-- Pending trades indicator -->
+    <ion-button 
+      *ngIf="hasPendingTrades$ | async" 
+      fill="clear" 
+      class="pending-indicator"
+      aria-label="Pending trades">
+      <ion-icon name="hourglass-outline" class="pending-icon" aria-label="Pending trades icon"></ion-icon>
+      <ion-badge color="warning" class="pending-badge" aria-hidden="true">!</ion-badge>
+    </ion-button>
+    
     <ion-button type="button" fill="clear" (click)="toggleDarkMode()" aria-label="Toggle dark mode">
       <ion-icon [name]="(isDarkMode$ | async) ? 'sunny' : 'moon'" aria-label="Toggle dark mode icon"></ion-icon>
     </ion-button>

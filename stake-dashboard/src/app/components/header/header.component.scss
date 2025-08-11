@@ -35,3 +35,30 @@
 ion-button[fill="clear"] {
   flex-shrink: 0;
 }
+
+// Pending trades indicator styles
+.pending-indicator {
+  position: relative;
+  margin-right: 8px;
+  
+  .pending-icon {
+    animation: pulse 2s infinite;
+    color: var(--ion-color-warning);
+  }
+  
+  .pending-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    width: 16px;
+    height: 16px;
+    font-size: 10px;
+    border-radius: 50%;
+  }
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
