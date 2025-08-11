@@ -1,3 +1,19 @@
-<p>
-  portfolio works!
-</p>
+<ion-content class="ion-padding">
+  <h2>Portfolio</h2>
+  
+  <div *ngFor="let holding of portfolio$ | async">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>{{ holding.symbol }}</ion-card-title>
+        <ion-card-subtitle>{{ holding.name }}</ion-card-subtitle>
+      </ion-card-header>
+      
+      <ion-card-content>
+        <p><strong>Category:</strong> {{ holding.category }}</p>
+        <p><strong>Quantity:</strong> {{ holding.quantity }}</p>
+        <p><strong>Avg Buy Price:</strong> ${{ holding.avgBuyPrice | number:'1.2-2' }}</p>
+        <p><strong>Total Value:</strong> ${{ (holding.quantity * holding.avgBuyPrice) | number:'1.2-2' }}</p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>
