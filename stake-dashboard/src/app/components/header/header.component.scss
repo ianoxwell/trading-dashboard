@@ -1,0 +1,37 @@
+.header-bar {
+  --padding-start: 16px;
+  --padding-end: 16px;
+  
+  .toolbar-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+}
+
+// Override Ionic's default toolbar layout
+.header-bar::part(native) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+// Ensure logo, search, and button are spaced properly
+.header-bar img {
+  height: 32px;
+  flex-shrink: 0;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-grow: 1;
+  justify-content: center;
+  color: var(--ion-color-medium);
+}
+
+ion-button[fill="clear"] {
+  flex-shrink: 0;
+}

@@ -1,10 +1,16 @@
-<ion-toolbar>
-  <ion-title>
+<ion-toolbar class="header-bar">
+  <div slot="start">
     <a href="/"><img src="assets/stake_logo.svg" alt="Stake" /></a>
-  </ion-title>
-  <ion-button type="button" fill="clear" (click)="toggleDarkMode()" aria-label="Toggle dark mode">
-    <ion-icon [name]="(isDarkMode$ | async) ? 'sunny' : 'moon'"></ion-icon>
-  </ion-button>
-  <!-- <ion-icon name="search"></ion-icon>
-  Search -->
+  </div>
+  
+  <div slot="secondary" class="search-container">
+    <ion-icon name="search" aria-label="Search icon"></ion-icon>
+    Search
+  </div>
+  
+  <div slot="end">
+    <ion-button type="button" fill="clear" (click)="toggleDarkMode()" aria-label="Toggle dark mode">
+      <ion-icon [name]="(isDarkMode$ | async) ? 'sunny' : 'moon'" aria-label="Toggle dark mode icon"></ion-icon>
+    </ion-button>
+  </div>
 </ion-toolbar>
