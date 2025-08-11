@@ -1,4 +1,111 @@
 <ion-content class="ion-padding">
-  <h2>Market</h2>
-  <p>Market data coming soon...</p>
+  <div class="market-header">
+    <h2>Market</h2>
+    
+    <!-- Search and Filter Controls -->
+    <div class="search-filter-container">
+      <ion-searchbar 
+        placeholder="Search by name, symbol, or description..."
+        debounce="300"
+        (ionInput)="onSearch($event)"
+        class="market-search">
+      </ion-searchbar>
+      
+      <div class="filter-controls">
+        <ion-select 
+          placeholder="All Categories" 
+          (ionChange)="onCategoryFilter($event.detail.value)"
+          interface="popover">
+          <ion-select-option value="">All Categories</ion-select-option>
+          <ion-select-option *ngFor="let category of categories" [value]="category">
+            {{ category }}
+          </ion-select-option>
+        </ion-select>
+        
+        <ion-select 
+          [value]="pageSize$ | async" 
+          (ionChange)="onPageSizeChange($event.detail.value)"
+          interface="popover">
+          <ion-select-option *ngFor="let size of pageSizeOptions" [value]="size">
+            {{ size }} per page
+          </ion-select-option>
+        </ion-select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Results Summary -->
+  <div class="results-summary">
+    <ion-text color="medium">
+      Showing {{ (totalProducts$ | async) || 0 }} investment products
+    </ion-text>
+  </div>
+
+  <!-- Product Grid -->
+  <div class="product-grid">
+    <ion-card 
+      *ngFor="let product of paginatedProducts$ | async; trackBy: trackByProduct" 
+      (click)="onProductClick(product)"
+      class="product-card"
+      button>
+      <ion-card-header>
+        <div class="product-header">
+          <ion-card-title>{{ product.symbol }}</ion-card-title>
+          <ion-chip [color]="getCategoryColor(product.category)" outline>
+            {{ product.category }}
+          </ion-chip>
+        </div>
+        <ion-card-subtitle>{{ product.name }}</ion-card-subtitle>
+      </ion-card-header>
+      
+      <ion-card-content>
+        <div class="product-details">
+          <div class="price">
+            <ion-text color="primary">
+              <h3>${{ product.price | number:'1.2-2' }}</h3>
+            </ion-text>
+          </div>
+          <p class="description">{{ product.description }}</p>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Pagination -->
+  <div class="pagination-container" *ngIf="totalPages > 1">
+    <ion-button 
+      fill="clear" 
+      [disabled]="currentPage === 1"
+      (click)="onPageChange(currentPage - 1)">
+      <ion-icon name="chevron-back"></ion-icon>
+      Previous
+    </ion-button>
+    
+    <div class="page-numbers">
+      <ion-button 
+        *ngFor="let page of pageNumbers" 
+        [fill]="page === currentPage ? 'solid' : 'clear'"
+        [disabled]="page === -1"
+        (click)="page !== -1 && onPageChange(page)"
+        size="small">
+        {{ page === -1 ? '...' : page }}
+      </ion-button>
+    </div>
+    
+    <ion-button 
+      fill="clear" 
+      [disabled]="currentPage === totalPages"
+      (click)="onPageChange(currentPage + 1)">
+      Next
+      <ion-icon name="chevron-forward"></ion-icon>
+    </ion-button>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="(paginatedProducts$ | async)?.length === 0" class="empty-state">
+    <ion-text color="medium">
+      <h3>No products found</h3>
+      <p>Try adjusting your search or filter criteria.</p>
+    </ion-text>
+  </div>
 </ion-content>
