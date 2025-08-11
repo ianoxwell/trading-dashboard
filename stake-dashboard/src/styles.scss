@@ -39,3 +39,125 @@
 ion-item {
   --transition: none;
 }
+
+/* Trade Confirmation Modal Styles */
+.trade-confirmation-modal {
+  --width: 90%;
+  --max-width: 500px;
+  --height: auto;
+  --max-height: 90vh;
+  --border-radius: 16px;
+  --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Custom Toast Styles */
+.custom-toast {
+  --start: 16px;
+  --end: 16px;
+  --border-radius: 12px;
+  --box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  --min-height: 60px;
+  --max-width: 400px;
+  --width: auto;
+
+  /* Center horizontally */
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+
+  /* Position 4.5rem from top */
+  top: 4.5rem !important;
+  bottom: auto !important;
+
+  /* Target the shadow DOM parts */
+  &::part(container) {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 2px solid var(--ion-color-base);
+    background: var(--ion-card-background);
+  }
+
+  &::part(content) {
+    display: flex;
+    align-items: center;
+    padding: 16px 20px;
+    min-height: 60px;
+  }
+
+  &::part(message) {
+    font-weight: 500;
+    line-height: 1.4;
+    flex: 1;
+    margin-right: 12px;
+    color: var(--ion-color-dark);
+  }
+
+  &::part(button) {
+    color: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 8px;
+    font-size: 14px;
+    line-height: 1rem;
+    display: flex;
+    justify-content: center;
+    font-weight: 600;
+    min-width: 32px;
+    height: 32px;
+    border: none;
+    cursor: pointer;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+  }
+}
+
+/* Color-specific styling */
+.custom-toast.toast-success {
+  &::part(button) {
+    color: rgba(255, 255, 255, 0.9);
+  }
+}
+
+.custom-toast.toast-danger {
+  &::part(button) {
+    color: rgba(255, 255, 255, 0.9);
+  }
+}
+
+.custom-toast.toast-warning {
+  &::part(button) {
+    color: rgba(0, 0, 0, 0.7);
+  }
+}
+
+@media (max-width: 768px) {
+  .trade-confirmation-modal {
+    --width: 95%;
+    --max-width: none;
+    --height: auto;
+    --max-height: 95vh;
+  }
+
+  .custom-toast {
+    --start: 12px;
+    --end: 12px;
+    --max-width: calc(100vw - 24px);
+    top: 4rem !important; /* Slightly less spacing on mobile */
+
+    &::part(content) {
+      padding: 14px 16px;
+    }
+
+    &::part(message) {
+      font-size: 14px;
+      margin-right: 8px;
+    }
+
+    &::part(button) {
+      min-width: 28px;
+      height: 28px;
+      font-size: 12px;
+    }
+  }
+}
