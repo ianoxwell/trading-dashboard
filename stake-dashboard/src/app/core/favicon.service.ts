@@ -1,5 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class FaviconService {
@@ -12,15 +13,43 @@ export class FaviconService {
   private readonly darkPng32 = 'assets/favicon-dark-32x32.png';
 
   private readonly linkRel = 'icon';
+  private readonly managedAttrName = 'data-favicon';
+  private readonly managedAttrValue = 'managed';
 
   private mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
   private mqListener?: (ev: MediaQueryListEvent) => void;
+  private isForced = false;
+
+  private readonly darkModeSubject: BehaviorSubject<boolean>;
+  /** Observable stream of the current dark mode state used for favicons */
+  readonly isDarkMode$: Observable<boolean>;
 
   constructor(@Inject(DOCUMENT) private doc: Document) {
-    // Initialize to OS preference by default
-    this.applyIcons(this.mediaQuery.matches);
-    // Listen to OS preference changes
-    this.mqListener = (e) => this.applyIcons(e.matches);
+    // Initialize subject with OS preference by default
+    this.darkModeSubject = new BehaviorSubject<boolean>(this.mediaQuery.matches);
+    this.isDarkMode$ = this.darkModeSubject.asObservable();
+
+  // Remove conflicting static tags so runtime-managed ones take effect
+  this.cleanupHead();
+
+  // Apply initial icons and theme
+  const initialDark = this.darkModeSubject.value;
+  this.applyIcons(initialDark);
+  this.updateThemeColor(initialDark);
+  this.updateColorScheme(initialDark);
+  this.setDocumentTheme(initialDark, false);
+
+    // Listen to OS preference changes when not forced
+    this.mqListener = (e) => {
+      if (!this.isForced) {
+        const dark = e.matches;
+        this.darkModeSubject.next(dark);
+        this.applyIcons(dark);
+        this.updateThemeColor(dark);
+  this.updateColorScheme(dark);
+        this.setDocumentTheme(dark, false);
+      }
+    };
     this.mediaQuery.addEventListener('change', this.mqListener);
   }
 
@@ -30,12 +59,23 @@ export class FaviconService {
    */
   setMode(isDark?: boolean) {
     if (typeof isDark === 'boolean') {
-      // Stop listening to OS changes while forced
+      // Force a specific mode and stop reacting to OS changes
+      this.isForced = true;
       if (this.mqListener) this.mediaQuery.removeEventListener('change', this.mqListener);
+      this.darkModeSubject.next(isDark);
       this.applyIcons(isDark);
+  this.updateThemeColor(isDark);
+  this.updateColorScheme(isDark);
+  this.setDocumentTheme(isDark, true);
     } else {
       // Revert to OS preference and resume listening
-      this.applyIcons(this.mediaQuery.matches);
+      this.isForced = false;
+      const dark = this.mediaQuery.matches;
+      this.darkModeSubject.next(dark);
+      this.applyIcons(dark);
+  this.updateThemeColor(dark);
+  this.updateColorScheme(dark);
+  this.setDocumentTheme(dark, false);
       if (this.mqListener) this.mediaQuery.addEventListener('change', this.mqListener);
     }
   }
@@ -54,6 +94,7 @@ export class FaviconService {
   private updateIconLink(href: string, sizes?: string, type?: string) {
     const selectorParts = [
       `link[rel="${this.linkRel}"]`,
+      `[${this.managedAttrName}="${this.managedAttrValue}"]`,
       type ? `[type="${type}"]` : '',
       sizes ? `[sizes="${sizes}"]` : ''
     ].filter(Boolean);
@@ -62,16 +103,20 @@ export class FaviconService {
     if (!linkEl) {
       linkEl = this.doc.createElement('link');
       linkEl.rel = this.linkRel;
+      linkEl.setAttribute(this.managedAttrName, this.managedAttrValue);
       if (type) linkEl.type = type;
       if (sizes) linkEl.sizes.value = sizes;
       this.doc.head.appendChild(linkEl);
     }
-    linkEl.href = href;
+  // Add cache-busting query to ensure refresh
+  const url = new URL(href, this.doc.baseURI || this.doc.URL);
+  url.searchParams.set('v', Date.now().toString());
+  linkEl.href = url.toString();
   }
 
   private bustFaviconCache() {
     // Toggle rel to trick some browsers to reload the favicon
-    const links = this.doc.querySelectorAll<HTMLLinkElement>(`link[rel="${this.linkRel}"]`);
+  const links = this.doc.querySelectorAll<HTMLLinkElement>(`link[rel="${this.linkRel}"][${this.managedAttrName}="${this.managedAttrValue}"]`);
     links.forEach((lnk) => {
       const tmp = lnk.rel;
       lnk.rel = 'shortcut icon';
@@ -79,5 +124,64 @@ export class FaviconService {
       void lnk.offsetHeight;
       lnk.rel = tmp;
     });
+  }
+
+  private updateThemeColor(dark: boolean) {
+    const selector = `meta[name="theme-color"][${this.managedAttrName}="${this.managedAttrValue}"]`;
+    let meta = this.doc.querySelector<HTMLMetaElement>(selector);
+    if (!meta) {
+      meta = this.doc.createElement('meta');
+      meta.name = 'theme-color';
+      meta.setAttribute(this.managedAttrName, this.managedAttrValue);
+      this.doc.head.appendChild(meta);
+    }
+    meta.content = dark ? '#0b0b0b' : '#ffffff';
+  }
+
+  private setDocumentTheme(dark: boolean, forced: boolean) {
+    const root = this.doc.documentElement;
+    // Always reflect current theme on the root for easier inspection and CSS targeting
+    root.setAttribute('data-theme', dark ? 'dark' : 'light');
+    if (forced) {
+      root.setAttribute('data-theme-source', 'forced');
+    } else {
+      root.setAttribute('data-theme-source', 'os');
+    }
+
+    // Ionic recommended: toggle body class 'dark' for full component theming
+    this.doc.body.classList.toggle('dark', dark);
+    document.documentElement.classList.toggle('ion-palette-dark', dark);
+  }
+
+  private updateColorScheme(dark: boolean) {
+    const selector = `meta[name="color-scheme"][${this.managedAttrName}="${this.managedAttrValue}"]`;
+    let meta = this.doc.querySelector<HTMLMetaElement>(selector);
+    if (!meta) {
+      meta = this.doc.createElement('meta');
+      meta.name = 'color-scheme';
+      meta.setAttribute(this.managedAttrName, this.managedAttrValue);
+      this.doc.head.appendChild(meta);
+    }
+    meta.content = dark ? 'dark' : 'light';
+  }
+
+  private cleanupHead() {
+    // Remove static favicon links to avoid browser caching a different one
+    const staticIcons = this.doc.querySelectorAll<HTMLLinkElement>(
+      `link[rel="${this.linkRel}"]:not([${this.managedAttrName}="${this.managedAttrValue}"])`
+    );
+    staticIcons.forEach((el) => el.parentElement?.removeChild(el));
+
+    // Remove static theme-color metas (we will manage a single one)
+    const staticThemeMetas = this.doc.querySelectorAll<HTMLMetaElement>(
+      `meta[name="theme-color"]:not([${this.managedAttrName}="${this.managedAttrValue}"])`
+    );
+    staticThemeMetas.forEach((el) => el.parentElement?.removeChild(el));
+
+    // Remove static color-scheme meta (we will manage this)
+    const staticColorSchemeMetas = this.doc.querySelectorAll<HTMLMetaElement>(
+      `meta[name="color-scheme"]:not([${this.managedAttrName}="${this.managedAttrValue}"])`
+    );
+    staticColorSchemeMetas.forEach((el) => el.parentElement?.removeChild(el));
   }
 }
