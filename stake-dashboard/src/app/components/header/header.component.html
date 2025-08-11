@@ -1,0 +1,10 @@
+<ion-toolbar>
+  <ion-title>
+    <a href="/"><img src="assets/stake_logo.svg" alt="Stake" /></a>
+  </ion-title>
+  <ion-button type="button" fill="clear" (click)="toggleDarkMode()" aria-label="Toggle dark mode">
+    <ion-icon [name]="(isDarkMode$ | async) ? 'sunny' : 'moon'"></ion-icon>
+  </ion-button>
+  <!-- <ion-icon name="search"></ion-icon>
+  Search -->
+</ion-toolbar>
