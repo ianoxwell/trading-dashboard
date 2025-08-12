@@ -205,10 +205,15 @@ test.describe('📋 Complete README Requirements Validation', () => {
       await page.waitForSelector('app-detail');
       console.log('✅ Step 3: Detail page accessed');
       
+      // Wait for all elements to load
+      await page.waitForSelector('.stock-header');
+      await page.waitForSelector('.trading-card');
+      await page.waitForSelector('#buyButton');
+      
       // Verify all required functionality is present
       const hasStockInfo = await page.locator('.stock-header').isVisible();
       const hasTradingCard = await page.locator('.trading-card').isVisible();
-      const hasBuyButton = await page.locator('.buy-button').isVisible();
+      const hasBuyButton = await page.locator('#buyButton').isVisible();
       
       expect(hasStockInfo).toBe(true);
       expect(hasTradingCard).toBe(true);

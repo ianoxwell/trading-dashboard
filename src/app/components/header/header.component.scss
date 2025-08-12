@@ -1,7 +1,7 @@
 .header-bar {
   --padding-start: 1rem;
   --padding-end: 1rem;
-  
+
   .toolbar-content {
     display: flex;
     align-items: center;
@@ -29,10 +29,32 @@
   gap: 0.5rem;
   flex-grow: 1;
   justify-content: center;
-  color: var(--ion-color-medium);
+  position: relative;
+  max-width: 400px;
+
+  .search-wrapper {
+    position: relative;
+    width: 100%;
+
+    .header-searchbar {
+      --background: var(--ion-color-light);
+      --color: var(--ion-color-dark);
+      --placeholder-color: var(--ion-color-medium);
+      --icon-color: var(--ion-color-medium);
+      --clear-button-color: var(--ion-color-medium);
+      border-radius: 8px;
+      height: 40px;
+
+      // Dark mode support
+      ion-toolbar.ion-color-dark & {
+        --background: var(--ion-color-dark-tint);
+        --color: var(--ion-color-light);
+      }
+    }
+  }
 }
 
-ion-button[fill="clear"] {
+ion-button[fill='clear'] {
   flex-shrink: 0;
 }
 
@@ -40,12 +62,12 @@ ion-button[fill="clear"] {
 .pending-indicator {
   position: relative;
   margin-right: 0.5rem;
-  
+
   .pending-icon {
     animation: pulse 2s infinite;
     color: var(--ion-color-warning);
   }
-  
+
   .pending-badge {
     position: absolute;
     top: -0.25rem;
@@ -57,8 +79,71 @@ ion-button[fill="clear"] {
   }
 }
 
+.search-results {
+  position: absolute;
+  top: 3.75rem;
+  min-height: 10rem;
+  max-height: 20rem;
+  background: var(--ion-background-color);
+  border: 1px solid var(--ion-color-light-shade);
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  z-index: 9999;
+  overflow-y: auto;
+  width: 100%;
+
+  @media (min-width: 420px) {
+    right: 4.75rem;
+    min-width: 350px;
+    max-width: 400px;
+  }
+
+  ion-list {
+    background: transparent;
+    padding: 0;
+    margin: 0;
+
+    .search-result-item {
+      --border-style: none;
+      --inner-border-width: 0;
+      --padding-start: 16px;
+      --padding-end: 16px;
+      cursor: pointer;
+
+      &:hover {
+        --background: var(--ion-color-light);
+      }
+
+      &:not(:last-child) {
+        border-bottom: 1px solid var(--ion-color-light-shade);
+      }
+
+      ion-label {
+        h3 {
+          font-weight: 600;
+          margin: 0;
+          color: var(--ion-text-color);
+          font-size: 1rem;
+        }
+
+        p {
+          margin: 2px 0;
+          font-size: 0.875rem;
+          color: var(--ion-color-medium);
+        }
+      }
+    }
+  }
+}
+
 @keyframes pulse {
-  0% { opacity: 1; }
-  50% { opacity: 0.5; }
-  100% { opacity: 1; }
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
 }

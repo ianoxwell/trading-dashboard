@@ -8,6 +8,7 @@
     <!-- Search and Filter Controls -->
     <div class="search-filter-container">
       <ion-searchbar
+        id="marketSearchBar"
         placeholder="Search by name, symbol, or description..."
         debounce="300"
         (ionInput)="onSearch($event)"
@@ -16,7 +17,11 @@
       </ion-searchbar>
 
       <div class="filter-controls">
-        <ion-select placeholder="All Categories" (ionChange)="onCategoryFilter($event.detail.value)" interface="popover">
+        <ion-select 
+          id="categoryFilterSelect"
+          placeholder="All Categories" 
+          (ionChange)="onCategoryFilter($event.detail.value)" 
+          interface="popover">
           <ion-select-option value="">All Categories</ion-select-option>
           <ion-select-option *ngFor="let category of categories" [value]="category">
             {{ categoryLabels[category] }}
@@ -72,7 +77,12 @@
         <ion-icon name="chevron-forward" aria-label="Next page icon"></ion-icon>
       </ion-button>
     </div>
-    <ion-select class="pagination-page-size" [value]="pageSize$ | async" (ionChange)="onPageSizeChange($event.detail.value)" interface="popover">
+    <ion-select 
+      id="pageSizeSelect"
+      class="pagination-page-size" 
+      [value]="pageSize$ | async" 
+      (ionChange)="onPageSizeChange($event.detail.value)" 
+      interface="popover">
       <ion-select-option *ngFor="let size of pageSizeOptions" [value]="size"> {{ size }} per page </ion-select-option>
     </ion-select>
   </div>

@@ -71,7 +71,7 @@ export class TestHelpers {
    */
   async searchInMarket(searchTerm: string): Promise<void> {
     await this.navigateToTab('market');
-    const searchBar = this.page.locator('ion-searchbar input');
+    const searchBar = this.page.locator('#marketSearchBar input');
     await searchBar.fill(searchTerm);
     await this.page.waitForTimeout(1000); // Wait for search results
   }

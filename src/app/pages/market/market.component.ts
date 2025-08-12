@@ -23,6 +23,7 @@ export class MarketComponent extends ComponentBase implements OnInit {
   private categoryFilterSubject = new BehaviorSubject<EInstrumentCategory | ''>('');
   private pageSizeSubject = new BehaviorSubject<number>(20);
   private currentPageSubject = new BehaviorSubject<number>(1);
+  private dataRefreshSubject = new BehaviorSubject<number>(0); // Trigger for data refresh
 
   // Public observables for template
   searchTerm$ = this.searchSubject.asObservable();
@@ -45,12 +46,12 @@ export class MarketComponent extends ComponentBase implements OnInit {
     private router: Router
   ) {
     super();
+    this.filteredProducts$ = this.setupFiltering();
+    this.paginatedProducts$ = this.setupPagination();
   }
 
   ngOnInit() {
     this.loadMarketData().subscribe();
-    this.setupFiltering();
-    this.setupPagination();
   }
 
   trackByProduct(_: number, product: IMarketProduct): string {
@@ -70,7 +71,8 @@ export class MarketComponent extends ComponentBase implements OnInit {
       tap((products) => {
         this.allProducts = products;
         this.setupFuse();
-        this.applyFilters();
+        // Trigger a refresh of the filtering without resetting filter values
+        this.dataRefreshSubject.next(this.dataRefreshSubject.value + 1);
       }),
       takeUntil(this.ngUnsubscribe)
     );
@@ -85,17 +87,18 @@ export class MarketComponent extends ComponentBase implements OnInit {
   }
 
   private setupFiltering() {
-    this.filteredProducts$ = combineLatest([
+    return combineLatest([
       this.searchSubject.pipe(debounceTime(300), distinctUntilChanged()),
       this.categoryFilterSubject,
-      this.pageSizeSubject
+      this.pageSizeSubject,
+      this.dataRefreshSubject // Include data refresh trigger
     ]).pipe(
-      map(([searchTerm, category, pageSize]) => {
-        let filtered = this.allProducts;
+      map(([searchTerm, category, pageSize, _dataRefresh]) => {
+        let filtered = [...this.allProducts]; // Create a copy to avoid mutation
 
         // Apply search
         if (searchTerm.trim()) {
-          const results = this.fuse.search(searchTerm);
+          const results = this.fuse?.search(searchTerm) || [];
           filtered = results.map((result: { item: IMarketProduct }) => result.item);
         }
 
@@ -113,7 +116,7 @@ export class MarketComponent extends ComponentBase implements OnInit {
   }
 
   private setupPagination() {
-    this.paginatedProducts$ = combineLatest([this.filteredProducts$, this.currentPageSubject, this.pageSizeSubject]).pipe(
+    return combineLatest([this.filteredProducts$, this.currentPageSubject, this.pageSizeSubject]).pipe(
       map(([products, currentPage, pageSize]) => {
         const startIndex = (currentPage - 1) * pageSize;
         const endIndex = startIndex + pageSize;
@@ -146,7 +149,7 @@ export class MarketComponent extends ComponentBase implements OnInit {
     this.router.navigate(['/market', product.symbol]);
   }
 
-  private applyFilters() {
+  resetFilters() {
     this.searchSubject.next('');
     this.categoryFilterSubject.next('');
     this.currentPageSubject.next(1);

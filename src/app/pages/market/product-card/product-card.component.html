@@ -5,12 +5,12 @@
   button>
   <ion-card-header>
     <div class="product-header">
-      <ion-card-title class="product-title">{{ product.symbol }}</ion-card-title>
-      <ion-chip [color]="product.category | categoryColor" outline>
+      <ion-card-title class="product-title" [id]="'product-symbol-' + product.symbol">{{ product.symbol }}</ion-card-title>
+      <ion-chip [id]="'product-category-' + product.symbol" [color]="product.category | categoryColor" outline>
         {{ product.category }}
       </ion-chip>
     </div>
-    <ion-card-subtitle>{{ product.name }}</ion-card-subtitle>
+    <ion-card-subtitle [id]="'product-name-' + product.symbol">{{ product.name }}</ion-card-subtitle>
   </ion-card-header>
   
   <ion-card-content>
@@ -18,15 +18,16 @@
       <div class="price-section">
         <div class="price">
           <ion-text color="primary">
-            <h3>${{ product.price | number:'1.2-2' }}</h3>
+            <h3 [id]="'product-price-' + product.symbol">${{ product.price | number:'1.2-2' }}</h3>
           </ion-text>
         </div>
         <div class="daily-change" *ngIf="product.dailyChange !== undefined" 
+             [id]="'product-change-' + product.symbol"
              [ngClass]="{ 'positive': product.isUp, 'negative': !product.isUp && product.dailyChange !== 0 }">
           <span>{{ product.dailyChange >= 0 ? '+' : '' }}{{ product.dailyChange | number: '1.2-2' }}%</span>
         </div>
       </div>
-      <p class="description">{{ product.description }}</p>
+      <p class="description" [id]="'product-description-' + product.symbol">{{ product.description }}</p>
     </div>
   </ion-card-content>
 </ion-card>

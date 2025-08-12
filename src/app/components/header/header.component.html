@@ -2,25 +2,49 @@
   <h1 slot="start">
     <a href="/"><img src="assets/stake_logo.svg" alt="Stake" /></a>
   </h1>
-  
+
   <div slot="secondary" class="search-container">
-    <ion-icon name="search" aria-label="Search icon"></ion-icon>
-    Search
+    <div class="search-wrapper">
+      <ion-searchbar
+        id="searchbar"
+        [formControl]="searchControl"
+        (ionClear)="clearSearch()"
+        (ionFocus)="onSearchFocus()"
+        (ionBlur)="onSearchBlur()"
+        placeholder="Search..."
+        show-clear-button="focus"
+        class="header-searchbar"
+      >
+      </ion-searchbar>
+    </div>
   </div>
-  
+
   <div slot="end">
     <!-- Pending trades indicator -->
-    <ion-button 
-      *ngIf="hasPendingTrades$ | async" 
-      fill="clear" 
-      class="pending-indicator"
-      aria-label="Pending trades">
+    <ion-button *ngIf="hasPendingTrades$ | async" fill="clear" class="pending-indicator" aria-label="Pending trades">
       <ion-icon name="hourglass-outline" class="pending-icon" aria-label="Pending trades icon"></ion-icon>
       <ion-badge color="warning" class="pending-badge" aria-hidden="true">!</ion-badge>
     </ion-button>
-    
+
     <ion-button type="button" fill="clear" (click)="toggleDarkMode()" aria-label="Toggle dark mode">
       <ion-icon [name]="(isDarkMode$ | async) ? 'sunny' : 'moon'" aria-label="Toggle dark mode icon"></ion-icon>
     </ion-button>
   </div>
 </ion-toolbar>
+
+<!-- Search Results Dropdown -->
+<div class="search-results" *ngIf="showSearchResults">
+  <ion-list>
+    <ion-item
+      *ngFor="let result of searchResults; trackBy: trackBySymbol"
+      button
+      (click)="onResultClick(result)"
+      class="search-result-item"
+    >
+      <ion-label>
+        <h3>{{ result.name }}</h3>
+        <p>{{ result.symbol }} • {{ result.category }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</div>
