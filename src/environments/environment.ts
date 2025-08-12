@@ -7,7 +7,8 @@ export const environment = {
   tradeProcessingTime: {
     min: 2000, // 2 seconds minimum for development
     max: 4000  // 4 seconds maximum for development
-  }
+  },
+  newItemTimerDuration: 30000 // 30 sec for development
 };
 
 /*

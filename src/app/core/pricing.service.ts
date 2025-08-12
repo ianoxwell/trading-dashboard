@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IMarketSummary, IPrice, IPriceData } from '@models/pricing.model';
+import { roundToTwo } from '@core/utils/math.utils';
 import { BehaviorSubject, EMPTY, Observable, of, timer } from 'rxjs';
 import { catchError, map, switchMap, take, tap } from 'rxjs/operators';
 
@@ -90,9 +91,9 @@ export class PricingService {
 
           const updatedPriceData: IPriceData = {
             ...priceData,
-            price: Math.round(newPrice * 100) / 100, // Round to 2 decimal places
-            dailyChange: Math.round(dailyChange * 100) / 100,
-            dailyChangePercent: Math.round(dailyChangePercent * 100) / 100,
+            price: roundToTwo(newPrice), // Round to 2 decimal places
+            dailyChange: roundToTwo(dailyChange),
+            dailyChangePercent: roundToTwo(dailyChangePercent),
             isUp: dailyChange > 0,
             lastUpdated: now
           };

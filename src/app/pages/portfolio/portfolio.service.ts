@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { EInstrumentCategory } from '@app/models/category.model';
 import { PricingService } from '@core/pricing.service';
 import { TradingService } from '@core/trading.service';
+import { roundToTwo } from '@core/utils/math.utils';
 import { IPortfolio } from '@models/portfolio.model';
 import { ITradeOrder } from '@models/wallet.model';
 import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
@@ -29,11 +31,7 @@ export class PortfolioService {
       switchMap((portfolio) => {
         // If data is already loaded, combine it with current trades and live pricing
         if (portfolio !== null) {
-          return combineLatest([
-            of(portfolio),
-            this.tradingService.tradeHistory$,
-            this.pricingService.prices$
-          ]).pipe(
+          return combineLatest([of(portfolio), this.tradingService.tradeHistory$, this.pricingService.prices$]).pipe(
             map(([portfolioData, trades, prices]) => {
               const portfolioWithTrades = this.mergePortfolioWithTrades(portfolioData, trades);
               return this.enrichPortfolioWithPricing(portfolioWithTrades, prices);
@@ -46,11 +44,7 @@ export class PortfolioService {
           map((portfolioData) => portfolioData.map((item) => ({ ...item, isNew: false }))),
           switchMap((portfolioData) => {
             this.portfolioSubject.next(portfolioData);
-            return combineLatest([
-              of(portfolioData), 
-              this.tradingService.tradeHistory$,
-              this.pricingService.prices$
-            ]);
+            return combineLatest([of(portfolioData), this.tradingService.tradeHistory$, this.pricingService.prices$]);
           }),
           map(([portfolioData, trades, prices]) => {
             const portfolioWithTrades = this.mergePortfolioWithTrades(portfolioData, trades);
@@ -65,7 +59,7 @@ export class PortfolioService {
   private enrichPortfolioWithPricing(portfolio: IPortfolio[], prices: Map<string, any>): IPortfolio[] {
     return portfolio.map((holding) => {
       const priceData = prices.get(holding.symbol);
-      
+
       if (!priceData) {
         // If no price data available, use avgBuyPrice as current price
         return {
@@ -83,24 +77,24 @@ export class PortfolioService {
       const currentPrice = priceData.price;
       const currentValue = holding.quantity * currentPrice;
       const costBasis = holding.quantity * holding.avgBuyPrice;
-      
+
       // Calculate total gains/losses (since purchase)
       const totalGainLoss = currentValue - costBasis;
       const totalGainLossPercent = costBasis > 0 ? (totalGainLoss / costBasis) * 100 : 0;
-      
+
       // Calculate daily gains/losses (based on opening price)
       const openingValue = holding.quantity * (priceData.openingPrice || currentPrice);
       const dailyGainLoss = currentValue - openingValue;
       const dailyGainLossPercent = openingValue > 0 ? (dailyGainLoss / openingValue) * 100 : 0;
-      
+
       return {
         ...holding,
-        currentPrice: Math.round(currentPrice * 100) / 100,
-        currentValue: Math.round(currentValue * 100) / 100,
-        totalGainLoss: Math.round(totalGainLoss * 100) / 100,
-        totalGainLossPercent: Math.round(totalGainLossPercent * 100) / 100,
-        dailyGainLoss: Math.round(dailyGainLoss * 100) / 100,
-        dailyGainLossPercent: Math.round(dailyGainLossPercent * 100) / 100,
+        currentPrice: roundToTwo(currentPrice),
+        currentValue: roundToTwo(currentValue),
+        totalGainLoss: roundToTwo(totalGainLoss),
+        totalGainLossPercent: roundToTwo(totalGainLossPercent),
+        dailyGainLoss: roundToTwo(dailyGainLoss),
+        dailyGainLossPercent: roundToTwo(dailyGainLossPercent),
         isUp: dailyGainLoss > 0
       };
     });
@@ -144,7 +138,7 @@ export class PortfolioService {
           id: `new_${trade.id}`,
           symbol: trade.symbol,
           name: trade.productName,
-          category: 'Equity', // Default category, could be enhanced
+          category: EInstrumentCategory.EQUITY,
           quantity: trade.quantity!,
           avgBuyPrice: trade.price,
           isNew: true

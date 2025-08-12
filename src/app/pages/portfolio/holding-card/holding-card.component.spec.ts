@@ -3,6 +3,7 @@ import { IonicModule } from '@ionic/angular';
 import { CoreModule } from '@app/core/core.module';
 import { RouterTestingModule } from '@angular/router/testing';
 import { HoldingCardComponent } from './holding-card.component';
+import { EInstrumentCategory } from '@app/models/category.model';
 
 describe('HoldingCardComponent', () => {
   let component: HoldingCardComponent;
@@ -12,7 +13,7 @@ describe('HoldingCardComponent', () => {
     id: 'test-id-123',
     symbol: 'AAPL',
     name: 'Apple Inc.',
-    category: 'Technology',
+    category: EInstrumentCategory.INCOME_FUND,
     quantity: 10,
     avgBuyPrice: 150,
     currentPrice: 155,

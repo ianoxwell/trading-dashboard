@@ -6,6 +6,7 @@ import { IWallet } from '@app/models/wallet.model';
 import { BehaviorSubject, combineLatest, Observable, timer } from 'rxjs';
 import { first, map, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 import { PortfolioService } from './portfolio.service';
+import { environment } from '@env/environment';
 
 export type SortField = 'name' | 'currentValue' | 'portfolioWeight';
 export type SortDirection = 'asc' | 'desc';
@@ -77,7 +78,7 @@ export class PortfolioComponent extends ComponentBase implements OnInit, OnDestr
     const newTimers = newItems
       .filter((symbol) => !!symbol)
       .map((symbol) => {
-        const timer$ = timer(60000) // 60 seconds
+        const timer$ = timer(environment.newItemTimerDuration) // 60 seconds
           .pipe(
             tap(() => {
               this.portfolioService.removeNewItemStatus(symbol);
@@ -155,13 +156,6 @@ export class PortfolioComponent extends ComponentBase implements OnInit, OnDestr
 
       return direction === 'asc' ? comparison : -comparison;
     });
-  }
-
-  private getTotalPortfolioValue(): Observable<number> {
-    // Return the observable directly instead of subscribing
-    return this.portfolioService.getTotalPortfolioValue().pipe(
-      map(value => value || 1) // Avoid division by zero
-    );
   }
 
   calculateCurrentValues(holdings: IPortfolio[]): Observable<IPortfolio[]> {
