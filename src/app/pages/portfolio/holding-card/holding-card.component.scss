@@ -16,14 +16,14 @@ ion-card {
   &__header {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
     margin-bottom: 0.25rem;
   }
 
   &__details {
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
+    align-items: center;
   }
 
   &__symbol {
@@ -48,11 +48,11 @@ ion-card {
     font-weight: 500;
     margin-top: 0.125rem;
 
-    &.gain {
+    &.positive, &.gain {
       color: var(--ion-color-success);
     }
 
-    &.loss {
+    &.negative, &.loss {
       color: var(--ion-color-danger);
     }
   }
@@ -76,6 +76,7 @@ ion-chip {
 
 .new-badge-container {
   display: flex;
+  justify-content: space-between;
   align-items: center;
 }
 
@@ -84,21 +85,11 @@ ion-chip {
   color: var(--ion-color-warning-contrast);
   padding: 0.25rem 0.5rem;
   border-radius: 0.75rem;
-  font-size: 0.7rem;
+  font-size: 0.625rem;
   font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03125rem;
   animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.7;
-  }
-  100% {
-    opacity: 1;
-  }
 }
 
 .holding-details {
@@ -113,6 +104,7 @@ ion-chip {
   @media (min-width: 600px) {
     flex-direction: row;
     gap: 1.5rem;
+    
     .detail-row:not(.gain-loss) {
       line-height: 3rem;
     }
@@ -123,7 +115,7 @@ ion-chip {
   flex: 1;
 
   @media (min-width: 600px) {
-    min-width: 0; // Prevent flex items from overflowing
+    min-width: 0;
   }
 }
 
@@ -198,21 +190,23 @@ ion-chip {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 0.75rem;
   padding: 0.5rem 0;
 
   &:last-child {
+    margin-bottom: 0;
     border-bottom: none;
   }
 }
 
 .detail-label {
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   color: var(--ion-color-medium);
 }
 
 .detail-value {
-  font-size: 0.95rem;
-  font-weight: 500;
+  font-weight: 600;
+  color: var(--ion-color-dark);
 
   &.current-value {
     font-weight: 600;
@@ -223,6 +217,17 @@ ion-chip {
 .gain-loss,
 .daily-gain-loss,
 .gain-loss-values {
+  .gain-loss-values {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+    .percentage {
+      font-size: 0.8rem;
+      margin-top: 0.125rem;
+    }
+  }
+
   &.gain {
     .detail-value,
     .percentage {
@@ -242,17 +247,6 @@ ion-chip {
   border-top: 0.0625rem solid var(--ion-color-light);
   margin-top: 0.25rem;
   padding-top: 0.75rem;
-}
-
-.gain-loss-values {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-
-  .percentage {
-    font-size: 0.8rem;
-    margin-top: 0.125rem;
-  }
 }
 
 .action-row {
@@ -280,5 +274,17 @@ ion-chip {
   ion-icon {
     font-size: 1rem;
     margin-inline-end: 0.25rem;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 1;
   }
 }

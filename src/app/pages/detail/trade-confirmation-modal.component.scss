@@ -7,7 +7,6 @@
   --max-width: 31.25rem;
 }
 
-// Ensure ion-content has proper height
 ion-content {
   --padding-top: 0;
   --padding-bottom: 0;
@@ -15,7 +14,6 @@ ion-content {
   min-height: 18.75rem;
 }
 
-// Ensure the modal doesn't get too small
 .modal-wrapper {
   height: auto !important;
   min-height: 25rem;
@@ -75,13 +73,20 @@ ion-content {
 
 .trade-summary-card,
 .account-impact-card {
+  margin: 0;
+  border-radius: 0.75rem;
   margin-bottom: 16px;
+  
+  ion-card-title {
+    color: var(--ion-color-primary);
+    font-weight: 600;
+  }
 
   ion-card-title {
     display: flex;
+    justify-content: space-between;
     align-items: center;
     gap: 8px;
-    color: var(--ion-color-primary);
 
     .summary-icon {
       font-size: 20px;
@@ -95,11 +100,12 @@ ion-content {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 12px;
+      margin-bottom: 0.75rem;
 
       &:last-child {
         margin-bottom: 0;
       }
+      margin-bottom: 12px;
 
       &.divider {
         border-top: 1px solid var(--ion-color-light-shade);
@@ -108,7 +114,7 @@ ion-content {
       }
 
       .label {
-        font-size: 14px;
+        font-size: 0.875rem;
         color: var(--ion-color-medium);
 
         &.total,
@@ -119,7 +125,7 @@ ion-content {
       }
 
       .value {
-        font-weight: 500;
+        font-weight: 600;
         color: var(--ion-color-dark);
 
         &.highlight {
@@ -155,6 +161,7 @@ ion-content {
 
   .warning-content {
     display: flex;
+    justify-content: space-between;
     align-items: center;
     gap: 8px;
     font-size: 14px;
@@ -178,11 +185,13 @@ ion-content {
   }
 
   .confirm-button {
+    --border-radius: 0.75rem;
+    font-weight: 600;
     --background: var(--ion-color-success);
   }
 }
 
-// Mobile responsive adjustments
+//Mobile responsive adjustments
 @media (max-width: 768px) {
   .stock-info-section {
     flex-direction: column;

@@ -69,6 +69,7 @@
 .wallet-card,
 .trading-card {
   margin: 0;
+  
   ion-card-title {
     color: var(--ion-color-primary);
     font-weight: 600;
@@ -318,18 +319,6 @@
   }
 }
 
-// Animations
-@keyframes slideInFromRight {
-  from {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -338,20 +327,5 @@
   to {
     opacity: 1;
     transform: translateY(0);
-  }
-}
-
-.new-portfolio-item {
-  animation: slideInFromRight 0.5s ease-out;
-
-  .new-badge {
-    background: var(--ion-color-warning);
-    color: var(--ion-color-warning-contrast);
-    padding: 0.125rem 0.5rem;
-    border-radius: 0.75rem;
-    font-size: 0.625rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 0.03125rem;
   }
 }
