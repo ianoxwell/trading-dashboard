@@ -82,7 +82,6 @@ ion-button[fill='clear'] {
 .search-results {
   position: absolute;
   top: 3.75rem;
-  right: 4.75rem;
   min-height: 10rem;
   max-height: 20rem;
   background: var(--ion-background-color);
@@ -91,8 +90,13 @@ ion-button[fill='clear'] {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
   z-index: 9999;
   overflow-y: auto;
-  min-width: 350px;
-  max-width: 400px;
+  width: 100%;
+
+  @media (min: 420px) {
+    right: 4.75rem;
+    min-width: 350px;
+    max-width: 400px;
+  }
 
   ion-list {
     background: transparent;
