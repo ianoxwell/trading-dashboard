@@ -53,7 +53,6 @@ export class HeaderComponent extends ComponentBase implements OnInit {
     return this.searchControl.valueChanges.pipe(
       startWith(''),
       debounceTime(300),
-      // distinctUntilChanged(),
       filter(() => !!this.fuse), // Only proceed if fuse is initialized
       map((searchTerm) => this.performSearch(searchTerm || '')),
       takeUntil(this.ngUnsubscribe)
