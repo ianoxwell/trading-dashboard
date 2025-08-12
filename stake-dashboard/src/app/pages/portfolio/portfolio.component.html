@@ -26,7 +26,38 @@
 
   <!-- Holdings List -->
   <div class="holdings-section">
-    <h3>Your Holdings</h3>
+    <div class="holdings-header">
+      <h3>Your Holdings</h3>
+      
+      <!-- Sorting Controls -->
+      <div class="sorting-controls">
+        <ion-segment 
+          [value]="currentSortField$ | async" 
+          (ionChange)="onSortFieldChange($event)"
+          class="sort-segment">
+          <ion-segment-button value="name">
+            <ion-label>Name</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="currentValue">
+            <ion-label>Value</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="portfolioWeight">
+            <ion-label>Weight</ion-label>
+          </ion-segment-button>
+        </ion-segment>
+        
+        <ion-button 
+          fill="clear" 
+          size="small"
+          (click)="toggleSortDirection()"
+          class="sort-direction-button">
+          <ion-icon 
+            [name]="(currentSortDirection$ | async) === 'asc' ? 'arrow-up' : 'arrow-down'"
+            slot="icon-only">
+          </ion-icon>
+        </ion-button>
+      </div>
+    </div>
 
     <div
       *ngFor="let holding of portfolio$ | async; trackBy: trackByHolding"

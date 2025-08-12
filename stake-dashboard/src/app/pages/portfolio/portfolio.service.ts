@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { TradingService } from '@core/trading.service';
 import { IPortfolio } from '@models/portfolio.model';
 import { ITradeOrder } from '@models/wallet.model';
-import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 
 @Injectable({
@@ -33,9 +33,14 @@ export class PortfolioService {
     // Load data from JSON file and cache it, then combine with trades
     return this.http.get<IPortfolio[]>('assets/data/portfolio.json').pipe(
       map((portfolio) => portfolio.map((item) => ({ ...item, isNew: false }))),
-      tap((portfolio) => this.portfolioSubject.next(portfolio)),
-      switchMap(() => combineLatest([this.portfolioSubject.asObservable() as Observable<IPortfolio[]>, this.tradingService.tradeHistory$])),
-      map(([portfolio, trades]) => this.mergePortfolioWithTrades(portfolio, trades))
+      switchMap((portfolio) => {
+        this.portfolioSubject.next(portfolio);
+        return combineLatest([of(portfolio), this.tradingService.tradeHistory$]);
+      }),
+      map(([portfolio, trades]) => {
+        const result = this.mergePortfolioWithTrades(portfolio, trades);
+        return result;
+      })
     );
   }
 
@@ -123,9 +128,9 @@ export class PortfolioService {
   }
 
   getTotalPortfolioValue(): Observable<number> {
-    return this.portfolio$.pipe(
+    return this.getPortfolio().pipe(
       map((portfolio) => {
-        if (!portfolio) return 0;
+        if (!portfolio || portfolio.length === 0) return 0;
         return portfolio.reduce((total, item) => total + item.quantity * item.avgBuyPrice, 0);
       })
     );

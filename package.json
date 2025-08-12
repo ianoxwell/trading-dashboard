@@ -1,0 +1,7 @@
+{
+    "scripts": {
+        "ng": "ng",
+        "serve": "cd stake-dashboard && ng serve",
+        "start": "npm run serve"
+    }
+}
