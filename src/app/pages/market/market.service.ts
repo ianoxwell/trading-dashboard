@@ -28,7 +28,7 @@ export class MarketService {
     );
   }
 
-  private loadInstruments(): Observable<IInstrument[]> {
+  loadInstruments(): Observable<IInstrument[]> {
     return this.instruments$.pipe(
       take(1), // Only take current state to avoid infinite streams
       switchMap((instruments) => {
