@@ -1,19 +1,53 @@
 <ion-content class="ion-padding">
   <h2>Portfolio</h2>
-  
-  <div *ngFor="let holding of portfolio$ | async">
-    <ion-card>
-      <ion-card-header>
-        <ion-card-title>{{ holding.symbol }}</ion-card-title>
-        <ion-card-subtitle>{{ holding.name }}</ion-card-subtitle>
-      </ion-card-header>
-      
-      <ion-card-content>
-        <p><strong>Category:</strong> {{ holding.category }}</p>
-        <p><strong>Quantity:</strong> {{ holding.quantity }}</p>
-        <p><strong>Avg Buy Price:</strong> ${{ holding.avgBuyPrice | number:'1.2-2' }}</p>
-        <p><strong>Total Value:</strong> ${{ (holding.quantity * holding.avgBuyPrice) | number:'1.2-2' }}</p>
-      </ion-card-content>
-    </ion-card>
+
+  <!-- Portfolio Summary -->
+  <ion-card class="summary-card" *ngIf="combinedValue$ | async as values">
+    <ion-card-header>
+      <ion-card-title>Account Summary</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <div class="summary-grid">
+        <div class="summary-item">
+          <span class="summary-label">Available Cash</span>
+          <span class="summary-value cash">{{ values.walletBalance | formatPrice }}</span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-label">Portfolio Value</span>
+          <span class="summary-value portfolio">{{ values.portfolioValue | formatPrice }}</span>
+        </div>
+        <div class="summary-item total">
+          <span class="summary-label">Total Account Value</span>
+          <span class="summary-value">{{ values.totalValue | formatPrice }}</span>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Holdings List -->
+  <div class="holdings-section">
+    <h3>Your Holdings</h3>
+
+    <div
+      *ngFor="let holding of portfolio$ | async; trackBy: trackByHolding"
+      [ngClass]="{ 'new-portfolio-item': holding.isNew }"
+      class="holding-item"
+    >
+      <app-holding-card 
+        [holding]="holding" 
+        [totalPortfolioValue]="(combinedValue$ | async)?.portfolioValue || 0">
+      </app-holding-card>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="(portfolio$ | async)?.length === 0" class="empty-state">
+      <ion-icon name="briefcase-outline" size="large"></ion-icon>
+      <h3>No Holdings Yet</h3>
+      <p>Start building your portfolio by browsing and purchasing stocks from the Market tab.</p>
+      <ion-button routerLink="/market" fill="solid">
+        <ion-icon name="search" slot="start"></ion-icon>
+        Browse Market
+      </ion-button>
+    </div>
   </div>
 </ion-content>

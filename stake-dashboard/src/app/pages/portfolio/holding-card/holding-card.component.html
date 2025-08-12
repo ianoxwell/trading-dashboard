@@ -1,0 +1,65 @@
+<ion-card>
+  <ion-card-header>
+    <div class="card-header-content">
+      <div class="stock-info">
+        <ion-card-title class="stock-info__symbol">{{ holding.symbol }}</ion-card-title>
+        <ion-card-subtitle>{{ holding.name }}</ion-card-subtitle>
+        <ion-chip color="secondary" size="small">{{ holding.category }}</ion-chip>
+      </div>
+      <div class="new-badge-container">
+        <span *ngIf="holding.isNew" class="new-badge">NEW</span>
+      </div>
+    </div>
+  </ion-card-header>
+
+  <ion-card-content>
+    <div class="holding-details">
+      <!-- Portfolio Percentage Section -->
+      <div class="percentage-section">
+        <div class="percentage-header">
+          <span class="percentage-label">Portfolio Weight</span>
+          <span class="percentage-value" [ngClass]="percentageColorClass">
+            {{ percentageOfPortfolio | number: '1.1-1' }}%
+          </span>
+        </div>
+        <div class="percentage-bar-container">
+          <div class="percentage-bar">
+            <div 
+              class="percentage-fill" 
+              [ngClass]="percentageColorClass"
+              [style.width]="percentageBarWidth">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Holding Details -->
+      <div class="detail-row">
+        <span class="detail-label">Shares Owned</span>
+        <span class="detail-value">{{ holding.quantity | formatShares }}</span>
+      </div>
+
+      <div class="detail-row">
+        <span class="detail-label">Avg. Buy Price</span>
+        <span class="detail-value">{{ holding.avgBuyPrice | formatPrice }}</span>
+      </div>
+
+      <div class="detail-row">
+        <span class="detail-label">Current Value</span>
+        <span class="detail-value current-value">{{ holdingValue | formatPrice }}</span>
+      </div>
+
+      <div class="detail-row gain-loss" [ngClass]="{ gain: (holding | gainLoss).isGain, loss: !(holding | gainLoss).isGain }">
+        <span class="detail-label">Gain/Loss</span>
+        <div class="gain-loss-values">
+          <span class="detail-value">
+            {{ (holding | gainLoss).isGain ? '+' : '' }}{{ (holding | gainLoss).amount | formatPrice }}
+          </span>
+          <span class="percentage">
+            ({{ (holding | gainLoss).isGain ? '+' : '' }}{{ (holding | gainLoss).percentage | number: '1.2-2' }}%)
+          </span>
+        </div>
+      </div>
+    </div>
+  </ion-card-content>
+</ion-card>
