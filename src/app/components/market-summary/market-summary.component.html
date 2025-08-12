@@ -9,6 +9,7 @@
       <ion-icon 
         [name]="getTrendIcon(summary.marketTrend)" 
         [color]="getTrendColor(summary.marketTrend)"
+        aria-label="Market trend indicator"
         size="large">
       </ion-icon>
       <span class="trend-text" [style.color]="'var(--ion-color-' + getTrendColor(summary.marketTrend) + ')'">

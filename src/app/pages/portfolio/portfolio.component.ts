@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ComponentBase } from '@app/core/base.component.base';
 import { TradingService } from '@app/core/trading.service';
 import { IPortfolio } from '@app/models/portfolio.model';
@@ -15,7 +15,7 @@ export type SortDirection = 'asc' | 'desc';
   templateUrl: './portfolio.component.html',
   styleUrls: ['./portfolio.component.scss']
 })
-export class PortfolioComponent extends ComponentBase implements OnInit {
+export class PortfolioComponent extends ComponentBase implements OnInit, OnDestroy {
   portfolio$!: Observable<IPortfolio[]>;
   wallet$!: Observable<IWallet>;
   portfolioValue$!: Observable<number>;
