@@ -74,12 +74,18 @@ test.describe('Stock Detail Page', () => {
     await page.click('ion-segment-button[value="quantity"]');
     await page.waitForTimeout(500);
     
+    // Verify quantity button is selected
+    await expect(page.locator('ion-segment-button[value="quantity"]')).toHaveClass(/segment-button-checked/);
+    
     // Switch back to dollar order
     await page.click('ion-segment-button[value="dollar"]');
     await page.waitForTimeout(500);
     
-    // Verify the switching worked
-    await expect(page.locator('ion-segment-button[value="dollar"]')).toHaveAttribute('aria-checked', 'true');
+    // Verify the switching worked - check for the CSS class instead of aria-checked
+    await expect(page.locator('ion-segment-button[value="dollar"]')).toHaveClass(/segment-button-checked/);
+    
+    // Also verify that the quantity button is no longer selected
+    await expect(page.locator('ion-segment-button[value="quantity"]')).not.toHaveClass(/segment-button-checked/);
   });
 
   test('should navigate back correctly', async ({ page }) => {
