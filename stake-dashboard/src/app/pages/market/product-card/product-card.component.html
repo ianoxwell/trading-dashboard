@@ -1,0 +1,26 @@
+<ion-card 
+  (click)="onProductClick()"
+  type="button"
+  class="product-card"
+  button>
+  <ion-card-header>
+    <div class="product-header">
+      <ion-card-title class="product-title">{{ product.symbol }}</ion-card-title>
+      <ion-chip [color]="product.category | categoryColor" outline>
+        {{ product.category }}
+      </ion-chip>
+    </div>
+    <ion-card-subtitle>{{ product.name }}</ion-card-subtitle>
+  </ion-card-header>
+  
+  <ion-card-content>
+    <div class="product-details">
+      <div class="price">
+        <ion-text color="primary">
+          <h3>${{ product.price | number:'1.2-2' }}</h3>
+        </ion-text>
+      </div>
+      <p class="description">{{ product.description }}</p>
+    </div>
+  </ion-card-content>
+</ion-card>

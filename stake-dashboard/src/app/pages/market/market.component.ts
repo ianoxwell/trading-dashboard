@@ -1,39 +1,42 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, BehaviorSubject, combineLatest } from 'rxjs';
-import { map, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import Fuse from 'fuse.js';
-import { MarketService, IMarketProduct } from './market.service';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, tap } from 'rxjs/operators';
+import { ALL_CATEGORIES, CATEGORY_LABELS, EInstrumentCategory } from '../../models/category.model';
+import { IMarketProduct } from '../../models/market-product.model';
+import { MarketService } from './market.service';
 
 @Component({
   selector: 'app-market',
   templateUrl: './market.component.html',
-  styleUrls: ['./market.component.scss'],
+  styleUrls: ['./market.component.scss']
 })
 export class MarketComponent implements OnInit {
   allProducts: IMarketProduct[] = [];
   filteredProducts$!: Observable<IMarketProduct[]>;
   paginatedProducts$!: Observable<IMarketProduct[]>;
-  
+
   // Search and filter controls
   private searchSubject = new BehaviorSubject<string>('');
-  private categoryFilterSubject = new BehaviorSubject<string>('');
+  private categoryFilterSubject = new BehaviorSubject<EInstrumentCategory | ''>('');
   private pageSizeSubject = new BehaviorSubject<number>(20);
   private currentPageSubject = new BehaviorSubject<number>(1);
-  
+
   // Public observables for template
   searchTerm$ = this.searchSubject.asObservable();
   categoryFilter$ = this.categoryFilterSubject.asObservable();
   pageSize$ = this.pageSizeSubject.asObservable();
   currentPage$ = this.currentPageSubject.asObservable();
-  
+
   // Pagination info
   totalProducts$ = new BehaviorSubject<number>(0);
   totalPages$ = new BehaviorSubject<number>(0);
-  
-  categories: string[] = [];
+
+  categories: EInstrumentCategory[] = ALL_CATEGORIES;
+  categoryLabels = CATEGORY_LABELS;
   pageSizeOptions = [10, 20, 50];
-  
+
   private fuse!: Fuse<IMarketProduct>;
 
   constructor(
@@ -42,23 +45,13 @@ export class MarketComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.loadMarketData();
+    this.loadMarketData().subscribe();
     this.setupFiltering();
     this.setupPagination();
   }
 
   trackByProduct(index: number, product: IMarketProduct): string {
     return product.id;
-  }
-
-  getCategoryColor(category: string): string {
-    const colorMap: { [key: string]: string } = {
-      'Equity': 'primary',
-      'ETF': 'secondary', 
-      'Bond Fund': 'success',
-      'Sustainable Fund': 'warning'
-    };
-    return colorMap[category] || 'medium';
   }
 
   get currentPage(): number {
@@ -69,13 +62,14 @@ export class MarketComponent implements OnInit {
     return this.totalPages$.value;
   }
 
-  private loadMarketData() {
-    this.marketService.getMarketProducts().subscribe(products => {
-      this.allProducts = products;
-      this.categories = [...new Set(products.map(p => p.category))].sort();
-      this.setupFuse();
-      this.applyFilters();
-    });
+  private loadMarketData(): Observable<IMarketProduct[]> {
+    return this.marketService.getMarketProducts().pipe(
+      tap((products) => {
+        this.allProducts = products;
+        this.setupFuse();
+        this.applyFilters();
+      })
+    );
   }
 
   private setupFuse() {
@@ -102,23 +96,19 @@ export class MarketComponent implements OnInit {
 
         // Apply category filter
         if (category) {
-          filtered = filtered.filter(product => product.category === category);
+          filtered = filtered.filter((product) => product.category === category);
         }
 
         this.totalProducts$.next(filtered.length);
         this.totalPages$.next(Math.ceil(filtered.length / this.pageSizeSubject.value));
-        
+
         return filtered;
       })
     );
   }
 
   private setupPagination() {
-    this.paginatedProducts$ = combineLatest([
-      this.filteredProducts$,
-      this.currentPageSubject,
-      this.pageSizeSubject
-    ]).pipe(
+    this.paginatedProducts$ = combineLatest([this.filteredProducts$, this.currentPageSubject, this.pageSizeSubject]).pipe(
       map(([products, currentPage, pageSize]) => {
         const startIndex = (currentPage - 1) * pageSize;
         const endIndex = startIndex + pageSize;
@@ -133,7 +123,7 @@ export class MarketComponent implements OnInit {
     this.currentPageSubject.next(1); // Reset to first page
   }
 
-  onCategoryFilter(category: string) {
+  onCategoryFilter(category: EInstrumentCategory | '') {
     this.categoryFilterSubject.next(category);
     this.currentPageSubject.next(1); // Reset to first page
   }
@@ -164,9 +154,7 @@ export class MarketComponent implements OnInit {
     const range = [];
     const rangeWithDots = [];
 
-    for (let i = Math.max(2, currentPage - delta); 
-         i <= Math.min(totalPages - 1, currentPage + delta); 
-         i++) {
+    for (let i = Math.max(2, currentPage - delta); i <= Math.min(totalPages - 1, currentPage + delta); i++) {
       range.push(i);
     }
 
