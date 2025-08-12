@@ -1,0 +1,357 @@
+.detail-container {
+  max-width: 600px;
+  margin: 0 auto;
+  gap: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.stock-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+  padding: 20px;
+  background: var(--ion-color-light);
+  border-radius: 12px;
+  border: 1px solid var(--ion-color-light-shade);
+
+  .stock-info {
+    flex: 1;
+
+    .stock-symbol {
+      font-size: 32px;
+      font-weight: bold;
+      margin: 0 0 8px 0;
+      color: var(--ion-color-primary);
+    }
+
+    .stock-name {
+      font-size: 18px;
+      margin: 0 0 12px 0;
+      color: var(--ion-color-dark);
+      font-weight: 500;
+    }
+
+    .category-chip {
+      margin: 0;
+    }
+  }
+
+  .stock-price {
+    text-align: right;
+
+    .current-price {
+      display: block;
+      font-size: 28px;
+      font-weight: bold;
+      color: var(--ion-color-dark);
+      margin-bottom: 4px;
+    }
+
+    .price-change {
+      font-size: 14px;
+      font-weight: 600;
+
+      &.positive {
+        color: var(--ion-color-success);
+      }
+
+      &.negative {
+        color: var(--ion-color-danger);
+      }
+    }
+  }
+}
+
+.description-card,
+.metrics-card,
+.wallet-card,
+.trading-card {
+  margin: 0;
+  ion-card-title {
+    color: var(--ion-color-primary);
+    font-weight: 600;
+  }
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+
+  .metric-item {
+    .metric-label {
+      display: block;
+      font-size: 12px;
+      color: var(--ion-color-medium);
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .metric-value {
+      display: block;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--ion-color-dark);
+    }
+  }
+}
+
+.wallet-card {
+  .wallet-balance {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+
+    .balance-amount {
+      font-size: 24px;
+      font-weight: bold;
+      color: var(--ion-color-success);
+    }
+
+    .balance-currency {
+      font-size: 14px;
+      color: var(--ion-color-medium);
+    }
+  }
+}
+
+.trading-card {
+  .order-type-tabs {
+    margin-bottom: 0.75rem;
+
+    .tab-segment {
+      --background: var(--ion-color-light);
+      border-radius: 12px;
+      padding: 4px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+      .tab-button {
+        --color: var(--ion-color-medium);
+        --color-checked: var(--ion-color-primary);
+        --background-checked: var(--ion-background-color, #fff);
+        --border-radius: 8px;
+        --padding-start: 16px;
+        --padding-end: 16px;
+        --padding-top: 12px;
+        --padding-bottom: 12px;
+        margin: 0 2px;
+        transition: all 0.3s ease;
+
+        ion-icon {
+          margin: 0 0 4px;
+          font-size: 20px;
+        }
+
+        ion-label {
+          font-size: 12px;
+          font-weight: 500;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          margin: 0;
+        }
+
+        &.segment-button-checked {
+          box-shadow: 0 2px 8px rgba(var(--ion-color-primary-rgb), 0.3);
+          transform: translateY(-1px);
+        }
+      }
+    }
+  }
+
+  .tab-content {
+    min-height: 180px;
+    position: relative;
+  }
+
+  .input-section {
+    margin-bottom: 24px;
+
+    &.fade-in {
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    .input-item {
+      --background: var(--ion-color-light);
+      --border-radius: 12px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+      ion-input {
+        --padding-start: 16px;
+        --padding-end: 16px;
+        font-size: 16px;
+      }
+    }
+
+    .calculation-display {
+      background: linear-gradient(135deg, var(--ion-color-light), var(--ion-color-light-tint));
+      padding: 16px;
+      border-radius: 12px;
+      border-left: 4px solid var(--ion-color-primary);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+      .calculation-text {
+        margin: 0;
+        font-size: 14px;
+        color: var(--ion-color-dark);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        ion-icon {
+          font-size: 16px;
+          --color: var(--ion-color-primary);
+        }
+      }
+    }
+  }
+
+  .order-summary {
+    background: var(--ion-color-light);
+    padding: 16px;
+    border-radius: 8px;
+    margin-bottom: 24px;
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 14px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      &.total {
+        font-weight: bold;
+        font-size: 16px;
+        border-top: 1px solid var(--ion-color-medium-tint);
+        padding-top: 8px;
+        margin-top: 8px;
+        color: var(--ion-color-primary);
+      }
+    }
+  }
+
+  .buy-button {
+    --border-radius: 12px;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+
+  .insufficient-funds-message {
+    text-align: center;
+    padding: 12px;
+    background: var(--ion-color-danger-tint);
+    border-radius: 8px;
+
+    p {
+      margin: 0;
+      font-size: 14px;
+    }
+  }
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+
+  ion-spinner {
+    margin-bottom: 16px;
+  }
+
+  p {
+    color: var(--ion-color-medium);
+    font-size: 14px;
+  }
+}
+
+// Mobile responsive adjustments
+@media (max-width: 768px) {
+  .stock-header {
+    flex-direction: column;
+    gap: 16px;
+
+    .stock-price {
+      text-align: left;
+    }
+  }
+
+  .metrics-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .detail-container {
+    max-width: 100%;
+  }
+}
+
+// Dark mode adjustments
+@media (prefers-color-scheme: dark) {
+  .stock-header {
+    background: var(--ion-color-dark);
+    border-color: var(--ion-color-dark-shade);
+
+    .stock-name {
+      color: var(--ion-color-light);
+    }
+
+    .current-price {
+      color: var(--ion-color-light);
+    }
+  }
+
+  .metric-item .metric-value {
+    color: var(--ion-color-light);
+  }
+
+  .calculation-display .calculation-text,
+  .order-summary {
+    color: var(--ion-color-light);
+  }
+}
+
+// Animations
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.new-portfolio-item {
+  animation: slideInFromRight 0.5s ease-out;
+
+  .new-badge {
+    background: var(--ion-color-warning);
+    color: var(--ion-color-warning-contrast);
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+}

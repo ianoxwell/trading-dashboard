@@ -1,4 +1,198 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button fill="clear" (click)="goBack()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Stock Details</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="navigateToMarket()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content class="ion-padding">
-  <h2>Detail</h2>
-  <p>Stock detail coming soon...</p>
+  <div *ngIf="product$ | async as product; else loadingTemplate" class="detail-container">
+    
+    <!-- Stock Header -->
+    <div class="stock-header">
+      <div class="stock-info">
+        <h1 class="stock-symbol">{{ product.symbol }}</h1>
+        <h2 class="stock-name">{{ product.name }}</h2>
+        <ion-chip [color]="product.category | categoryColor" class="category-chip">
+          {{ product.category }}
+        </ion-chip>
+      </div>
+      <div class="stock-price">
+        <span class="current-price">{{ product.price | formatPrice }}</span>
+        <span class="price-change positive">+2.34%</span>
+      </div>
+    </div>
+
+    <!-- Stock Description -->
+    <ion-card class="description-card">
+      <ion-card-header>
+        <ion-card-title>About {{ product.name }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>{{ product.description || 'A leading investment opportunity in the ' + product.category + ' sector. This security offers exposure to market growth and potential returns for investors seeking diversified portfolio allocation.' }}</p>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Key Metrics -->
+    <ion-card class="metrics-card">
+      <ion-card-header>
+        <ion-card-title>Key Metrics</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="metrics-grid">
+          <div class="metric-item">
+            <span class="metric-label">Current Price</span>
+            <span class="metric-value">{{ product.price | formatPrice }}</span>
+          </div>
+          <div class="metric-item">
+            <span class="metric-label">Market Cap</span>
+            <span class="metric-value">$1.2B</span>
+          </div>
+          <div class="metric-item">
+            <span class="metric-label">P/E Ratio</span>
+            <span class="metric-value">24.5</span>
+          </div>
+          <div class="metric-item">
+            <span class="metric-label">52W High</span>
+            <span class="metric-value">{{ priceHigh52W | formatPrice }}</span>
+          </div>
+          <div class="metric-item">
+            <span class="metric-label">52W Low</span>
+            <span class="metric-value">{{ priceLow52W | formatPrice }}</span>
+          </div>
+          <div class="metric-item">
+            <span class="metric-label">Volume</span>
+            <span class="metric-value">2.1M</span>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Wallet Info -->
+    <ion-card class="wallet-card" *ngIf="wallet$ | async as wallet">
+      <ion-card-header>
+        <ion-card-title>Available Balance</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="wallet-balance">
+          <span class="balance-amount">{{ wallet.balance | formatPrice }}</span>
+          <span class="balance-currency">{{ wallet.currency }}</span>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Trading Section -->
+    <ion-card class="trading-card">
+      <ion-card-header>
+        <ion-card-title>Buy {{ product.symbol }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        
+        <!-- Order Type Tabs-style Selection -->
+        <div class="order-type-tabs">
+          <ion-segment [value]="orderType" (ionChange)="onOrderTypeChange($event)" class="tab-segment">
+            <ion-segment-button value="dollar" class="tab-button">
+              <ion-icon name="cash-outline"></ion-icon>
+              <ion-label>Dollar Amount</ion-label>
+            </ion-segment-button>
+            <ion-segment-button value="quantity" class="tab-button">
+              <ion-icon name="layers-outline"></ion-icon>
+              <ion-label>Share Quantity</ion-label>
+            </ion-segment-button>
+          </ion-segment>
+        </div>
+
+        <!-- Tab Content Area -->
+        <div class="tab-content">
+          <!-- Dollar Amount Input -->
+          <div *ngIf="orderType === 'dollar'" class="input-section fade-in">
+           
+            <ion-item class="input-item">
+              <ion-input 
+                type="number" 
+                label="Investment Amount ($)"
+                labelPlacement="stacked"
+                [(ngModel)]="dollarAmount" 
+                (ionInput)="onDollarAmountChange()"
+                min="1"
+                step="0.01"
+                placeholder="Enter dollar amount">
+              </ion-input>
+            </ion-item>
+            
+            <div class="calculation-display">
+              <ion-text color="medium">
+                <p class="calculation-text">
+                  <ion-icon name="calculator-outline" color="primary"></ion-icon>
+                  You will purchase <strong>{{ estimatedShares | formatShares }}</strong> share{{ estimatedShares === 1 ? '' : 's' }} for total cost: <strong>{{ estimatedCost | formatPrice }}</strong>
+                </p>
+              </ion-text>
+            </div>
+          </div>
+
+          <!-- Quantity Input -->
+          <div *ngIf="orderType === 'quantity'" class="input-section fade-in">
+           
+            <ion-item class="input-item">
+              <ion-input 
+                type="number" 
+                label="Number of Shares"
+                labelPlacement="stacked"
+                [(ngModel)]="quantity" 
+                (ionInput)="onQuantityChange()"
+                min="1"
+                step="1"
+                placeholder="Enter number of shares">
+              </ion-input>
+            </ion-item>
+            
+            <div class="calculation-display">
+              <ion-text color="medium">
+                <p class="calculation-text">
+                  <ion-icon name="calculator-outline" color="primary"></ion-icon>
+                  You will purchase <strong>{{ estimatedShares | formatShares }}</strong> share{{ estimatedShares === 1 ? '' : 's' }} for total cost: <strong>{{ estimatedCost | formatPrice }}</strong>
+                </p>
+              </ion-text>
+            </div>
+          </div>
+        </div>
+
+        <!-- Buy Button -->
+        <ion-button 
+          expand="block" 
+          [disabled]="!canAffordPurchase || estimatedCost <= 0" 
+          (click)="onBuy()"
+          class="buy-button"
+          [color]="canAffordPurchase ? 'success' : 'danger'">
+          <ion-icon name="card" slot="start"></ion-icon>
+          {{ canAffordPurchase ? 'Buy Now' : 'Insufficient Funds' }}
+        </ion-button>
+
+        <div *ngIf="!canAffordPurchase && insufficientFundsAmount > 0" class="insufficient-funds-message">
+          <ion-text color="danger">
+            <p>You need {{ insufficientFundsAmount | formatPrice }} more to complete this purchase.</p>
+          </ion-text>
+        </div>
+
+      </ion-card-content>
+    </ion-card>
+
+  </div>
+
+  <ng-template #loadingTemplate>
+    <div class="loading-container">
+      <ion-spinner name="dots"></ion-spinner>
+      <p>Loading stock details...</p>
+    </div>
+  </ng-template>
+
 </ion-content>
