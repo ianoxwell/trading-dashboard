@@ -92,7 +92,7 @@ ion-button[fill='clear'] {
   overflow-y: auto;
   width: 100%;
 
-  @media (min: 420px) {
+  @media (min-width: 420px) {
     right: 4.75rem;
     min-width: 350px;
     max-width: 400px;
