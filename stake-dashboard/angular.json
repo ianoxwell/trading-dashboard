@@ -167,6 +167,15 @@
               "browserTarget": "stake-dashboard:build:production"
             }
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
+          }
         }
       }
     }
@@ -174,6 +183,7 @@
   "defaultProject": "stake-dashboard",
   "cli": {
     "schematicCollections": [
+      "@angular-eslint/schematics",
       "@ionic/angular-toolkit"
     ]
   },

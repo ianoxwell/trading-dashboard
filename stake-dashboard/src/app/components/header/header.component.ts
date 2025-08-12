@@ -1,15 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FaviconService } from '@app/core/favicon.service';
 import { TradingService } from '@app/core/trading.service';
 import { firstValueFrom, Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss'],
+  styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent  implements OnInit {
+export class HeaderComponent {
   isDarkMode$!: Observable<boolean>;
   hasPendingTrades$!: Observable<boolean>;
 
@@ -21,11 +20,8 @@ export class HeaderComponent  implements OnInit {
     this.hasPendingTrades$ = this.tradingService.hasPendingTrades$;
   }
 
-  ngOnInit() {}
-
   async toggleDarkMode() {
     const isDarkMode = await firstValueFrom(this.isDarkMode$);
     this.faviconService.setMode(!isDarkMode);
   }
-
 }
