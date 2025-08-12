@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
 import { IPortfolio } from '@models/portfolio.model';
 
 @Component({
@@ -10,8 +11,10 @@ export class HoldingCardComponent {
   @Input() holding!: IPortfolio;
   @Input() totalPortfolioValue: number = 0;
 
+  constructor(private router: Router) {}
+
   get holdingValue(): number {
-    return this.holding.currentValue || (this.holding.quantity * this.holding.avgBuyPrice);
+    return this.holding.currentValue || this.holding.quantity * this.holding.avgBuyPrice;
   }
 
   get percentageOfPortfolio(): number {
@@ -30,5 +33,9 @@ export class HoldingCardComponent {
     if (percentage >= 20) return 'high-percentage';
     if (percentage >= 10) return 'medium-percentage';
     return 'low-percentage';
+  }
+
+  viewDetails(): void {
+    this.router.navigate([`/market/${this.holding.symbol}`]);
   }
 }

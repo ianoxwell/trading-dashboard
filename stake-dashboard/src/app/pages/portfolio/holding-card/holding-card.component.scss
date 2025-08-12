@@ -12,14 +12,20 @@ ion-card {
 
 .stock-info {
   flex: 1;
-  
+
   &__header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     margin-bottom: 0.25rem;
   }
-  
+
+  &__details {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
   &__symbol {
     color: var(--ion-text-color);
     margin: 0;
@@ -30,22 +36,22 @@ ion-card {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  
+
   .current-price {
     font-size: 1rem;
     font-weight: 600;
     color: var(--ion-color-dark);
   }
-  
+
   .daily-change {
     font-size: 0.8rem;
     font-weight: 500;
     margin-top: 0.125rem;
-    
+
     &.gain {
       color: var(--ion-color-success);
     }
-    
+
     &.loss {
       color: var(--ion-color-danger);
     }
@@ -97,6 +103,28 @@ ion-chip {
 
 .holding-details {
   padding-top: 0.5rem;
+}
+
+.details-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  @media (min-width: 600px) {
+    flex-direction: row;
+    gap: 1.5rem;
+    .detail-row:not(.gain-loss) {
+      line-height: 3rem;
+    }
+  }
+}
+
+.details-column {
+  flex: 1;
+
+  @media (min-width: 600px) {
+    min-width: 0; // Prevent flex items from overflowing
+  }
 }
 
 .percentage-section {
@@ -171,7 +199,6 @@ ion-chip {
   justify-content: space-between;
   align-items: center;
   padding: 0.5rem 0;
-  border-bottom: 0.0625rem solid var(--ion-color-light);
 
   &:last-child {
     border-bottom: none;
@@ -194,7 +221,8 @@ ion-chip {
 }
 
 .gain-loss,
-.daily-gain-loss {
+.daily-gain-loss,
+.gain-loss-values {
   &.gain {
     .detail-value,
     .percentage {
@@ -224,5 +252,33 @@ ion-chip {
   .percentage {
     font-size: 0.8rem;
     margin-top: 0.125rem;
+  }
+}
+
+.action-row {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0.75rem 0 0.25rem 0;
+
+  @media (max-width: 599px) {
+    justify-content: center;
+    border-top: 0.0625rem solid var(--ion-color-light);
+    margin-top: 0.5rem;
+    padding-top: 0.75rem;
+  }
+}
+
+.view-button {
+  --border-radius: 0.5rem;
+  --padding-start: 1rem;
+  --padding-end: 1rem;
+  height: 2rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+
+  ion-icon {
+    font-size: 1rem;
+    margin-inline-end: 0.25rem;
   }
 }

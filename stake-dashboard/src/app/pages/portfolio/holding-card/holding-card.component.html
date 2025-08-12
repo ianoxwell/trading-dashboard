@@ -1,4 +1,4 @@
-<ion-card>
+<ion-card type="button" button (click)="viewDetails()">
   <ion-card-header>
     <div class="card-header-content">
       <div class="stock-info">
@@ -6,13 +6,25 @@
           <ion-card-title class="stock-info__symbol">{{ holding.symbol }}</ion-card-title>
           <div class="price-info" *ngIf="holding.currentPrice">
             <span class="current-price">{{ holding.currentPrice | formatPrice }}</span>
-            <span class="daily-change" [ngClass]="{ 'gain': holding.isUp, 'loss': !holding.isUp && (holding.dailyGainLossPercent || 0) !== 0 }">
-              {{ (holding.dailyGainLossPercent || 0) >= 0 ? '+' : '' }}{{ holding.dailyGainLossPercent | number: '1.2-2' }}%
+          </div>
+        </div>
+        <div class="stock-info__details">
+          <div>
+            <ion-card-subtitle>{{ holding.name }}</ion-card-subtitle>
+            <ion-chip color="secondary" size="small">{{ holding.category }}</ion-chip>
+          </div>
+          <div
+            class="gain-loss-values daily-change"
+            [ngClass]="{ gain: holding.isUp, loss: !holding.isUp && (holding.dailyGainLossPercent || 0) !== 0 }"
+          >
+            <span class="detail-value">
+              {{ (holding.dailyGainLoss || 0) >= 0 ? '+' : '' }}{{ holding.dailyGainLoss || 0 | formatPrice }}
+            </span>
+            <span class="percentage">
+              ({{ (holding.dailyGainLossPercent || 0) >= 0 ? '+' : '' }}{{ holding.dailyGainLossPercent | number: '1.2-2' }}%)
             </span>
           </div>
         </div>
-        <ion-card-subtitle>{{ holding.name }}</ion-card-subtitle>
-        <ion-chip color="secondary" size="small">{{ holding.category }}</ion-chip>
       </div>
       <div class="new-badge-container">
         <span *ngIf="holding.isNew" class="new-badge">NEW</span>
@@ -26,60 +38,49 @@
       <div class="percentage-section">
         <div class="percentage-header">
           <span class="percentage-label">Portfolio Weight</span>
-          <span class="percentage-value" [ngClass]="percentageColorClass">
-            {{ percentageOfPortfolio | number: '1.1-1' }}%
-          </span>
+          <span class="percentage-value" [ngClass]="percentageColorClass"> {{ percentageOfPortfolio | number: '1.1-1' }}% </span>
         </div>
         <div class="percentage-bar-container">
           <div class="percentage-bar">
-            <div 
-              class="percentage-fill" 
-              [ngClass]="percentageColorClass"
-              [style.width]="percentageBarWidth">
-            </div>
+            <div class="percentage-fill" [ngClass]="percentageColorClass" [style.width]="percentageBarWidth"></div>
           </div>
         </div>
       </div>
 
-      <!-- Holding Details -->
-      <div class="detail-row">
-        <span class="detail-label">Shares Owned</span>
-        <span class="detail-value">{{ holding.quantity | formatShares }}</span>
-      </div>
+      <!-- Two Column Layout for Details -->
+      <div class="details-container">
+        <!-- Left Column - Holding Details -->
+        <div class="details-column">
+          <div class="detail-row">
+            <span class="detail-label">Shares Owned</span>
+            <span class="detail-value">{{ holding.quantity | formatShares }}</span>
+          </div>
 
-      <div class="detail-row">
-        <span class="detail-label">Avg. Buy Price</span>
-        <span class="detail-value">{{ holding.avgBuyPrice | formatPrice }}</span>
-      </div>
-
-      <div class="detail-row">
-        <span class="detail-label">Current Value</span>
-        <span class="detail-value current-value">{{ holdingValue | formatPrice }}</span>
-      </div>
-
-      <!-- Total Gain/Loss (since purchase) -->
-      <div class="detail-row gain-loss" [ngClass]="{ gain: (holding.totalGainLoss || 0) > 0, loss: (holding.totalGainLoss || 0) < 0 }">
-        <span class="detail-label">Total Gain/Loss</span>
-        <div class="gain-loss-values">
-          <span class="detail-value">
-            {{ (holding.totalGainLoss || 0) >= 0 ? '+' : '' }}{{ (holding.totalGainLoss || 0) | formatPrice }}
-          </span>
-          <span class="percentage">
-            ({{ (holding.totalGainLossPercent || 0) >= 0 ? '+' : '' }}{{ holding.totalGainLossPercent | number: '1.2-2' }}%)
-          </span>
+          <div class="detail-row">
+            <span class="detail-label">Avg. Buy Price</span>
+            <span class="detail-value">{{ holding.avgBuyPrice | formatPrice }}</span>
+          </div>
         </div>
-      </div>
 
-      <!-- Daily Gain/Loss -->
-      <div class="detail-row daily-gain-loss" [ngClass]="{ gain: holding.isUp, loss: !holding.isUp && (holding.dailyGainLoss || 0) !== 0 }">
-        <span class="detail-label">Daily Change</span>
-        <div class="gain-loss-values">
-          <span class="detail-value">
-            {{ (holding.dailyGainLoss || 0) >= 0 ? '+' : '' }}{{ (holding.dailyGainLoss || 0) | formatPrice }}
-          </span>
-          <span class="percentage">
-            ({{ (holding.dailyGainLossPercent || 0) >= 0 ? '+' : '' }}{{ holding.dailyGainLossPercent | number: '1.2-2' }}%)
-          </span>
+        <!-- Right Column - Gain/Loss -->
+        <div class="details-column">
+          <!-- Total Gain/Loss (since purchase) -->
+          <div class="detail-row gain-loss" [ngClass]="{ gain: (holding.totalGainLoss || 0) > 0, loss: (holding.totalGainLoss || 0) < 0 }">
+            <span class="detail-label">Total Gain/Loss</span>
+            <div class="gain-loss-values">
+              <span class="detail-value">
+                {{ (holding.totalGainLoss || 0) >= 0 ? '+' : '' }}{{ holding.totalGainLoss || 0 | formatPrice }}
+              </span>
+              <span class="percentage">
+                ({{ (holding.totalGainLossPercent || 0) >= 0 ? '+' : '' }}{{ holding.totalGainLossPercent | number: '1.2-2' }}%)
+              </span>
+            </div>
+          </div>
+
+          <div class="detail-row">
+            <span class="detail-label">Current Value</span>
+            <span class="detail-value current-value">{{ holdingValue | formatPrice }}</span>
+          </div>
         </div>
       </div>
     </div>
