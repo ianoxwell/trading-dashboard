@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { MarketSummaryComponent } from '@app/components/market-summary/market-summary.component';
 import { CoreModule } from '@core/core.module';
 import { IonicModule } from '@ionic/angular';
 import { MarketRoutingModule } from './market-routing.module';
@@ -8,6 +9,6 @@ import { ProductCardComponent } from './product-card/product-card.component';
 
 @NgModule({
   imports: [CommonModule, IonicModule, MarketRoutingModule, CoreModule],
-  declarations: [MarketComponent, ProductCardComponent]
+  declarations: [MarketComponent, ProductCardComponent, MarketSummaryComponent]
 })
 export class MarketModule {}

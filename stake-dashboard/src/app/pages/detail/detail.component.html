@@ -28,7 +28,9 @@
       </div>
       <div class="stock-price">
         <span class="current-price">{{ product.price | formatPrice }}</span>
-        <span class="price-change positive">+2.34%</span>
+        <span class="price-change" [ngClass]="{ 'positive': product.isUp, 'negative': !product.isUp && (product.dailyChange || 0) !== 0 }">
+          {{ (product.dailyChange || 0) >= 0 ? '+' : '' }}{{ product.dailyChange | number: '1.2-2' }}%
+        </span>
       </div>
     </div>
 

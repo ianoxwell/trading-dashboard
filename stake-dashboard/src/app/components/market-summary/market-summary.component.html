@@ -1,0 +1,41 @@
+<div class="market-summary" *ngIf="marketSummary$ | async as summary">
+  <div class="summary-header">
+    <h3>Market Overview</h3>
+    <span class="last-updated">Updated {{ summary.lastUpdated | date: 'shortTime' }}</span>
+  </div>
+  
+  <div class="summary-content">
+    <div class="trend-indicator">
+      <ion-icon 
+        [name]="getTrendIcon(summary.marketTrend)" 
+        [color]="getTrendColor(summary.marketTrend)"
+        size="large">
+      </ion-icon>
+      <span class="trend-text" [style.color]="'var(--ion-color-' + getTrendColor(summary.marketTrend) + ')'">
+        {{ getTrendText(summary.marketTrend) }}
+      </span>
+    </div>
+    
+    <div class="stats-grid">
+      <div class="stat-item">
+        <span class="stat-label">Watched Stocks</span>
+        <span class="stat-value">{{ summary.totalSymbols }}</span>
+      </div>
+      
+      <div class="stat-item up">
+        <span class="stat-label">Rising</span>
+        <span class="stat-value">{{ summary.symbolsUp }}</span>
+      </div>
+      
+      <div class="stat-item down">
+        <span class="stat-label">Falling</span>
+        <span class="stat-value">{{ summary.symbolsDown }}</span>
+      </div>
+      
+      <div class="stat-item flat">
+        <span class="stat-label">Unchanged</span>
+        <span class="stat-value">{{ summary.symbolsFlat }}</span>
+      </div>
+    </div>
+  </div>
+</div>

@@ -24,7 +24,7 @@ export class PortfolioComponent extends ComponentBase implements OnInit {
   // Sorting properties
   private sortField$ = new BehaviorSubject<SortField>('portfolioWeight');
   private sortDirection$ = new BehaviorSubject<SortDirection>('desc');
-  
+
   currentSortField$ = this.sortField$.asObservable();
   currentSortDirection$ = this.sortDirection$.asObservable();
 
@@ -44,20 +44,13 @@ export class PortfolioComponent extends ComponentBase implements OnInit {
     this.combinedValue$ = this.portfolioService.getCombinedValue();
 
     // Get base portfolio data with calculated values
-    const basePortfolio$ = this.portfolioService.getPortfolio().pipe(
-      map(portfolio => this.calculateCurrentValuesSync(portfolio))
-    );
+    const basePortfolio$ = this.portfolioService.getPortfolio().pipe(map((portfolio) => this.calculateCurrentValuesSync(portfolio)));
 
     // Combine base portfolio with sorting
-    this.portfolio$ = combineLatest([
-      basePortfolio$,
-      this.sortField$,
-      this.sortDirection$,
-      this.portfolioValue$
-    ]).pipe(
+    this.portfolio$ = combineLatest([basePortfolio$, this.sortField$, this.sortDirection$, this.portfolioValue$]).pipe(
       map(([portfolio, sortField, sortDirection, totalValue]) => {
         return this.sortPortfolio(portfolio, sortField, sortDirection, totalValue);
-      }),
+      })
     );
 
     // Listen for new items and set up timers
@@ -131,7 +124,7 @@ export class PortfolioComponent extends ComponentBase implements OnInit {
   private sortPortfolio(portfolio: IPortfolio[], field: SortField, direction: SortDirection, totalValue: number): IPortfolio[] {
     return [...portfolio].sort((a, b) => {
       let comparison = 0;
-      
+
       switch (field) {
         case 'name':
           comparison = a.name.localeCompare(b.name);
@@ -145,7 +138,7 @@ export class PortfolioComponent extends ComponentBase implements OnInit {
           comparison = aWeight - bWeight;
           break;
       }
-      
+
       return direction === 'asc' ? comparison : -comparison;
     });
   }
@@ -153,7 +146,7 @@ export class PortfolioComponent extends ComponentBase implements OnInit {
   private getTotalPortfolioValue(): number {
     // This is a simplified approach - in a real app you might want to cache this value
     let totalValue = 0;
-    this.portfolioValue$.pipe(first()).subscribe(value => totalValue = value);
+    this.portfolioValue$.pipe(first()).subscribe((value) => (totalValue = value));
     return totalValue || 1; // Avoid division by zero
   }
 
@@ -176,20 +169,17 @@ export class PortfolioComponent extends ComponentBase implements OnInit {
   }
 
   calculateCurrentValuesSync(holdings: IPortfolio[]): IPortfolio[] {
-    // Calculate total portfolio value for percentage calculations
     const totalValue = holdings.reduce((total, holding) => {
-      return total + (holding.quantity * holding.avgBuyPrice);
+      return total + (holding.currentValue || 0);
     }, 0);
-    
+
     const result = holdings.map((holding: IPortfolio) => {
-      const currentValue = holding.quantity * holding.avgBuyPrice;
       return {
         ...holding,
-        currentValue,
-        percentTotal: totalValue > 0 ? (currentValue / totalValue) * 100 : 0
+        percentTotal: totalValue > 0 ? ((holding.currentValue || 0) / totalValue) * 100 : 0
       };
     });
-    
+
     return result;
   }
 }

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { TradingService } from '@core/trading.service';
+import { PricingService } from '@core/pricing.service';
 import { IPortfolio } from '@models/portfolio.model';
 import { ITradeOrder } from '@models/wallet.model';
 import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
@@ -19,29 +20,86 @@ export class PortfolioService {
 
   constructor(
     private http: HttpClient,
-    private tradingService: TradingService
+    private tradingService: TradingService,
+    private pricingService: PricingService
   ) {}
 
   getPortfolio(): Observable<IPortfolio[]> {
-    // If data is already loaded, combine it with current trades
+    // If data is already loaded, combine it with current trades and live pricing
     if (this.portfolioSubject.value !== null) {
-      return combineLatest([this.portfolioSubject.asObservable() as Observable<IPortfolio[]>, this.tradingService.tradeHistory$]).pipe(
-        map(([portfolio, trades]) => this.mergePortfolioWithTrades(portfolio, trades))
+      return combineLatest([
+        this.portfolioSubject.asObservable() as Observable<IPortfolio[]>, 
+        this.tradingService.tradeHistory$,
+        this.pricingService.prices$
+      ]).pipe(
+        map(([portfolio, trades, prices]) => {
+          const portfolioWithTrades = this.mergePortfolioWithTrades(portfolio, trades);
+          return this.enrichPortfolioWithPricing(portfolioWithTrades, prices);
+        })
       );
     }
 
-    // Load data from JSON file and cache it, then combine with trades
+    // Load data from JSON file and cache it, then combine with trades and pricing
     return this.http.get<IPortfolio[]>('assets/data/portfolio.json').pipe(
       map((portfolio) => portfolio.map((item) => ({ ...item, isNew: false }))),
       switchMap((portfolio) => {
         this.portfolioSubject.next(portfolio);
-        return combineLatest([of(portfolio), this.tradingService.tradeHistory$]);
+        return combineLatest([
+          of(portfolio), 
+          this.tradingService.tradeHistory$,
+          this.pricingService.prices$
+        ]);
       }),
-      map(([portfolio, trades]) => {
-        const result = this.mergePortfolioWithTrades(portfolio, trades);
+      map(([portfolio, trades, prices]) => {
+        const portfolioWithTrades = this.mergePortfolioWithTrades(portfolio, trades);
+        const result = this.enrichPortfolioWithPricing(portfolioWithTrades, prices);
         return result;
       })
     );
+  }
+
+  private enrichPortfolioWithPricing(portfolio: IPortfolio[], prices: Map<string, any>): IPortfolio[] {
+    return portfolio.map((holding) => {
+      const priceData = prices.get(holding.symbol);
+      
+      if (!priceData) {
+        // If no price data available, use avgBuyPrice as current price
+        return {
+          ...holding,
+          currentPrice: holding.avgBuyPrice,
+          currentValue: holding.quantity * holding.avgBuyPrice,
+          totalGainLoss: 0,
+          totalGainLossPercent: 0,
+          dailyGainLoss: 0,
+          dailyGainLossPercent: 0,
+          isUp: false
+        };
+      }
+
+      const currentPrice = priceData.price;
+      const currentValue = holding.quantity * currentPrice;
+      const costBasis = holding.quantity * holding.avgBuyPrice;
+      
+      // Calculate total gains/losses (since purchase)
+      const totalGainLoss = currentValue - costBasis;
+      const totalGainLossPercent = costBasis > 0 ? (totalGainLoss / costBasis) * 100 : 0;
+      
+      // Calculate daily gains/losses (based on opening price)
+      const openingValue = holding.quantity * (priceData.openingPrice || currentPrice);
+      const dailyGainLoss = currentValue - openingValue;
+      const dailyGainLossPercent = openingValue > 0 ? (dailyGainLoss / openingValue) * 100 : 0;
+      
+      return {
+        ...holding,
+        currentPrice: Math.round(currentPrice * 100) / 100,
+        currentValue: Math.round(currentValue * 100) / 100,
+        totalGainLoss: Math.round(totalGainLoss * 100) / 100,
+        totalGainLossPercent: Math.round(totalGainLossPercent * 100) / 100,
+        dailyGainLoss: Math.round(dailyGainLoss * 100) / 100,
+        dailyGainLossPercent: Math.round(dailyGainLossPercent * 100) / 100,
+        isUp: dailyGainLoss > 0
+      };
+    });
   }
 
   private mergePortfolioWithTrades(portfolio: IPortfolio[], trades: ITradeOrder[]): IPortfolio[] {
@@ -131,7 +189,7 @@ export class PortfolioService {
     return this.getPortfolio().pipe(
       map((portfolio) => {
         if (!portfolio || portfolio.length === 0) return 0;
-        return portfolio.reduce((total, item) => total + item.quantity * item.avgBuyPrice, 0);
+        return portfolio.reduce((total, item) => total + (item.currentValue || 0), 0);
       })
     );
   }

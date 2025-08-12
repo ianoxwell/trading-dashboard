@@ -11,7 +11,7 @@ export class HoldingCardComponent {
   @Input() totalPortfolioValue: number = 0;
 
   get holdingValue(): number {
-    return this.holding.quantity * this.holding.avgBuyPrice;
+    return this.holding.currentValue || (this.holding.quantity * this.holding.avgBuyPrice);
   }
 
   get percentageOfPortfolio(): number {

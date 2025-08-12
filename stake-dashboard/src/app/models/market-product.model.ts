@@ -7,4 +7,6 @@ export interface IMarketProduct {
   description: string;
   category: EInstrumentCategory;
   price: number;
+  dailyChange?: number; // Daily change percentage
+  isUp?: boolean; // Whether the price is up or down today
 }

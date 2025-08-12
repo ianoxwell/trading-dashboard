@@ -2,6 +2,7 @@ import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ComponentBase } from '@app/core/base.component.base';
+import { filterNullish } from '@app/core/filter-nullish';
 import { TradingService } from '@app/core/trading.service';
 import { IMarketProduct } from '@app/models/market-product.model';
 import { IWallet } from '@app/models/wallet.model';
@@ -10,7 +11,6 @@ import { Observable } from 'rxjs';
 import { map, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { MarketService } from '../market/market.service';
 import { TradeConfirmationModalComponent } from './trade-confirmation-modal.component';
-import { filterNullish } from '@app/core/filter-nullish';
 
 @Component({
   selector: 'app-detail',

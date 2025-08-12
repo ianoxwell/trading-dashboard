@@ -12,8 +12,43 @@ ion-card {
 
 .stock-info {
   flex: 1;
+  
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.25rem;
+  }
+  
   &__symbol {
     color: var(--ion-text-color);
+    margin: 0;
+  }
+}
+
+.price-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  
+  .current-price {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--ion-color-dark);
+  }
+  
+  .daily-change {
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-top: 0.125rem;
+    
+    &.gain {
+      color: var(--ion-color-success);
+    }
+    
+    &.loss {
+      color: var(--ion-color-danger);
+    }
   }
 }
 
@@ -158,7 +193,8 @@ ion-chip {
   }
 }
 
-.gain-loss {
+.gain-loss,
+.daily-gain-loss {
   &.gain {
     .detail-value,
     .percentage {
@@ -172,6 +208,12 @@ ion-chip {
       color: var(--ion-color-danger);
     }
   }
+}
+
+.daily-gain-loss {
+  border-top: 0.0625rem solid var(--ion-color-light);
+  margin-top: 0.25rem;
+  padding-top: 0.75rem;
 }
 
 .gain-loss-values {

@@ -1,25 +1,24 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, firstValueFrom, Observable, timer } from 'rxjs';
-import { IWallet, ITradeOrder, IPendingTrade } from '../models/wallet.model';
-import { IPortfolio } from '../models/portfolio.model';
 import { ToastController } from '@ionic/angular';
+import { BehaviorSubject, firstValueFrom } from 'rxjs';
+import { IPendingTrade, ITradeOrder, IWallet } from '../models/wallet.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TradingService {
-  private walletSubject = new BehaviorSubject<IWallet>({ 
-    balance: 10000, 
-    currency: 'AUD' 
+  private walletSubject = new BehaviorSubject<IWallet>({
+    balance: 10000,
+    currency: 'AUD'
   });
-  
+
   private pendingTradesSubject = new BehaviorSubject<IPendingTrade[]>([]);
   private tradeHistorySubject = new BehaviorSubject<ITradeOrder[]>([]);
-  
+
   public wallet$ = this.walletSubject.asObservable();
   public pendingTrades$ = this.pendingTradesSubject.asObservable();
   public tradeHistory$ = this.tradeHistorySubject.asObservable();
-  
+
   // Reactive property for header indicator
   public hasPendingTrades$ = new BehaviorSubject<boolean>(false);
 
@@ -43,14 +42,15 @@ export class TradingService {
   ): Promise<boolean> {
     try {
       const currentWallet = await firstValueFrom(this.wallet$);
-      
+
       // Calculate actual quantity and total value
-      const actualQuantity = orderType === 'dollar' && dollarAmount 
-        ? Math.floor(dollarAmount / price)  // Round down to whole shares only
-        : quantity || 0;
-      
+      const actualQuantity =
+        orderType === 'dollar' && dollarAmount
+          ? Math.floor(dollarAmount / price) // Round down to whole shares only
+          : quantity || 0;
+
       const totalValue = actualQuantity * price;
-      
+
       // Check if user has sufficient funds
       if (totalValue > currentWallet.balance) {
         await this.showToast('Insufficient funds for this purchase', 'danger');
@@ -81,7 +81,7 @@ export class TradingService {
 
       // Simulate processing time (4-8 seconds)
       const processingTime = Math.random() * 4000 + 4000; // 4-8 seconds
-      
+
       pendingTrade.timeoutId = setTimeout(async () => {
         await this.completeTrade(pendingTrade);
       }, processingTime);
@@ -99,9 +99,9 @@ export class TradingService {
     try {
       // Remove from pending trades
       const currentPending = await firstValueFrom(this.pendingTrades$);
-      const updatedPending = currentPending.filter(trade => trade.id !== pendingTrade.id);
+      const updatedPending = currentPending.filter((trade) => trade.id !== pendingTrade.id);
       this.pendingTradesSubject.next(updatedPending);
-      
+
       // Update pending indicator
       this.hasPendingTrades$.next(updatedPending.length > 0);
 
@@ -122,7 +122,10 @@ export class TradingService {
       const currentHistory = await firstValueFrom(this.tradeHistory$);
       this.tradeHistorySubject.next([tradeOrder, ...currentHistory]);
 
-      await this.showToast(`Purchase of ${pendingTrade.quantity} share${pendingTrade.quantity === 1 ? '' : 's'} of ${pendingTrade.symbol} completed!`, 'success');
+      await this.showToast(
+        `Purchase of ${pendingTrade.quantity} share${pendingTrade.quantity === 1 ? '' : 's'} of ${pendingTrade.symbol} completed!`,
+        'success'
+      );
     } catch (error) {
       console.error('Error completing trade:', error);
       await this.showToast('Error completing trade. Please contact support.', 'danger');
@@ -132,26 +135,26 @@ export class TradingService {
   async cancelPendingTrade(tradeId: string): Promise<void> {
     try {
       const currentPending = await firstValueFrom(this.pendingTrades$);
-      const tradeToCancel = currentPending.find(trade => trade.id === tradeId);
-      
+      const tradeToCancel = currentPending.find((trade) => trade.id === tradeId);
+
       if (tradeToCancel) {
         // Clear timeout
         if (tradeToCancel.timeoutId) {
           clearTimeout(tradeToCancel.timeoutId);
         }
-        
+
         // Refund the wallet
         const currentWallet = await firstValueFrom(this.wallet$);
         this.updateWallet({
           ...currentWallet,
           balance: currentWallet.balance + tradeToCancel.totalValue
         });
-        
+
         // Remove from pending
-        const updatedPending = currentPending.filter(trade => trade.id !== tradeId);
+        const updatedPending = currentPending.filter((trade) => trade.id !== tradeId);
         this.pendingTradesSubject.next(updatedPending);
         this.hasPendingTrades$.next(updatedPending.length > 0);
-        
+
         await this.showToast(`Order for ${tradeToCancel.symbol} cancelled`, 'warning');
       }
     } catch (error) {
@@ -188,7 +191,7 @@ export class TradingService {
   async getCompletedTrades(): Promise<ITradeOrder[]> {
     try {
       const tradeHistory = await firstValueFrom(this.tradeHistory$);
-      return tradeHistory.filter(trade => trade.status === 'completed');
+      return tradeHistory.filter((trade) => trade.status === 'completed');
     } catch (error) {
       console.error('Error getting completed trades:', error);
       return [];

@@ -1,91 +1,69 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { PricingService } from '@core/pricing.service';
 import { IInstrument } from '@models/instrument.model';
 import { IMarketProduct } from '@models/market-product.model';
-import { IPricing } from '@models/pricing.model';
-import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
+import { map, switchMap, tap, take } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MarketService {
   private instrumentsSubject = new BehaviorSubject<IInstrument[] | null>(null);
-  private pricingSubject = new BehaviorSubject<IPricing[] | null>(null);
 
   public instruments$ = this.instrumentsSubject.asObservable();
-  public pricing$ = this.pricingSubject.asObservable();
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private pricingService: PricingService
+  ) {}
 
   getMarketProducts(): Observable<IMarketProduct[]> {
-    // If data is already loaded, return the combined cached data
-    return combineLatest([this.instruments$, this.pricing$]).pipe(
-      switchMap(([instruments, pricing]) => {
-        if (instruments !== null && pricing !== null) {
-          return this.combineInstrumentsAndPricing();
-        }
-
-        return this.loadMarketData();
-      })
+    return this.loadInstruments().pipe(
+      switchMap((instruments) => {
+        return combineLatest([of(instruments), this.pricingService.prices$]);
+      }),
+      map(([instruments, prices]) => this.mergeData(instruments, prices))
     );
-  }
-
-  private loadMarketData(): Observable<IMarketProduct[]> {
-    // Load both datasets and combine them
-    return combineLatest([this.loadInstruments(), this.loadPricing()]).pipe(
-      map(([instruments, pricing]) => this.mergeData(instruments, pricing))
-    );
-  }
-
-  refreshMarketData(): Observable<IMarketProduct[]> {
-    return combineLatest([
-      this.http
-        .get<IInstrument[]>('assets/data/instrument-list.json')
-        .pipe(tap((instruments) => this.instrumentsSubject.next(instruments))),
-      this.http.get<IPricing[]>('assets/data/pricing.json').pipe(tap((pricing) => this.pricingSubject.next(pricing)))
-    ]).pipe(map(([instruments, pricing]) => this.mergeData(instruments, pricing)));
   }
 
   private loadInstruments(): Observable<IInstrument[]> {
-    if (this.instrumentsSubject.value !== null) {
-      return this.instrumentsSubject.asObservable() as Observable<IInstrument[]>;
-    }
-
-    return this.http
-      .get<IInstrument[]>('assets/data/instrument-list.json')
-      .pipe(tap((instruments) => this.instrumentsSubject.next(instruments)));
-  }
-
-  private loadPricing(): Observable<IPricing[]> {
-    if (this.pricingSubject.value !== null) {
-      return this.pricingSubject.asObservable() as Observable<IPricing[]>;
-    }
-
-    return this.http.get<IPricing[]>('assets/data/pricing.json').pipe(tap((pricing) => this.pricingSubject.next(pricing)));
-  }
-
-  private combineInstrumentsAndPricing(): Observable<IMarketProduct[]> {
-    return combineLatest([this.instruments$, this.pricing$]).pipe(
-      map(([instruments, pricing]) => {
-        if (!instruments || !pricing) return [];
-        return this.mergeData(instruments, pricing);
+    return this.instruments$.pipe(
+      take(1), // Only take current state to avoid infinite streams
+      switchMap((instruments) => {
+        // If instruments are already loaded, return them
+        if (instruments !== null) {
+          return of(instruments);
+        }
+        
+        // Otherwise load from HTTP and cache in subject
+        return this.http
+          .get<IInstrument[]>('assets/data/instrument-list.json')
+          .pipe(tap((loadedInstruments) => this.instrumentsSubject.next(loadedInstruments)));
       })
     );
   }
 
-  private mergeData(instruments: IInstrument[], pricing: IPricing[]): IMarketProduct[] {
-    const pricingMap = new Map(pricing.map((p) => [p.symbol, p.price]));
-
+  private mergeData(instruments: IInstrument[], prices: Map<string, any>): IMarketProduct[] {
     return instruments
-      .map((instrument) => ({
-        id: instrument.id,
-        symbol: instrument.symbol,
-        name: instrument.name,
-        description: instrument.description,
-        category: instrument.category,
-        price: pricingMap.get(instrument.symbol) || 0
-      }))
+      .map((instrument) => {
+        const priceData = prices.get(instrument.symbol);
+        const price = priceData?.price || 0;
+        const dailyChange = priceData?.dailyChangePercent || 0;
+        const isUp = priceData?.isUp || false;
+
+        return {
+          id: instrument.id,
+          symbol: instrument.symbol,
+          name: instrument.name,
+          description: instrument.description,
+          category: instrument.category,
+          price,
+          dailyChange,
+          isUp
+        };
+      })
       .filter((product) => product.price > 0); // Only include products with pricing data
   }
 }
