@@ -24,6 +24,7 @@ export class HeaderComponent extends ComponentBase implements OnInit {
   searchResults: IInstrument[] = [];
   showSearchResults = false;
   isSearchFocused = false;
+  BLUR_DEBOUNCE_MS = 300
 
   private allProducts: IInstrument[] = [];
   private fuse!: Fuse<IInstrument>;
@@ -52,7 +53,7 @@ export class HeaderComponent extends ComponentBase implements OnInit {
   private setupSearchResults() {
     return this.searchControl.valueChanges.pipe(
       startWith(''),
-      debounceTime(300),
+      debounceTime(this.BLUR_DEBOUNCE_MS),
       // distinctUntilChanged(),
       filter(() => !!this.fuse), // Only proceed if fuse is initialized
       map((searchTerm) => this.performSearch(searchTerm || '')),
@@ -83,7 +84,7 @@ export class HeaderComponent extends ComponentBase implements OnInit {
     return searchResults;
   }
 
-  onSearchFocus(event: any) {
+  onSearchFocus() {
     this.isSearchFocused = true;
     // Check current search results and show dropdown if there are results
     const currentValue = this.searchControl.value || '';
@@ -94,7 +95,7 @@ export class HeaderComponent extends ComponentBase implements OnInit {
 
   async onSearchBlur() {
     // Delay hiding results to allow for result click
-    await firstValueFrom(timer(200));
+    await firstValueFrom(timer(this.BLUR_DEBOUNCE_MS));
     this.isSearchFocused = false;
     this.showSearchResults = false;
   }
