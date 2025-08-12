@@ -1,0 +1,64 @@
+.header-bar {
+  --padding-start: 1rem;
+  --padding-end: 1rem;
+  
+  .toolbar-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+}
+
+// Override Ionic's default toolbar layout
+.header-bar::part(native) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+// Ensure logo, search, and button are spaced properly
+.header-bar img {
+  height: 2rem;
+  flex-shrink: 0;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-grow: 1;
+  justify-content: center;
+  color: var(--ion-color-medium);
+}
+
+ion-button[fill="clear"] {
+  flex-shrink: 0;
+}
+
+// Pending trades indicator styles
+.pending-indicator {
+  position: relative;
+  margin-right: 0.5rem;
+  
+  .pending-icon {
+    animation: pulse 2s infinite;
+    color: var(--ion-color-warning);
+  }
+  
+  .pending-badge {
+    position: absolute;
+    top: -0.25rem;
+    right: -0.25rem;
+    width: 1rem;
+    height: 1rem;
+    font-size: 0.625rem;
+    border-radius: 50%;
+  }
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}

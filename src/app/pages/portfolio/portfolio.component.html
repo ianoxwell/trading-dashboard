@@ -1,0 +1,77 @@
+<ion-content class="ion-padding">
+  <h2>Portfolio</h2>
+
+  <!-- Portfolio Summary -->
+  <ion-card class="summary-card" *ngIf="combinedValue$ | async as values">
+    <ion-card-header>
+      <ion-card-title>Account Summary</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <div class="summary-grid">
+        <div class="summary-item">
+          <span class="summary-label">Available Cash</span>
+          <span class="summary-value cash">{{ values.walletBalance | formatPrice }}</span>
+        </div>
+        <div class="summary-item">
+          <span class="summary-label">Portfolio Value</span>
+          <span class="summary-value portfolio">{{ values.portfolioValue | formatPrice }}</span>
+        </div>
+        <div class="summary-item"></div>
+        <div class="summary-item total">
+          <span class="summary-label">Total Account Value</span>
+          <span class="summary-value">{{ values.totalValue | formatPrice }}</span>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Holdings List -->
+  <div class="holdings-section">
+    <div class="holdings-header">
+      <h3>Your Holdings</h3>
+
+      <!-- Sorting Controls -->
+      <div class="sorting-controls">
+        <ion-segment [value]="currentSortField$ | async" (ionChange)="onSortFieldChange($event)" class="sort-segment">
+          <ion-segment-button value="name">
+            <ion-label>Name</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="currentValue">
+            <ion-label>Value</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="portfolioWeight">
+            <ion-label>Weight</ion-label>
+          </ion-segment-button>
+        </ion-segment>
+
+        <ion-button fill="clear" size="small" (click)="toggleSortDirection()" class="sort-direction-button">
+          <ion-icon
+            aria-label="Sort direction"
+            [name]="(currentSortDirection$ | async) === 'asc' ? 'arrow-up' : 'arrow-down'"
+            slot="icon-only"
+          >
+          </ion-icon>
+        </ion-button>
+      </div>
+    </div>
+
+    <div
+      *ngFor="let holding of portfolio$ | async; trackBy: trackByHolding"
+      [ngClass]="{ 'new-portfolio-item': holding.isNew }"
+      class="holding-item"
+    >
+      <app-holding-card [holding]="holding" [totalPortfolioValue]="(combinedValue$ | async)?.portfolioValue || 0"> </app-holding-card>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="(portfolio$ | async)?.length === 0" class="empty-state">
+      <ion-icon name="briefcase-outline" size="large"></ion-icon>
+      <h3>No Holdings Yet</h3>
+      <p>Start building your portfolio by browsing and purchasing stocks from the Market tab.</p>
+      <ion-button routerLink="/market" fill="solid">
+        <ion-icon name="search" slot="start"></ion-icon>
+        Browse Market
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

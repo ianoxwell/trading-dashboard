@@ -1,0 +1,330 @@
+.summary-card {
+  margin: 0;
+  border-radius: 0.75rem;
+  margin-bottom: 1.5rem;
+  
+  ion-card-title {
+    color: var(--ion-color-primary);
+    font-weight: 600;
+  }
+
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+
+    .summary-item {
+      text-align: center;
+      
+      .summary-label {
+        display: block;
+        font-size: 0.75rem;
+        color: var(--ion-color-medium);
+        margin-bottom: 0.25rem;
+        text-transform: uppercase;
+        letter-spacing: 0.03125rem;
+      }
+
+      .summary-value {
+        display: block;
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--ion-color-dark);
+      }
+      
+      &.total {
+        padding-top: 1rem;
+        margin-top: 0.5rem;
+      }
+
+      .summary-value {
+        font-size: 1.25rem;
+        font-weight: bold;
+
+        &.cash {
+          color: var(--ion-color-success);
+        }
+
+        &.portfolio {
+          color: var(--ion-color-primary);
+        }
+      }
+
+      &.total .summary-value {
+        font-size: 1.5rem;
+        color: var(--ion-color-primary);
+      }
+    }
+  }
+}
+
+.holdings-section {
+  .holdings-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    gap: 1rem;
+
+    h3 {
+      color: var(--ion-color-primary);
+      font-weight: 600;
+      margin: 0;
+      flex-shrink: 0;
+    }
+
+    .sorting-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+      max-width: 24rem;
+
+      .sort-segment {
+        --background: var(--ion-color-light);
+        border-radius: 0.5rem;
+        padding: 0.125rem;
+        min-width: 0;
+
+        ion-segment-button {
+          --color: var(--ion-color-medium);
+          --color-checked: var(--ion-color-primary);
+          --background-checked: var(--ion-background-color, #fff);
+          --border-radius: 0.5rem;
+          --padding-start: 1rem;
+          --padding-end: 1rem;
+          --padding-top: 0.75rem;
+          --padding-bottom: 0.75rem;
+          margin: 0 0.125rem;
+          transition: all 0.3s ease;
+          min-height: 2rem;
+
+          ion-label {
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin: 0;
+          }
+        }
+      }
+
+      .sort-direction-button {
+        --border-radius: 0.5rem;
+        --padding-start: 0.5rem;
+        --padding-end: 0.5rem;
+        height: 2rem;
+        width: 2.5rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        --color: var(--ion-color-primary);
+
+        ion-icon {
+          font-size: 1.25rem;
+        }
+      }
+    }
+  }
+
+  .holding-item {
+    margin-bottom: 1rem;
+
+    ion-card {
+      margin: 0;
+    }
+
+    .card-header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+
+      .stock-info {
+        flex: 1;
+
+        ion-card-title {
+          color: var(--ion-color-primary);
+          margin-bottom: 0.25rem;
+          font-weight: 600;
+        }
+
+        ion-card-subtitle {
+          margin-bottom: 0.5rem;
+        }
+
+        ion-chip {
+          margin: 0;
+        }
+      }
+
+      .new-badge-container {
+        .new-badge {
+          background: var(--ion-color-warning);
+          color: var(--ion-color-warning-contrast);
+          padding: 0.25rem 0.5rem;
+          border-radius: 0.75rem;
+          font-size: 0.625rem;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.03125rem;
+        }
+      }
+    }
+
+    .holding-details {
+      .detail-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.75rem;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+
+        .detail-label {
+          font-size: 0.875rem;
+          color: var(--ion-color-medium);
+        }
+
+        .detail-value {
+          font-weight: 600;
+          color: var(--ion-color-dark);
+
+          &.current-value {
+            color: var(--ion-color-primary);
+            font-size: 1rem;
+          }
+        }
+
+        &.gain-loss {
+          .gain-loss-values {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+
+            .percentage {
+              font-size: 0.8rem;
+              margin-top: 0.125rem;
+            }
+          }
+
+          &.gain {
+            .detail-value,
+            .percentage {
+              color: var(--ion-color-success);
+            }
+          }
+
+          &.loss {
+            .detail-value,
+            .percentage {
+              color: var(--ion-color-danger);
+            }
+          }
+          border-top: 0.0625rem solid var(--ion-color-light-shade);
+          padding-top: 0.75rem;
+          margin-top: 0.75rem;
+        }
+      }
+    }
+  }
+}
+
+// New item animation
+.new-portfolio-item {
+  animation: slideInFromRight 0.6s ease-out;
+  
+  ion-card {
+    border-left: 0.25rem solid var(--ion-color-warning);
+    box-shadow: 0 0.25rem 1rem rgba(var(--ion-color-warning-rgb), 0.2);
+  }
+}
+
+// Empty state
+.empty-state {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  color: var(--ion-color-medium);
+
+  ion-icon {
+    margin-bottom: 1rem;
+    color: var(--ion-color-light-shade);
+  }
+
+  h3 {
+    color: var(--ion-color-medium);
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+  }
+
+  ion-button {
+    --border-radius: 0.75rem;
+    font-weight: 600;
+  }
+}
+
+// Mobile responsive adjustments
+@media (max-width: 768px) {
+  .summary-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+
+    .summary-item.total {
+      grid-column: 1;
+    }
+  }
+
+  .holdings-section .holdings-header {
+    flex-direction: column;
+    gap: 0.75rem;
+
+    h3 {
+      text-align: center;
+    }
+
+    .sorting-controls {
+      justify-content: center;
+      
+      .sort-segment {
+        flex: 1;
+      }
+    }
+  }
+
+  .card-header-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .holding-details .detail-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+
+    .gain-loss-values {
+      align-items: flex-start !important;
+    }
+  }
+}
+
+// Dark mode adjustments
+@media (prefers-color-scheme: dark) {
+  .summary-item .summary-value,
+  .detail-value {
+    color: var(--ion-color-light);
+  }
+}
+
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}

@@ -1,0 +1,229 @@
+// Modal sizing and layout
+:host {
+  --height: auto;
+  --min-height: 25rem;
+  --max-height: 80vh;
+  --width: 100%;
+  --max-width: 31.25rem;
+}
+
+ion-content {
+  --padding-top: 0;
+  --padding-bottom: 0;
+  --height: auto;
+  min-height: 18.75rem;
+}
+
+.modal-wrapper {
+  height: auto !important;
+  min-height: 25rem;
+  max-height: 80vh;
+}
+
+.confirmation-content {
+  padding-bottom: 1.25rem;
+}
+
+.stock-info-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: var(--ion-color-light);
+  border-radius: 0.75rem;
+
+  .stock-header {
+    flex: 1;
+
+    h2 {
+      margin: 0 0 4px 0;
+      color: var(--ion-color-primary);
+      font-weight: bold;
+      font-size: 24px;
+    }
+
+    .stock-name {
+      margin: 0 0 8px 0;
+      color: var(--ion-color-medium);
+      font-size: 14px;
+    }
+
+    ion-chip {
+      margin: 0;
+    }
+  }
+
+  .stock-price {
+    text-align: right;
+
+    .current-price {
+      display: block;
+      font-size: 20px;
+      font-weight: bold;
+      color: var(--ion-color-primary);
+    }
+
+    .price-label {
+      font-size: 12px;
+      color: var(--ion-color-medium);
+    }
+  }
+}
+
+.trade-summary-card,
+.account-impact-card {
+  margin: 0;
+  border-radius: 0.75rem;
+  margin-bottom: 16px;
+  
+  ion-card-title {
+    color: var(--ion-color-primary);
+    font-weight: 600;
+  }
+
+  ion-card-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+
+    .summary-icon {
+      font-size: 20px;
+    }
+  }
+
+  .summary-details,
+  .account-details {
+    .summary-row,
+    .account-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+      margin-bottom: 12px;
+
+      &.divider {
+        border-top: 1px solid var(--ion-color-light-shade);
+        padding-top: 12px;
+        margin-top: 12px;
+      }
+
+      .label {
+        font-size: 0.875rem;
+        color: var(--ion-color-medium);
+
+        &.total,
+        &.remaining {
+          font-weight: 600;
+          color: var(--ion-color-dark);
+        }
+      }
+
+      .value {
+        font-weight: 600;
+        color: var(--ion-color-dark);
+
+        &.highlight {
+          color: var(--ion-color-primary);
+          font-weight: bold;
+        }
+
+        &.total {
+          font-size: 18px;
+          font-weight: bold;
+          color: var(--ion-color-primary);
+        }
+
+        &.cost {
+          color: var(--ion-color-danger);
+        }
+
+        &.remaining {
+          font-weight: bold;
+          color: var(--ion-color-success);
+
+          &.low-balance {
+            color: var(--ion-color-warning);
+          }
+        }
+      }
+    }
+  }
+}
+
+.warning-card {
+  margin-bottom: 16px;
+
+  .warning-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+
+    ion-icon {
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+  }
+}
+
+.button-container {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 12px;
+  padding: 16px;
+
+  .cancel-button {
+    --border-width: 1px;
+    --border-color: var(--ion-color-medium);
+  }
+
+  .confirm-button {
+    --border-radius: 0.75rem;
+    font-weight: 600;
+    --background: var(--ion-color-success);
+  }
+}
+
+//Mobile responsive adjustments
+@media (max-width: 768px) {
+  .stock-info-section {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+
+    .stock-price {
+      text-align: center;
+    }
+  }
+
+  .button-container {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+}
+
+// Dark mode adjustments
+@media (prefers-color-scheme: dark) {
+  .stock-info-section {
+    background: var(--ion-color-dark-tint);
+  }
+
+  .summary-row .label.total,
+  .summary-row .label.remaining,
+  .account-row .label.total,
+  .account-row .label.remaining {
+    color: var(--ion-color-light);
+  }
+
+  .summary-row .value,
+  .account-row .value {
+    color: var(--ion-color-light);
+  }
+}

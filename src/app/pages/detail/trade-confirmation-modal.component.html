@@ -1,0 +1,126 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Confirm Trade</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="cancelTrade()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding" [scrollY]="true" [scrollX]="false">
+  <div class="confirmation-content">
+    
+    <!-- Stock Information -->
+    <div class="stock-info-section">
+      <div class="stock-header">
+        <h2>{{ product.symbol }}</h2>
+        <p class="stock-name">{{ product.name }}</p>
+        <ion-chip color="secondary" size="small">{{ product.category }}</ion-chip>
+      </div>
+      <div class="stock-price">
+        <span class="current-price">{{ getFormattedPrice(product.price) }}</span>
+        <span class="price-label">per share</span>
+      </div>
+    </div>
+
+    <!-- Trade Summary -->
+    <ion-card class="trade-summary-card">
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="receipt-outline" class="summary-icon"></ion-icon>
+          Trade Summary
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="summary-details">
+          <div class="summary-row">
+            <span class="label">Order Type:</span>
+            <span class="value">{{ orderType === 'dollar' ? 'Dollar Amount' : 'Share Quantity' }}</span>
+          </div>
+          
+          <div class="summary-row">
+            <span class="label">Shares to Purchase:</span>
+            <span class="value highlight">{{ getFormattedShares(shares) }} {{ getShareText(shares) }}</span>
+          </div>
+          
+          <div class="summary-row">
+            <span class="label">Price per Share:</span>
+            <span class="value">{{ getFormattedPrice(product.price) }}</span>
+          </div>
+          
+          <div class="summary-row divider">
+            <span class="label total">Total Cost:</span>
+            <span class="value total">{{ getFormattedPrice(totalCost) }}</span>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Account Impact -->
+    <ion-card class="account-impact-card">
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="wallet-outline" class="summary-icon"></ion-icon>
+          Account Impact
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="account-details">
+          <div class="account-row">
+            <span class="label">Current Balance:</span>
+            <span class="value">{{ getFormattedPrice(availableBalance) }}</span>
+          </div>
+          
+          <div class="account-row">
+            <span class="label">Purchase Cost:</span>
+            <span class="value cost">-{{ getFormattedPrice(totalCost) }}</span>
+          </div>
+          
+          <div class="account-row divider">
+            <span class="label remaining">Remaining Balance:</span>
+            <span class="value remaining" [class.low-balance]="getRemainingBalance() < 1000">
+              {{ getFormattedPrice(getRemainingBalance()) }}
+            </span>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Warning for low balance -->
+    <ion-card *ngIf="getRemainingBalance() < 1000" color="warning" class="warning-card">
+      <ion-card-content>
+        <div class="warning-content">
+          <ion-icon name="warning-outline"></ion-icon>
+          <span>Your remaining balance will be below $1,000 after this purchase.</span>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <div class="button-container">
+      <ion-button 
+        fill="outline" 
+        expand="block" 
+        (click)="cancelTrade()"
+        class="cancel-button">
+        Cancel
+      </ion-button>
+      
+      <ion-button 
+        fill="solid" 
+        expand="block" 
+        color="success"
+        (click)="confirmTrade()"
+        class="confirm-button">
+        <ion-icon name="checkmark" slot="start"></ion-icon>
+        Confirm Purchase
+      </ion-button>
+    </div>
+  </ion-toolbar>
+</ion-footer>

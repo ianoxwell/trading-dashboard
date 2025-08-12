@@ -1,0 +1,87 @@
+<ion-content class="ion-padding">
+  <div class="market-header">
+    <h2>Market</h2>
+
+    <!-- Market Summary -->
+    <app-market-summary></app-market-summary>
+
+    <!-- Search and Filter Controls -->
+    <div class="search-filter-container">
+      <ion-searchbar
+        placeholder="Search by name, symbol, or description..."
+        debounce="300"
+        (ionInput)="onSearch($event)"
+        class="market-search"
+      >
+      </ion-searchbar>
+
+      <div class="filter-controls">
+        <ion-select placeholder="All Categories" (ionChange)="onCategoryFilter($event.detail.value)" interface="popover">
+          <ion-select-option value="">All Categories</ion-select-option>
+          <ion-select-option *ngFor="let category of categories" [value]="category">
+            {{ categoryLabels[category] }}
+          </ion-select-option>
+        </ion-select>
+      </div>
+    </div>
+  </div>
+
+  <!-- Results Summary -->
+  <div class="results-summary">
+    <ion-text> Showing {{ (totalProducts$ | async) || 0 }} investment products </ion-text>
+  </div>
+
+  <!-- Product Grid -->
+  <div class="product-grid">
+    <app-product-card
+      *ngFor="let product of paginatedProducts$ | async; trackBy: trackByProduct"
+      [product]="product"
+      (productClick)="onProductClick($event)"
+    >
+    </app-product-card>
+  </div>
+
+  <div class="pagination-row">
+    <!-- Pagination -->
+    <div class="pagination-container" *ngIf="totalPages > 1">
+      <ion-button
+        fill="clear"
+        [disabled]="currentPage === 1"
+        aria-label="Previous page"
+        [attr.aria-hidden]="currentPage === 1"
+        (click)="onPageChange(currentPage - 1)"
+      >
+        <ion-icon name="chevron-back" aria-label="Previous page icon"></ion-icon>
+        Previous
+      </ion-button>
+
+      <div class="page-numbers">
+        <ion-button
+          *ngFor="let page of pageNumbers"
+          [fill]="page === currentPage ? 'solid' : 'clear'"
+          [disabled]="page === -1"
+          (click)="page !== -1 && onPageChange(page)"
+          size="small"
+        >
+          {{ page === -1 ? '...' : page }}
+        </ion-button>
+      </div>
+
+      <ion-button fill="clear" [disabled]="currentPage === totalPages" (click)="onPageChange(currentPage + 1)">
+        Next
+        <ion-icon name="chevron-forward" aria-label="Next page icon"></ion-icon>
+      </ion-button>
+    </div>
+    <ion-select class="pagination-page-size" [value]="pageSize$ | async" (ionChange)="onPageSizeChange($event.detail.value)" interface="popover">
+      <ion-select-option *ngFor="let size of pageSizeOptions" [value]="size"> {{ size }} per page </ion-select-option>
+    </ion-select>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="(paginatedProducts$ | async)?.length === 0" class="empty-state">
+    <ion-text color="medium">
+      <h3>No products found</h3>
+      <p>Try adjusting your search or filter criteria.</p>
+    </ion-text>
+  </div>
+</ion-content>

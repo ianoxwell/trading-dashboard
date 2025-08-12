@@ -1,0 +1,192 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+/* Core CSS required for Ionic components to work properly */
+@import '@ionic/angular/css/core.css';
+
+/* Basic CSS for apps built with Ionic */
+@import '@ionic/angular/css/normalize.css';
+@import '@ionic/angular/css/structure.css';
+@import '@ionic/angular/css/typography.css';
+
+/* Optional CSS utils that can be commented out */
+@import '@ionic/angular/css/padding.css';
+@import '@ionic/angular/css/float-elements.css';
+@import '@ionic/angular/css/text-alignment.css';
+@import '@ionic/angular/css/text-transformation.css';
+@import '@ionic/angular/css/flex-utils.css';
+@import '@ionic/angular/css/display.css';
+
+/**
+ * Ionic Dark Palette
+ * -----------------------------------------------------
+ * For more information, please see:
+ * https://ionicframework.com/docs/theming/dark-mode
+ */
+
+/* @import '@ionic/angular/css/palettes/dark.always.css'; */
+@import './theme/dark.class.scss';
+@import './theme/high-contrast.class.scss';
+/* @import '@ionic/angular/css/palettes/dark.system.css'; */
+/* This is added for the flashing that happens when toggling between themes */
+ion-item {
+  --transition: none;
+}
+
+/* Trade Confirmation Modal Styles */
+.trade-confirmation-modal {
+  --width: 90%;
+  --max-width: 31.25rem;
+  --height: auto;
+  --max-height: 90vh;
+  --border-radius: 1rem;
+  --box-shadow: 0 0.625rem 1.875rem rgba(0, 0, 0, 0.2);
+}
+
+/* Custom Toast Styles */
+.custom-toast {
+  --start: 1rem;
+  --end: 1rem;
+  --border-radius: 0.75rem;
+  --box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.2);
+  --min-height: 3.75rem;
+  --max-width: 25rem;
+  --width: auto;
+
+  /* Center horizontally */
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+
+  /* Position 4.5rem from top */
+  top: 4.5rem !important;
+  bottom: auto !important;
+
+  /* Target the shadow DOM parts */
+  &::part(container) {
+    border-radius: 0.75rem;
+    overflow: hidden;
+    border: 0.125rem solid var(--ion-color-base);
+    background: var(--ion-card-background);
+  }
+
+  &::part(content) {
+    display: flex;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    min-height: 3.75rem;
+  }
+
+  &::part(message) {
+    font-weight: 500;
+    line-height: 1.4;
+    flex: 1;
+    margin-right: 0.75rem;
+    color: var(--ion-color-dark);
+  }
+
+  &::part(button) {
+    color: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 1.25rem;
+    padding: 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1rem;
+    display: flex;
+    justify-content: center;
+    font-weight: 600;
+    min-width: 2rem;
+    height: 2rem;
+    border: none;
+    cursor: pointer;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+  }
+}
+
+/* Color-specific styling */
+.custom-toast.toast-success {
+  &::part(button) {
+    color: rgba(255, 255, 255, 0.9);
+  }
+}
+
+.custom-toast.toast-danger {
+  &::part(button) {
+    color: rgba(255, 255, 255, 0.9);
+  }
+}
+
+.custom-toast.toast-warning {
+  &::part(button) {
+    color: rgba(0, 0, 0, 0.7);
+  }
+}
+
+/* Trade Confirmation Modal */
+.trade-confirmation-modal {
+  --width: 90%;
+  --max-width: 31.25rem;
+  --height: auto;
+  --min-height: 31.25rem;
+  --max-height: 85vh;
+  --border-radius: 0.75rem;
+}
+
+.trade-confirmation-modal .modal-wrapper {
+  height: auto !important;
+  min-height: 31.25rem !important;
+  max-height: 85vh !important;
+}
+
+.trade-confirmation-modal ion-content {
+  --padding-top: 0;
+  --padding-bottom: 0;
+  min-height: 18.75rem !important;
+}
+
+@media (max-width: 768px) {
+  .trade-confirmation-modal {
+    --width: 95%;
+    --max-width: none;
+    --height: auto;
+    --min-height: 28.125rem;
+    --max-height: 90vh;
+  }
+  
+  .trade-confirmation-modal .modal-wrapper {
+    min-height: 28.125rem !important;
+    max-height: 90vh !important;
+  }
+
+  .custom-toast {
+    --start: 0.75rem;
+    --end: 0.75rem;
+    --max-width: calc(100vw - 1.5rem);
+    top: 4rem !important; /* Slightly less spacing on mobile */
+
+    &::part(content) {
+      padding: 0.875rem 1rem;
+    }
+
+    &::part(message) {
+      font-size: 0.875rem;
+      margin-right: 0.5rem;
+    }
+
+    &::part(button) {
+      min-width: 1.75rem;
+      height: 1.75rem;
+      font-size: 0.75rem;
+    }
+  }
+}

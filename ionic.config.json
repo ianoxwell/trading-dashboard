@@ -1,0 +1,11 @@
+{
+  "defaultProject": "stake-dashboard",
+  "projects": {
+    "stake-dashboard": {
+      "name": "stake-dashboard",
+      "integrations": {},
+      "type": "angular",
+      "root": "."
+    }
+  }
+}

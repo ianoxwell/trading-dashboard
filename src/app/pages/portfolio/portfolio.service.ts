@@ -1,0 +1,237 @@
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { EInstrumentCategory } from '@app/models/category.model';
+import { PricingService } from '@core/pricing.service';
+import { TradingService } from '@core/trading.service';
+import { roundToTwo } from '@core/utils/math.utils';
+import { IPortfolio } from '@models/portfolio.model';
+import { ITradeOrder } from '@models/wallet.model';
+import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class PortfolioService {
+  private portfolioSubject = new BehaviorSubject<IPortfolio[] | null>(null);
+  private newItemsSubject = new BehaviorSubject<string[]>([]);
+  
+  // Bounded cache for processed trade IDs to prevent memory leaks
+  // Uses a Set for O(1) lookup and a queue for FIFO cleanup when limit is exceeded
+  private processedTradeIds = new Set<string>();
+  private readonly MAX_PROCESSED_TRADES = 1000; // Maximum trades to keep in memory
+  private tradeIdQueue: string[] = []; // FIFO queue for cleanup
+
+  public portfolio$ = this.portfolioSubject.asObservable();
+  public newItems$ = this.newItemsSubject.asObservable();
+
+  constructor(
+    private http: HttpClient,
+    private tradingService: TradingService,
+    private pricingService: PricingService
+  ) {}
+
+  getPortfolio(): Observable<IPortfolio[]> {
+    return this.portfolio$.pipe(
+      switchMap((portfolio) => {
+        // If data is already loaded, combine it with current trades and live pricing
+        if (portfolio !== null) {
+          return combineLatest([of(portfolio), this.tradingService.tradeHistory$, this.pricingService.prices$]).pipe(
+            map(([portfolioData, trades, prices]) => {
+              const portfolioWithTrades = this.mergePortfolioWithTrades(portfolioData, trades);
+              return this.enrichPortfolioWithPricing(portfolioWithTrades, prices);
+            })
+          );
+        }
+
+        // Load data from JSON file and cache it, then combine with trades and pricing
+        return this.http.get<IPortfolio[]>('assets/data/portfolio.json').pipe(
+          map((portfolioData) => portfolioData.map((item) => ({ ...item, isNew: false }))),
+          switchMap((portfolioData) => {
+            this.portfolioSubject.next(portfolioData);
+            return combineLatest([of(portfolioData), this.tradingService.tradeHistory$, this.pricingService.prices$]);
+          }),
+          map(([portfolioData, trades, prices]) => {
+            const portfolioWithTrades = this.mergePortfolioWithTrades(portfolioData, trades);
+            const result = this.enrichPortfolioWithPricing(portfolioWithTrades, prices);
+            return result;
+          })
+        );
+      })
+    );
+  }
+
+  private enrichPortfolioWithPricing(portfolio: IPortfolio[], prices: Map<string, any>): IPortfolio[] {
+    return portfolio.map((holding) => {
+      const priceData = prices.get(holding.symbol);
+
+      if (!priceData) {
+        // If no price data available, use avgBuyPrice as current price
+        return {
+          ...holding,
+          currentPrice: holding.avgBuyPrice,
+          currentValue: holding.quantity * holding.avgBuyPrice,
+          totalGainLoss: 0,
+          totalGainLossPercent: 0,
+          dailyGainLoss: 0,
+          dailyGainLossPercent: 0,
+          isUp: false
+        };
+      }
+
+      const currentPrice = priceData.price;
+      const currentValue = holding.quantity * currentPrice;
+      const costBasis = holding.quantity * holding.avgBuyPrice;
+
+      // Calculate total gains/losses (since purchase)
+      const totalGainLoss = currentValue - costBasis;
+      const totalGainLossPercent = costBasis > 0 ? (totalGainLoss / costBasis) * 100 : 0;
+
+      // Calculate daily gains/losses (based on opening price)
+      const openingValue = holding.quantity * (priceData.openingPrice || currentPrice);
+      const dailyGainLoss = currentValue - openingValue;
+      const dailyGainLossPercent = openingValue > 0 ? (dailyGainLoss / openingValue) * 100 : 0;
+
+      return {
+        ...holding,
+        currentPrice: roundToTwo(currentPrice),
+        currentValue: roundToTwo(currentValue),
+        totalGainLoss: roundToTwo(totalGainLoss),
+        totalGainLossPercent: roundToTwo(totalGainLossPercent),
+        dailyGainLoss: roundToTwo(dailyGainLoss),
+        dailyGainLossPercent: roundToTwo(dailyGainLossPercent),
+        isUp: dailyGainLoss > 0
+      };
+    });
+  }
+
+  private mergePortfolioWithTrades(portfolio: IPortfolio[], trades: ITradeOrder[]): IPortfolio[] {
+    const completedTrades = trades.filter((trade) => trade.status === 'completed');
+    const newTrades = completedTrades.filter((trade) => !this.processedTradeIds.has(trade.id));
+
+    if (newTrades.length === 0) {
+      return portfolio; // No new trades to process
+    }
+
+    const updatedPortfolio = structuredClone(portfolio);
+
+    newTrades.forEach((trade) => {
+      // Mark this trade as processed with bounded cache cleanup
+      this.addProcessedTradeId(trade.id);
+
+      // Check if this symbol already exists in portfolio
+      const existingIndex = updatedPortfolio.findIndex((item: IPortfolio) => item.symbol === trade.symbol);
+
+      if (existingIndex >= 0) {
+        // Update existing holding
+        const existing = updatedPortfolio[existingIndex];
+        const newQuantity = existing.quantity + trade.quantity!;
+        const newTotalValue = existing.quantity * existing.avgBuyPrice + trade.quantity! * trade.price;
+        const newAveragePrice = newTotalValue / newQuantity;
+
+        updatedPortfolio[existingIndex] = {
+          ...existing,
+          quantity: newQuantity,
+          avgBuyPrice: newAveragePrice,
+          isNew: true
+        };
+
+        this.addToNewItems(trade.symbol);
+      } else {
+        // Add new holding
+        const newHolding: IPortfolio = {
+          id: `new_${trade.id}`,
+          symbol: trade.symbol,
+          name: trade.productName,
+          category: EInstrumentCategory.EQUITY,
+          quantity: trade.quantity!,
+          avgBuyPrice: trade.price,
+          isNew: true
+        };
+
+        updatedPortfolio.unshift(newHolding); // Add to beginning for prominence
+        this.addToNewItems(trade.symbol);
+      }
+    });
+
+    // Update the cached portfolio data
+    this.portfolioSubject.next(updatedPortfolio);
+
+    return updatedPortfolio;
+  }
+
+  // Simple method to add items to new items list - component will handle timers
+  addToNewItems(symbol: string): void {
+    const currentNewItems = this.newItemsSubject.value;
+    if (!currentNewItems.includes(symbol)) {
+      this.newItemsSubject.next([...currentNewItems, symbol]);
+    }
+  }
+
+  // Method to remove new item status - called by component
+  removeNewItemStatus(symbol: string): void {
+    const portfolio = this.portfolioSubject.value;
+    if (portfolio) {
+      const updated = portfolio.map((item) => (item.symbol === symbol ? { ...item, isNew: false } : item));
+      this.portfolioSubject.next(updated);
+    }
+
+    const newItems = this.newItemsSubject.value;
+    this.newItemsSubject.next(newItems.filter((item) => item !== symbol));
+  }
+
+  // Clear all new item statuses - called when component is destroyed or refreshed
+  clearAllNewItemStatuses(): void {
+    const portfolio = this.portfolioSubject.value;
+    if (portfolio) {
+      const updated = portfolio.map((item) => ({ ...item, isNew: false }));
+      this.portfolioSubject.next(updated);
+    }
+    this.newItemsSubject.next([]);
+  }
+
+  getTotalPortfolioValue(): Observable<number> {
+    return this.getPortfolio().pipe(
+      map((portfolio) => {
+        if (!portfolio || portfolio.length === 0) return 0;
+        return portfolio.reduce((total, item) => total + (item.currentValue || 0), 0);
+      })
+    );
+  }
+
+  getCombinedValue(): Observable<{ portfolioValue: number; walletBalance: number; totalValue: number }> {
+    return combineLatest([this.getTotalPortfolioValue(), this.tradingService.wallet$]).pipe(
+      map(([portfolioValue, wallet]) => ({
+        portfolioValue,
+        walletBalance: wallet.balance,
+        totalValue: portfolioValue + wallet.balance
+      }))
+    );
+  }
+
+  /**
+   * Add a trade ID to the processed set with bounded cache cleanup
+   * Prevents memory leaks by maintaining a maximum number of processed trade IDs
+   */
+  private addProcessedTradeId(tradeId: string): void {
+    // Add to the set and queue
+    this.processedTradeIds.add(tradeId);
+    this.tradeIdQueue.push(tradeId);
+
+    // If we exceed the maximum, remove the oldest entries
+    if (this.tradeIdQueue.length > this.MAX_PROCESSED_TRADES) {
+      const oldestTradeId = this.tradeIdQueue.shift();
+      if (oldestTradeId) {
+        this.processedTradeIds.delete(oldestTradeId);
+      }
+    }
+  }
+
+  /**
+   * Clear the processed trade IDs cache (useful for testing or manual cleanup)
+   */
+  clearProcessedTradeIds(): void {
+    this.processedTradeIds.clear();
+    this.tradeIdQueue = [];
+  }
+}
