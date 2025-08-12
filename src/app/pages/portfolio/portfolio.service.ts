@@ -7,7 +7,7 @@ import { roundToTwo } from '@core/utils/math.utils';
 import { IPortfolio } from '@models/portfolio.model';
 import { ITradeOrder } from '@models/wallet.model';
 import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
-import { map, switchMap, take } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,12 @@ import { map, switchMap, take } from 'rxjs/operators';
 export class PortfolioService {
   private portfolioSubject = new BehaviorSubject<IPortfolio[] | null>(null);
   private newItemsSubject = new BehaviorSubject<string[]>([]);
-  private processedTradeIds = new Set<string>(); // Track processed trades
+  
+  // Bounded cache for processed trade IDs to prevent memory leaks
+  // Uses a Set for O(1) lookup and a queue for FIFO cleanup when limit is exceeded
+  private processedTradeIds = new Set<string>();
+  private readonly MAX_PROCESSED_TRADES = 1000; // Maximum trades to keep in memory
+  private tradeIdQueue: string[] = []; // FIFO queue for cleanup
 
   public portfolio$ = this.portfolioSubject.asObservable();
   public newItems$ = this.newItemsSubject.asObservable();
@@ -111,8 +116,8 @@ export class PortfolioService {
     const updatedPortfolio = structuredClone(portfolio);
 
     newTrades.forEach((trade) => {
-      // Mark this trade as processed
-      this.processedTradeIds.add(trade.id);
+      // Mark this trade as processed with bounded cache cleanup
+      this.addProcessedTradeId(trade.id);
 
       // Check if this symbol already exists in portfolio
       const existingIndex = updatedPortfolio.findIndex((item: IPortfolio) => item.symbol === trade.symbol);
@@ -202,5 +207,31 @@ export class PortfolioService {
         totalValue: portfolioValue + wallet.balance
       }))
     );
+  }
+
+  /**
+   * Add a trade ID to the processed set with bounded cache cleanup
+   * Prevents memory leaks by maintaining a maximum number of processed trade IDs
+   */
+  private addProcessedTradeId(tradeId: string): void {
+    // Add to the set and queue
+    this.processedTradeIds.add(tradeId);
+    this.tradeIdQueue.push(tradeId);
+
+    // If we exceed the maximum, remove the oldest entries
+    if (this.tradeIdQueue.length > this.MAX_PROCESSED_TRADES) {
+      const oldestTradeId = this.tradeIdQueue.shift();
+      if (oldestTradeId) {
+        this.processedTradeIds.delete(oldestTradeId);
+      }
+    }
+  }
+
+  /**
+   * Clear the processed trade IDs cache (useful for testing or manual cleanup)
+   */
+  clearProcessedTradeIds(): void {
+    this.processedTradeIds.clear();
+    this.tradeIdQueue = [];
   }
 }
