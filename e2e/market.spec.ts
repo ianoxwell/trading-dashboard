@@ -30,9 +30,25 @@ test.describe('Market Page', () => {
     if (cardCount > 0) {
       // Check that product cards have required elements
       await expect(productCards.first()).toBeVisible();
-      await expect(productCards.first().locator('.product-title')).toBeVisible();
+      
+      // ✅ README Requirement: Name
       await expect(productCards.first().locator('ion-card-subtitle')).toBeVisible();
+      const nameText = await productCards.first().locator('ion-card-subtitle').textContent();
+      expect(nameText).toBeTruthy();
+      expect(nameText?.trim().length).toBeGreaterThan(0);
+      
+      // ✅ README Requirement: Symbol  
+      await expect(productCards.first().locator('.product-title')).toBeVisible();
+      const symbolText = await productCards.first().locator('.product-title').textContent();
+      expect(symbolText).toBeTruthy();
+      expect(symbolText?.trim().length).toBeGreaterThan(0);
+      // Verify symbol format (typically 3-5 uppercase letters)
+      expect(symbolText?.trim()).toMatch(/^[A-Z]{2,5}$/);
+      
+      // ✅ README Requirement: Price
       await expect(productCards.first().locator('.price h3')).toBeVisible();
+      const priceText = await productCards.first().locator('.price h3').textContent();
+      expect(priceText).toMatch(/^\$[\d,]+\.?\d{0,2}$/); // Should be in format $X.XX
     }
   });
 

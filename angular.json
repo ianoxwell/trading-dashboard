@@ -92,6 +92,20 @@
               ],
               "outputHashing": "all"
             },
+            "test": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.test.ts"
+                }
+              ]
+            },
             "development": {
               "buildOptimizer": false,
               "optimization": false,
@@ -108,6 +122,9 @@
           "configurations": {
             "production": {
               "browserTarget": "stake-dashboard:build:production"
+            },
+            "test": {
+              "browserTarget": "stake-dashboard:build:test"
             },
             "development": {
               "browserTarget": "stake-dashboard:build:development"

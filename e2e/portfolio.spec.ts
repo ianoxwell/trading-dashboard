@@ -33,9 +33,54 @@ test.describe('Portfolio Page', () => {
     if (cardCount > 0) {
       await expect(holdingCards.first()).toBeVisible();
       
-      // Check that holding cards have required elements
+      // ✅ README Requirement: Investment symbol
       await expect(holdingCards.first().locator('.stock-info__symbol')).toBeVisible();
+      const symbolText = await holdingCards.first().locator('.stock-info__symbol').textContent();
+      expect(symbolText).toBeTruthy();
+      expect(symbolText?.trim().length).toBeGreaterThan(0);
+      
+      // ✅ README Requirement: Investment amount (current price)
       await expect(holdingCards.first().locator('.current-price').first()).toBeVisible();
+      const priceText = await holdingCards.first().locator('.current-price').first().textContent();
+      expect(priceText).toMatch(/^\$[\d,]+\.?\d{0,2}$/); // Should be in format $X.XX
+      
+      // ✅ README Requirement: Percentage of total portfolio
+      await expect(holdingCards.first().locator('.percentage-value')).toBeVisible();
+      const percentageText = await holdingCards.first().locator('.percentage-value').textContent();
+      expect(percentageText).toMatch(/^\d+\.?\d{0,1}%$/); // Should be in format X.X%
+    }
+  });
+
+  test('should display portfolio investment amounts and percentages correctly', async ({ page }) => {
+    // ✅ README Requirement: Verify investment amounts and portfolio percentages
+    const holdingCards = page.locator('app-holding-card');
+    const cardCount = await holdingCards.count();
+    
+    if (cardCount > 0) {
+      // Check that each holding shows current value (investment amount)
+      for (let i = 0; i < Math.min(cardCount, 3); i++) {
+        const card = holdingCards.nth(i);
+        
+        // Investment amount should be visible
+        const currentValueElement = card.locator('.current-value, .detail-value').filter({ hasText: /^\$/ });
+        if (await currentValueElement.count() > 0) {
+          await expect(currentValueElement.first()).toBeVisible();
+          const valueText = await currentValueElement.first().textContent();
+          expect(valueText).toMatch(/^\$[\d,]+\.?\d{0,2}$/);
+        }
+        
+        // Portfolio percentage should be visible and valid
+        const percentageElement = card.locator('.percentage-value');
+        if (await percentageElement.isVisible()) {
+          const percentText = await percentageElement.textContent();
+          expect(percentText).toMatch(/^\d+\.?\d{0,1}%$/);
+          
+          // Percentage should be between 0-100%
+          const numericPercent = parseFloat(percentText?.replace('%', '') || '0');
+          expect(numericPercent).toBeGreaterThanOrEqual(0);
+          expect(numericPercent).toBeLessThanOrEqual(100);
+        }
+      }
     }
   });
 

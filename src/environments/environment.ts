@@ -3,7 +3,11 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  tradeProcessingTime: {
+    min: 2000, // 2 seconds minimum for development
+    max: 4000  // 4 seconds maximum for development
+  }
 };
 
 /*
