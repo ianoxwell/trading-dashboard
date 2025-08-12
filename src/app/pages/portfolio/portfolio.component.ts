@@ -78,7 +78,7 @@ export class PortfolioComponent extends ComponentBase implements OnInit, OnDestr
     const newTimers = newItems
       .filter((symbol) => !!symbol)
       .map((symbol) => {
-        const timer$ = timer(environment.newItemTimerDuration) // 60 seconds
+        const timer$ = timer(environment.newItemTimerDuration)
           .pipe(
             tap(() => {
               this.portfolioService.removeNewItemStatus(symbol);
