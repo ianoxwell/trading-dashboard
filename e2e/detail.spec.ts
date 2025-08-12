@@ -62,8 +62,8 @@ test.describe('Stock Detail Page', () => {
     // Check for order type segment
     await expect(page.locator('.order-type-tabs ion-segment')).toBeVisible();
     
-    // Check for input fields
-    await expect(page.locator('ion-input')).toBeVisible();
+    // Check for input fields using specific ID
+    await expect(page.locator('#dollarAmountInput')).toBeVisible();
     
     // Check for buy button
     await expect(page.locator('.buy-button')).toBeVisible();
@@ -106,9 +106,9 @@ test.describe('Stock Detail Page', () => {
   });
 
   test('should show estimated calculations', async ({ page }) => {
-    // Enter a dollar amount to trigger calculations
+    // Enter a dollar amount to trigger calculations using specific ID
     await page.click('ion-segment-button[value="dollar"]');
-    await page.fill('ion-input[label*="Investment Amount"] input', '100');
+    await page.fill('#dollarAmountInput input', '100');
     
     // Check for calculation display
     await expect(page.locator('.calculation-display')).toBeVisible();
@@ -120,25 +120,31 @@ test.describe('Stock Detail Page', () => {
     // Get current stock symbol for later verification
     const stockSymbol = await page.locator('.stock-symbol').textContent();
     
-    // Enter investment amount
+    // Enter investment amount using specific ID
     await page.click('ion-segment-button[value="dollar"]');
-    await page.fill('ion-input[label*="Investment Amount"] input', '100');
+    await page.fill('#dollarAmountInput input', '100');
     
     // Wait for calculations to update
     await page.waitForTimeout(500);
     
-    // Verify buy button is enabled
-    const buyButton = page.locator('.buy-button');
+    // Verify buy button is enabled using specific ID
+    const buyButton = page.locator('#buyButton');
     await expect(buyButton).toBeVisible();
     await expect(buyButton).not.toBeDisabled();
     
     // Click buy button
     await buyButton.click();
     
-    // Handle potential confirmation modal if it exists
-    const confirmButton = page.locator('ion-button:has-text("Confirm"), ion-button:has-text("Buy")');
-    if (await confirmButton.isVisible()) {
-      await confirmButton.click();
+    // Wait for any modal to appear and handle it
+    await page.waitForTimeout(500);
+    
+    // Check if there's a confirmation modal and click the confirm button inside it
+    const modal = page.locator('ion-modal');
+    if (await modal.isVisible()) {
+      const modalConfirmButton = modal.locator('ion-button:has-text("Confirm Purchase"), ion-button:has-text("Confirm")');
+      if (await modalConfirmButton.isVisible()) {
+        await modalConfirmButton.click();
+      }
     }
     
     // Wait for transaction to process

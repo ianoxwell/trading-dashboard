@@ -47,7 +47,7 @@ test.describe('Portfolio Page', () => {
       // ✅ README Requirement: Percentage of total portfolio
       await expect(holdingCards.first().locator('.percentage-value')).toBeVisible();
       const percentageText = await holdingCards.first().locator('.percentage-value').textContent();
-      expect(percentageText).toMatch(/^\d+\.?\d{0,1}%$/); // Should be in format X.X%
+      expect(percentageText?.trim()).toMatch(/^\d+\.?\d{0,1}%$/); // Should be in format X.X%
     }
   });
 
@@ -73,7 +73,7 @@ test.describe('Portfolio Page', () => {
         const percentageElement = card.locator('.percentage-value');
         if (await percentageElement.isVisible()) {
           const percentText = await percentageElement.textContent();
-          expect(percentText).toMatch(/^\d+\.?\d{0,1}%$/);
+          expect(percentText?.trim()).toMatch(/^\d+\.?\d{0,1}%$/);
           
           // Percentage should be between 0-100%
           const numericPercent = parseFloat(percentText?.replace('%', '') || '0');

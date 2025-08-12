@@ -17,8 +17,8 @@ test.describe('Market Page', () => {
     // Check for market summary component
     await expect(page.locator('app-market-summary')).toBeVisible();
 
-    // Check for search bar
-    await expect(page.locator('ion-searchbar')).toBeVisible();
+    // Check for search bar with unique ID
+    await expect(page.locator('#marketSearchBar')).toBeVisible();
   });
 
   test('should display product cards', async ({ page }) => {
@@ -61,8 +61,8 @@ test.describe('Market Page', () => {
     if (cardCount > 0) {
       const searchTerm = 'Apple';
       
-      // Perform search
-      const searchBar = page.locator('ion-searchbar');
+      // Perform search using specific ID
+      const searchBar = page.locator('#marketSearchBar');
       await searchBar.click();
       await searchBar.locator('input').fill(searchTerm);
       
@@ -79,8 +79,8 @@ test.describe('Market Page', () => {
   });
 
   test('should filter products by category', async ({ page }) => {
-    // Check if category filter is available (first ion-select is for categories)
-    const categoryFilter = page.locator('ion-select').first();
+    // Check if category filter is available using specific ID
+    const categoryFilter = page.locator('#categoryFilterSelect');
     
     if (await categoryFilter.isVisible()) {
       // Click to open category filter

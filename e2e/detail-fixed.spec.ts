@@ -51,8 +51,8 @@ test.describe('Stock Detail Page', () => {
     // Check that current price is displayed in the price section
     await expect(page.locator('.stock-price .current-price')).toBeVisible();
     
-    // Check for category chip
-    await expect(page.locator('ion-chip')).toBeVisible();
+    // Check for category chip with specific ID
+    await expect(page.locator('#productCategoryDetail')).toBeVisible();
   });
 
   test('should display trading form', async ({ page }) => {
@@ -62,11 +62,11 @@ test.describe('Stock Detail Page', () => {
     // Check for order type segment
     await expect(page.locator('.order-type-tabs ion-segment')).toBeVisible();
     
-    // Check for input fields
-    await expect(page.locator('ion-input')).toBeVisible();
+    // Check for input fields using specific ID
+    await expect(page.locator('#dollarAmountInput')).toBeVisible();
     
-    // Check for buy button
-    await expect(page.locator('.buy-button')).toBeVisible();
+    // Check for buy button using specific ID
+    await expect(page.locator('#buyButton')).toBeVisible();
   });
 
   test('should handle order type switching', async ({ page }) => {
@@ -112,9 +112,9 @@ test.describe('Stock Detail Page', () => {
   });
 
   test('should show estimated calculations', async ({ page }) => {
-    // Enter a dollar amount to trigger calculations
+    // Enter a dollar amount to trigger calculations using specific ID
     await page.click('ion-segment-button[value="dollar"]');
-    await page.fill('ion-input[label*="Investment Amount"] input', '100');
+    await page.fill('#dollarAmountInput input', '100');
     
     // Check for calculation display
     await expect(page.locator('.calculation-display')).toBeVisible();
