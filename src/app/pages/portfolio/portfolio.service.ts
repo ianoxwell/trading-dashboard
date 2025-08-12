@@ -26,7 +26,6 @@ export class PortfolioService {
 
   getPortfolio(): Observable<IPortfolio[]> {
     return this.portfolio$.pipe(
-      take(1), // Only take current state to avoid infinite streams
       switchMap((portfolio) => {
         // If data is already loaded, combine it with current trades and live pricing
         if (portfolio !== null) {
@@ -155,6 +154,9 @@ export class PortfolioService {
         this.addToNewItems(trade.symbol);
       }
     });
+
+    // Update the cached portfolio data
+    this.portfolioSubject.next(updatedPortfolio);
 
     return updatedPortfolio;
   }

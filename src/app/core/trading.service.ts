@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ToastController } from '@ionic/angular';
 import { BehaviorSubject, firstValueFrom } from 'rxjs';
+import { environment } from '@env/environment';
 import { IPendingTrade, ITradeOrder, IWallet } from '../models/wallet.model';
 
 @Injectable({
@@ -79,8 +80,9 @@ export class TradingService {
         balance: currentWallet.balance - totalValue
       });
 
-      // Simulate processing time (4-8 seconds)
-      const processingTime = Math.random() * 4000 + 4000; // 4-8 seconds
+      // Simulate processing time based on environment configuration
+      const { min, max } = environment.tradeProcessingTime;
+      const processingTime = Math.random() * (max - min) + min;
 
       pendingTrade.timeoutId = setTimeout(async () => {
         await this.completeTrade(pendingTrade);
@@ -120,7 +122,8 @@ export class TradingService {
       };
 
       const currentHistory = await firstValueFrom(this.tradeHistory$);
-      this.tradeHistorySubject.next([tradeOrder, ...currentHistory]);
+      const newHistory = [tradeOrder, ...currentHistory];
+      this.tradeHistorySubject.next(newHistory);
 
       await this.showToast(
         `Purchase of ${pendingTrade.quantity} share${pendingTrade.quantity === 1 ? '' : 's'} of ${pendingTrade.symbol} completed!`,
