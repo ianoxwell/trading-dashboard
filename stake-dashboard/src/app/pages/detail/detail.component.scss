@@ -10,25 +10,25 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 24px;
-  padding: 20px;
+  margin-bottom: 1.5rem;
+  padding: 1.25rem;
   background: var(--ion-color-light);
-  border-radius: 12px;
-  border: 1px solid var(--ion-color-light-shade);
+  border-radius: 0.75rem;
+  border: 0.0625rem solid var(--ion-color-light-shade);
 
   .stock-info {
     flex: 1;
 
     .stock-symbol {
-      font-size: 32px;
+      font-size: 2rem;
       font-weight: bold;
-      margin: 0 0 8px 0;
+      margin: 0 0 0.5rem 0;
       color: var(--ion-color-primary);
     }
 
     .stock-name {
-      font-size: 18px;
-      margin: 0 0 12px 0;
+      font-size: 1.125rem;
+      margin: 0 0 0.75rem 0;
       color: var(--ion-color-dark);
       font-weight: 500;
     }
@@ -43,14 +43,14 @@
 
     .current-price {
       display: block;
-      font-size: 28px;
+      font-size: 1.75rem;
       font-weight: bold;
       color: var(--ion-color-dark);
-      margin-bottom: 4px;
+      margin-bottom: 0.25rem;
     }
 
     .price-change {
-      font-size: 14px;
+      font-size: 0.875rem;
       font-weight: 600;
 
       &.positive {
@@ -78,21 +78,21 @@
 .metrics-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
+  gap: 1rem;
 
   .metric-item {
     .metric-label {
       display: block;
-      font-size: 12px;
+      font-size: 0.75rem;
       color: var(--ion-color-medium);
-      margin-bottom: 4px;
+      margin-bottom: 0.25rem;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.03125rem;
     }
 
     .metric-value {
       display: block;
-      font-size: 16px;
+      font-size: 1rem;
       font-weight: 600;
       color: var(--ion-color-dark);
     }
@@ -103,16 +103,16 @@
   .wallet-balance {
     display: flex;
     align-items: baseline;
-    gap: 8px;
+    gap: 0.5rem;
 
     .balance-amount {
-      font-size: 24px;
+      font-size: 1.5rem;
       font-weight: bold;
       color: var(--ion-color-success);
     }
 
     .balance-currency {
-      font-size: 14px;
+      font-size: 0.875rem;
       color: var(--ion-color-medium);
     }
   }
@@ -124,50 +124,50 @@
 
     .tab-segment {
       --background: var(--ion-color-light);
-      border-radius: 12px;
-      padding: 4px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 0.75rem;
+      padding: 0.25rem;
+      box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.1);
 
       .tab-button {
         --color: var(--ion-color-medium);
         --color-checked: var(--ion-color-primary);
         --background-checked: var(--ion-background-color, #fff);
-        --border-radius: 8px;
-        --padding-start: 16px;
-        --padding-end: 16px;
-        --padding-top: 12px;
-        --padding-bottom: 12px;
-        margin: 0 2px;
+        --border-radius: 0.5rem;
+        --padding-start: 1rem;
+        --padding-end: 1rem;
+        --padding-top: 0.75rem;
+        --padding-bottom: 0.75rem;
+        margin: 0 0.125rem;
         transition: all 0.3s ease;
 
         ion-icon {
-          margin: 0 0 4px;
-          font-size: 20px;
+          margin: 0 0 0.25rem;
+          font-size: 1.25rem;
         }
 
         ion-label {
-          font-size: 12px;
+          font-size: 0.75rem;
           font-weight: 500;
           text-transform: uppercase;
-          letter-spacing: 0.5px;
+          letter-spacing: 0.03125rem;
           margin: 0;
         }
 
         &.segment-button-checked {
-          box-shadow: 0 2px 8px rgba(var(--ion-color-primary-rgb), 0.3);
-          transform: translateY(-1px);
+          box-shadow: 0 0.125rem 0.5rem rgba(var(--ion-color-primary-rgb), 0.3);
+          transform: translateY(-0.0625rem);
         }
       }
     }
   }
 
   .tab-content {
-    min-height: 180px;
+    min-height: 11.25rem;
     position: relative;
   }
 
   .input-section {
-    margin-bottom: 24px;
+    margin-bottom: 1.5rem;
 
     &.fade-in {
       animation: fadeIn 0.3s ease-out;
@@ -175,34 +175,34 @@
 
     .input-item {
       --background: var(--ion-color-light);
-      --border-radius: 12px;
-      margin-bottom: 16px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      --border-radius: 0.75rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.05);
 
       ion-input {
-        --padding-start: 16px;
-        --padding-end: 16px;
-        font-size: 16px;
+        --padding-start: 1rem;
+        --padding-end: 1rem;
+        font-size: 1rem;
       }
     }
 
     .calculation-display {
       background: linear-gradient(135deg, var(--ion-color-light), var(--ion-color-light-tint));
-      padding: 16px;
-      border-radius: 12px;
-      border-left: 4px solid var(--ion-color-primary);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      padding: 1rem;
+      border-radius: 0.75rem;
+      border-left: 0.25rem solid var(--ion-color-primary);
+      box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.05);
 
       .calculation-text {
         margin: 0;
-        font-size: 14px;
+        font-size: 0.875rem;
         color: var(--ion-color-dark);
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 0.5rem;
 
         ion-icon {
-          font-size: 16px;
+          font-size: 1rem;
           --color: var(--ion-color-primary);
         }
       }
@@ -211,15 +211,15 @@
 
   .order-summary {
     background: var(--ion-color-light);
-    padding: 16px;
-    border-radius: 8px;
-    margin-bottom: 24px;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1.5rem;
 
     .summary-row {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 8px;
-      font-size: 14px;
+      margin-bottom: 0.5rem;
+      font-size: 0.875rem;
 
       &:last-child {
         margin-bottom: 0;
@@ -227,30 +227,30 @@
 
       &.total {
         font-weight: bold;
-        font-size: 16px;
-        border-top: 1px solid var(--ion-color-medium-tint);
-        padding-top: 8px;
-        margin-top: 8px;
+        font-size: 1rem;
+        border-top: 0.0625rem solid var(--ion-color-medium-tint);
+        padding-top: 0.5rem;
+        margin-top: 0.5rem;
         color: var(--ion-color-primary);
       }
     }
   }
 
   .buy-button {
-    --border-radius: 12px;
+    --border-radius: 0.75rem;
     font-weight: 600;
-    margin-bottom: 16px;
+    margin-bottom: 1rem;
   }
 
   .insufficient-funds-message {
     text-align: center;
-    padding: 12px;
+    padding: 0.75rem;
     background: var(--ion-color-danger-tint);
-    border-radius: 8px;
+    border-radius: 0.5rem;
 
     p {
       margin: 0;
-      font-size: 14px;
+      font-size: 0.875rem;
     }
   }
 }
@@ -260,15 +260,15 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 200px;
+  height: 12.5rem;
 
   ion-spinner {
-    margin-bottom: 16px;
+    margin-bottom: 1rem;
   }
 
   p {
     color: var(--ion-color-medium);
-    font-size: 14px;
+    font-size: 0.875rem;
   }
 }
 
@@ -276,7 +276,7 @@
 @media (max-width: 768px) {
   .stock-header {
     flex-direction: column;
-    gap: 16px;
+    gap: 1rem;
 
     .stock-price {
       text-align: left;
@@ -285,7 +285,7 @@
 
   .metrics-grid {
     grid-template-columns: 1fr;
-    gap: 12px;
+    gap: 0.75rem;
   }
 
   .detail-container {
@@ -333,7 +333,7 @@
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(0.625rem);
   }
   to {
     opacity: 1;
@@ -347,11 +347,11 @@
   .new-badge {
     background: var(--ion-color-warning);
     color: var(--ion-color-warning-contrast);
-    padding: 2px 8px;
-    border-radius: 12px;
-    font-size: 10px;
+    padding: 0.125rem 0.5rem;
+    border-radius: 0.75rem;
+    font-size: 0.625rem;
     font-weight: bold;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.03125rem;
   }
 }

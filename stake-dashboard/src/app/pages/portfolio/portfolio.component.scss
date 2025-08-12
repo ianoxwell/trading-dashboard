@@ -1,5 +1,5 @@
 .summary-card {
-  margin-bottom: 24px;
+  margin-bottom: 1.5rem;
   
   ion-card-title {
     color: var(--ion-color-primary);
@@ -9,30 +9,30 @@
   .summary-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
+    gap: 1rem;
 
     .summary-item {
       text-align: center;
       
       &.total {
         grid-column: 1 / -1;
-        border-top: 1px solid var(--ion-color-light-shade);
-        padding-top: 16px;
-        margin-top: 8px;
+        border-top: 0.0625rem solid var(--ion-color-light-shade);
+        padding-top: 1rem;
+        margin-top: 0.5rem;
       }
 
       .summary-label {
         display: block;
-        font-size: 12px;
+        font-size: 0.75rem;
         color: var(--ion-color-medium);
-        margin-bottom: 8px;
+        margin-bottom: 0.5rem;
         text-transform: uppercase;
-        letter-spacing: 0.5px;
+        letter-spacing: 0.03125rem;
       }
 
       .summary-value {
         display: block;
-        font-size: 20px;
+        font-size: 1.25rem;
         font-weight: bold;
 
         &.cash {
@@ -45,7 +45,7 @@
       }
 
       &.total .summary-value {
-        font-size: 24px;
+        font-size: 1.5rem;
         color: var(--ion-color-primary);
       }
     }
@@ -56,11 +56,11 @@
   h3 {
     color: var(--ion-color-primary);
     font-weight: 600;
-    margin-bottom: 16px;
+    margin-bottom: 1rem;
   }
 
   .holding-item {
-    margin-bottom: 16px;
+    margin-bottom: 1rem;
 
     ion-card {
       margin: 0;
@@ -77,11 +77,11 @@
         ion-card-title {
           color: var(--ion-color-primary);
           font-weight: bold;
-          margin-bottom: 4px;
+          margin-bottom: 0.25rem;
         }
 
         ion-card-subtitle {
-          margin-bottom: 8px;
+          margin-bottom: 0.5rem;
         }
 
         ion-chip {
@@ -93,12 +93,12 @@
         .new-badge {
           background: var(--ion-color-warning);
           color: var(--ion-color-warning-contrast);
-          padding: 4px 8px;
-          border-radius: 12px;
-          font-size: 10px;
+          padding: 0.25rem 0.5rem;
+          border-radius: 0.75rem;
+          font-size: 0.625rem;
           font-weight: bold;
           text-transform: uppercase;
-          letter-spacing: 0.5px;
+          letter-spacing: 0.03125rem;
         }
       }
     }
@@ -108,14 +108,14 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 12px;
+        margin-bottom: 0.75rem;
 
         &:last-child {
           margin-bottom: 0;
         }
 
         .detail-label {
-          font-size: 14px;
+          font-size: 0.875rem;
           color: var(--ion-color-medium);
         }
 
@@ -125,14 +125,14 @@
 
           &.current-value {
             color: var(--ion-color-primary);
-            font-size: 16px;
+            font-size: 1rem;
           }
         }
 
         &.gain-loss {
-          border-top: 1px solid var(--ion-color-light-shade);
-          padding-top: 12px;
-          margin-top: 12px;
+          border-top: 0.0625rem solid var(--ion-color-light-shade);
+          padding-top: 0.75rem;
+          margin-top: 0.75rem;
 
           .gain-loss-values {
             display: flex;
@@ -140,11 +140,11 @@
             align-items: flex-end;
 
             .detail-value {
-              margin-bottom: 2px;
+              margin-bottom: 0.125rem;
             }
 
             .percentage {
-              font-size: 12px;
+              font-size: 0.75rem;
               font-weight: 500;
             }
           }
@@ -173,8 +173,8 @@
   animation: slideInFromRight 0.6s ease-out;
   
   ion-card {
-    border-left: 4px solid var(--ion-color-warning);
-    box-shadow: 0 4px 16px rgba(var(--ion-color-warning-rgb), 0.2);
+    border-left: 0.25rem solid var(--ion-color-warning);
+    box-shadow: 0 0.25rem 1rem rgba(var(--ion-color-warning-rgb), 0.2);
   }
 }
 
@@ -192,26 +192,26 @@
 // Empty state
 .empty-state {
   text-align: center;
-  padding: 48px 24px;
+  padding: 3rem 1.5rem;
   color: var(--ion-color-medium);
 
   ion-icon {
-    margin-bottom: 16px;
+    margin-bottom: 1rem;
     color: var(--ion-color-light-shade);
   }
 
   h3 {
     color: var(--ion-color-medium);
-    margin-bottom: 8px;
+    margin-bottom: 0.5rem;
   }
 
   p {
-    margin-bottom: 24px;
+    margin-bottom: 1.5rem;
     line-height: 1.5;
   }
 
   ion-button {
-    --border-radius: 12px;
+    --border-radius: 0.75rem;
   }
 }
 
@@ -219,7 +219,7 @@
 @media (max-width: 768px) {
   .summary-grid {
     grid-template-columns: 1fr;
-    gap: 12px;
+    gap: 0.75rem;
 
     .summary-item.total {
       grid-column: 1;
@@ -229,13 +229,13 @@
   .card-header-content {
     flex-direction: column;
     align-items: flex-start;
-    gap: 8px;
+    gap: 0.5rem;
   }
 
   .holding-details .detail-row {
     flex-direction: column;
     align-items: flex-start;
-    gap: 4px;
+    gap: 0.25rem;
 
     .gain-loss-values {
       align-items: flex-start !important;

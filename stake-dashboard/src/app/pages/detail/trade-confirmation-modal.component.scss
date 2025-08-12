@@ -1,10 +1,10 @@
 // Modal sizing and layout
 :host {
   --height: auto;
-  --min-height: 400px;
+  --min-height: 25rem;
   --max-height: 80vh;
   --width: 100%;
-  --max-width: 500px;
+  --max-width: 31.25rem;
 }
 
 // Ensure ion-content has proper height
@@ -12,28 +12,28 @@ ion-content {
   --padding-top: 0;
   --padding-bottom: 0;
   --height: auto;
-  min-height: 300px;
+  min-height: 18.75rem;
 }
 
 // Ensure the modal doesn't get too small
 .modal-wrapper {
   height: auto !important;
-  min-height: 400px;
+  min-height: 25rem;
   max-height: 80vh;
 }
 
 .confirmation-content {
-  padding-bottom: 20px;
+  padding-bottom: 1.25rem;
 }
 
 .stock-info-section {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
-  padding: 16px;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
   background: var(--ion-color-light);
-  border-radius: 12px;
+  border-radius: 0.75rem;
 
   .stock-header {
     flex: 1;

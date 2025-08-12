@@ -1,6 +1,6 @@
 .header-bar {
-  --padding-start: 16px;
-  --padding-end: 16px;
+  --padding-start: 1rem;
+  --padding-end: 1rem;
   
   .toolbar-content {
     display: flex;
@@ -19,14 +19,14 @@
 
 // Ensure logo, search, and button are spaced properly
 .header-bar img {
-  height: 32px;
+  height: 2rem;
   flex-shrink: 0;
 }
 
 .search-container {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 0.5rem;
   flex-grow: 1;
   justify-content: center;
   color: var(--ion-color-medium);
@@ -39,7 +39,7 @@ ion-button[fill="clear"] {
 // Pending trades indicator styles
 .pending-indicator {
   position: relative;
-  margin-right: 8px;
+  margin-right: 0.5rem;
   
   .pending-icon {
     animation: pulse 2s infinite;
@@ -48,11 +48,11 @@ ion-button[fill="clear"] {
   
   .pending-badge {
     position: absolute;
-    top: -4px;
-    right: -4px;
-    width: 16px;
-    height: 16px;
-    font-size: 10px;
+    top: -0.25rem;
+    right: -0.25rem;
+    width: 1rem;
+    height: 1rem;
+    font-size: 0.625rem;
     border-radius: 50%;
   }
 }
