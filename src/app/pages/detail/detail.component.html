@@ -1,22 +1,19 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-button fill="clear" (click)="goBack()">
-        <ion-icon name="arrow-back"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-title>Stock Details</ion-title>
-    <ion-buttons slot="end">
-      <ion-button fill="clear" (click)="navigateToMarket()">
-        <ion-icon name="close"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
+<ion-toolbar>
+  <ion-buttons slot="start">
+    <ion-button fill="clear" type="button" aria-label="Go back" (click)="goBack()">
+      <ion-icon name="arrow-back" aria-label="Back arrow icon"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+  <ion-title>Stock Details</ion-title>
+  <ion-buttons slot="end">
+    <ion-button fill="clear" aria-label="Go to market" (click)="navigateToMarket()">
+      <ion-icon name="close" aria-label="Close icon"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+</ion-toolbar>
 
 <ion-content class="ion-padding">
   <div *ngIf="product$ | async as product; else loadingTemplate" class="detail-container">
-    
     <!-- Stock Header -->
     <div class="stock-header">
       <div class="stock-info">
@@ -28,7 +25,7 @@
       </div>
       <div class="stock-price">
         <span class="current-price">{{ product.price | formatPrice }}</span>
-        <span class="price-change" [ngClass]="{ 'positive': product.isUp, 'negative': !product.isUp && (product.dailyChange || 0) !== 0 }">
+        <span class="price-change" [ngClass]="{ positive: product.isUp, negative: !product.isUp && (product.dailyChange || 0) !== 0 }">
           {{ (product.dailyChange || 0) >= 0 ? '+' : '' }}{{ product.dailyChange | number: '1.2-2' }}%
         </span>
       </div>
@@ -40,7 +37,14 @@
         <ion-card-title>About {{ product.name }}</ion-card-title>
       </ion-card-header>
       <ion-card-content>
-        <p>{{ product.description || 'A leading investment opportunity in the ' + product.category + ' sector. This security offers exposure to market growth and potential returns for investors seeking diversified portfolio allocation.' }}</p>
+        <p>
+          {{
+            product.description ||
+              'A leading investment opportunity in the ' +
+                product.category +
+                ' sector. This security offers exposure to market growth and potential returns for investors seeking diversified portfolio allocation.'
+          }}
+        </p>
       </ion-card-content>
     </ion-card>
 
@@ -98,16 +102,15 @@
         <ion-card-title>Buy {{ product.symbol }}</ion-card-title>
       </ion-card-header>
       <ion-card-content>
-        
         <!-- Order Type Tabs-style Selection -->
         <div class="order-type-tabs">
           <ion-segment [value]="orderType" (ionChange)="onOrderTypeChange($event)" class="tab-segment">
             <ion-segment-button value="dollar" class="tab-button">
-              <ion-icon name="cash-outline"></ion-icon>
+              <ion-icon name="cash-outline" aria-label="Cash outline icon"></ion-icon>
               <ion-label>Dollar Amount</ion-label>
             </ion-segment-button>
             <ion-segment-button value="quantity" class="tab-button">
-              <ion-icon name="layers-outline"></ion-icon>
+              <ion-icon name="layers-outline" aria-label="Layers outline icon"></ion-icon>
               <ion-label>Share Quantity</ion-label>
             </ion-segment-button>
           </ion-segment>
@@ -117,25 +120,26 @@
         <div class="tab-content">
           <!-- Dollar Amount Input -->
           <div *ngIf="orderType === 'dollar'" class="input-section fade-in">
-           
             <ion-item class="input-item">
-              <ion-input 
-                type="number" 
+              <ion-input
+                type="number"
                 label="Investment Amount ($)"
                 labelPlacement="stacked"
-                [(ngModel)]="dollarAmount" 
+                [(ngModel)]="dollarAmount"
                 (ionInput)="onDollarAmountChange()"
                 min="1"
                 step="0.01"
-                placeholder="Enter dollar amount">
+                placeholder="Enter dollar amount"
+              >
               </ion-input>
             </ion-item>
-            
+
             <div class="calculation-display">
               <ion-text color="medium">
                 <p class="calculation-text">
-                  <ion-icon name="calculator-outline" color="primary"></ion-icon>
-                  You will purchase <strong>{{ estimatedShares | formatShares }}</strong> share{{ estimatedShares === 1 ? '' : 's' }} for total cost: <strong>{{ estimatedCost | formatPrice }}</strong>
+                  <ion-icon name="calculator-outline" aria-label="Calculator icon" color="primary"></ion-icon>
+                  You will purchase <strong>{{ estimatedShares | formatShares }}</strong> share{{ estimatedShares === 1 ? '' : 's' }} for
+                  total cost: <strong>{{ estimatedCost | formatPrice }}</strong>
                 </p>
               </ion-text>
             </div>
@@ -143,25 +147,26 @@
 
           <!-- Quantity Input -->
           <div *ngIf="orderType === 'quantity'" class="input-section fade-in">
-           
             <ion-item class="input-item">
-              <ion-input 
-                type="number" 
+              <ion-input
+                type="number"
                 label="Number of Shares"
                 labelPlacement="stacked"
-                [(ngModel)]="quantity" 
+                [(ngModel)]="quantity"
                 (ionInput)="onQuantityChange()"
                 min="1"
                 step="1"
-                placeholder="Enter number of shares">
+                placeholder="Enter number of shares"
+              >
               </ion-input>
             </ion-item>
-            
+
             <div class="calculation-display">
               <ion-text color="medium">
                 <p class="calculation-text">
-                  <ion-icon name="calculator-outline" color="primary"></ion-icon>
-                  You will purchase <strong>{{ estimatedShares | formatShares }}</strong> share{{ estimatedShares === 1 ? '' : 's' }} for total cost: <strong>{{ estimatedCost | formatPrice }}</strong>
+                  <ion-icon name="calculator-outline" aria-label="Calculator icon" color="primary"></ion-icon>
+                  You will purchase <strong>{{ estimatedShares | formatShares }}</strong> share{{ estimatedShares === 1 ? '' : 's' }} for
+                  total cost: <strong>{{ estimatedCost | formatPrice }}</strong>
                 </p>
               </ion-text>
             </div>
@@ -169,13 +174,14 @@
         </div>
 
         <!-- Buy Button -->
-        <ion-button 
-          expand="block" 
-          [disabled]="!canAffordPurchase || estimatedCost <= 0" 
+        <ion-button
+          expand="block"
+          [disabled]="!canAffordPurchase || estimatedCost <= 0"
           (click)="onBuy()"
           class="buy-button"
-          [color]="canAffordPurchase ? 'success' : 'danger'">
-          <ion-icon name="card" slot="start"></ion-icon>
+          [color]="canAffordPurchase ? 'success' : 'danger'"
+        >
+          <ion-icon name="card" slot="start" aria-label="Card icon"></ion-icon>
           {{ canAffordPurchase ? 'Buy Now' : 'Insufficient Funds' }}
         </ion-button>
 
@@ -184,10 +190,8 @@
             <p>You need {{ insufficientFundsAmount | formatPrice }} more to complete this purchase.</p>
           </ion-text>
         </div>
-
       </ion-card-content>
     </ion-card>
-
   </div>
 
   <ng-template #loadingTemplate>
@@ -196,5 +200,4 @@
       <p>Loading stock details...</p>
     </div>
   </ng-template>
-
 </ion-content>
