@@ -110,7 +110,8 @@ export class PortfolioComponent extends ComponentBase implements OnInit, OnDestr
             this.sortField$.next(field);
             this.sortDirection$.next(field === 'name' ? 'asc' : 'desc');
           }
-        })
+        }),
+        takeUntil(this.ngUnsubscribe)
       )
       .subscribe();
   }
@@ -128,7 +129,8 @@ export class PortfolioComponent extends ComponentBase implements OnInit, OnDestr
         take(1),
         tap((currentDirection) => {
           this.sortDirection$.next(currentDirection === 'asc' ? 'desc' : 'asc');
-        })
+        }),
+        takeUntil(this.ngUnsubscribe)
       )
       .subscribe();
   }
@@ -155,11 +157,11 @@ export class PortfolioComponent extends ComponentBase implements OnInit, OnDestr
     });
   }
 
-  private getTotalPortfolioValue(): number {
-    // This is a simplified approach - in a real app you might want to cache this value
-    let totalValue = 0;
-    this.portfolioValue$.pipe(first()).subscribe((value) => (totalValue = value));
-    return totalValue || 1; // Avoid division by zero
+  private getTotalPortfolioValue(): Observable<number> {
+    // Return the observable directly instead of subscribing
+    return this.portfolioService.getTotalPortfolioValue().pipe(
+      map(value => value || 1) // Avoid division by zero
+    );
   }
 
   calculateCurrentValues(holdings: IPortfolio[]): Observable<IPortfolio[]> {

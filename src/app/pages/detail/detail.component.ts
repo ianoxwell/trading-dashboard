@@ -1,12 +1,12 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ComponentBase } from '@app/core/base.component.base';
-import { filterNullish } from '@app/core/filter-nullish';
-import { TradingService } from '@app/core/trading.service';
-import { IMarketProduct } from '@app/models/market-product.model';
-import { IWallet } from '@app/models/wallet.model';
+import { ComponentBase } from '@core/base.component.base';
+import { filterNullish } from '@core/filter-nullish';
+import { TradingService } from '@core/trading.service';
 import { ModalController } from '@ionic/angular';
+import { IMarketProduct } from '@models/market-product.model';
+import { IWallet } from '@models/wallet.model';
 import { Observable } from 'rxjs';
 import { map, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { MarketService } from '../market/market.service';
@@ -72,7 +72,8 @@ export class DetailComponent extends ComponentBase implements OnInit {
     return this.wallet$.pipe(
       tap((wallet) => {
         this.currentWallet = wallet || null;
-      })
+      }),
+      takeUntil(this.ngUnsubscribe)
     );
   }
 

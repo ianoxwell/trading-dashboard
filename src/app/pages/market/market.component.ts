@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ComponentBase } from '@core/base.component.base';
+import { ALL_CATEGORIES, CATEGORY_LABELS, EInstrumentCategory } from '@models/category.model';
+import { IMarketProduct } from '@models/market-product.model';
 import Fuse from 'fuse.js';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map, tap } from 'rxjs/operators';
-import { ALL_CATEGORIES, CATEGORY_LABELS, EInstrumentCategory } from '../../models/category.model';
-import { IMarketProduct } from '../../models/market-product.model';
+import { debounceTime, distinctUntilChanged, map, takeUntil, tap } from 'rxjs/operators';
 import { MarketService } from './market.service';
 
 @Component({
@@ -12,7 +13,7 @@ import { MarketService } from './market.service';
   templateUrl: './market.component.html',
   styleUrls: ['./market.component.scss']
 })
-export class MarketComponent implements OnInit {
+export class MarketComponent extends ComponentBase implements OnInit {
   allProducts: IMarketProduct[] = [];
   filteredProducts$!: Observable<IMarketProduct[]>;
   paginatedProducts$!: Observable<IMarketProduct[]>;
@@ -42,7 +43,9 @@ export class MarketComponent implements OnInit {
   constructor(
     private marketService: MarketService,
     private router: Router
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnInit() {
     this.loadMarketData().subscribe();
@@ -68,7 +71,8 @@ export class MarketComponent implements OnInit {
         this.allProducts = products;
         this.setupFuse();
         this.applyFilters();
-      })
+      }),
+      takeUntil(this.ngUnsubscribe)
     );
   }
 

@@ -161,44 +161,32 @@ export class PortfolioService {
 
   // Simple method to add items to new items list - component will handle timers
   addToNewItems(symbol: string): void {
-    this.newItems$.pipe(
-      take(1)
-    ).subscribe((currentNewItems) => {
-      if (!currentNewItems.includes(symbol)) {
-        this.newItemsSubject.next([...currentNewItems, symbol]);
-      }
-    });
+    const currentNewItems = this.newItemsSubject.value;
+    if (!currentNewItems.includes(symbol)) {
+      this.newItemsSubject.next([...currentNewItems, symbol]);
+    }
   }
 
   // Method to remove new item status - called by component
   removeNewItemStatus(symbol: string): void {
-    this.portfolio$.pipe(
-      take(1)
-    ).subscribe((portfolio) => {
-      if (portfolio) {
-        const updated = portfolio.map((item) => (item.symbol === symbol ? { ...item, isNew: false } : item));
-        this.portfolioSubject.next(updated);
-      }
-    });
+    const portfolio = this.portfolioSubject.value;
+    if (portfolio) {
+      const updated = portfolio.map((item) => (item.symbol === symbol ? { ...item, isNew: false } : item));
+      this.portfolioSubject.next(updated);
+    }
 
-    this.newItems$.pipe(
-      take(1)
-    ).subscribe((newItems) => {
-      this.newItemsSubject.next(newItems.filter((item) => item !== symbol));
-    });
+    const newItems = this.newItemsSubject.value;
+    this.newItemsSubject.next(newItems.filter((item) => item !== symbol));
   }
 
   // Clear all new item statuses - called when component is destroyed or refreshed
   clearAllNewItemStatuses(): void {
-    this.portfolio$.pipe(
-      take(1)
-    ).subscribe((portfolio) => {
-      if (portfolio) {
-        const updated = portfolio.map((item) => ({ ...item, isNew: false }));
-        this.portfolioSubject.next(updated);
-      }
-      this.newItemsSubject.next([]);
-    });
+    const portfolio = this.portfolioSubject.value;
+    if (portfolio) {
+      const updated = portfolio.map((item) => ({ ...item, isNew: false }));
+      this.portfolioSubject.next(updated);
+    }
+    this.newItemsSubject.next([]);
   }
 
   getTotalPortfolioValue(): Observable<number> {

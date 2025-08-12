@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { IMarketProduct } from '../../models/market-product.model';
+import { IMarketProduct } from '@models/market-product.model';
 
 @Component({
   selector: 'app-trade-confirmation-modal',
