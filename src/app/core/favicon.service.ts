@@ -84,6 +84,7 @@ export class FaviconService {
     this.doc.documentElement.setAttribute('data-theme-source', forced ? 'forced' : 'os');
     this.doc.body.classList.toggle('dark', dark);
     this.doc.documentElement.classList.toggle('ion-palette-dark', dark);
+    this.doc.documentElement.classList.toggle('ion-palette-high-contrast', !dark);
   }
 
   private cleanupStaticTags() {

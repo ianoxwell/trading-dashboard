@@ -296,7 +296,7 @@
 // Dark mode adjustments
 @media (prefers-color-scheme: dark) {
   .stock-header {
-    background: var(--ion-color-dark);
+    background: var(--ion-color-light-tint);
     border-color: var(--ion-color-dark-shade);
 
     .stock-name {
