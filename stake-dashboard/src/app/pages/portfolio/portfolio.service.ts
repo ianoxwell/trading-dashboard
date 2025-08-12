@@ -1,11 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { TradingService } from '@core/trading.service';
 import { PricingService } from '@core/pricing.service';
+import { TradingService } from '@core/trading.service';
 import { IPortfolio } from '@models/portfolio.model';
 import { ITradeOrder } from '@models/wallet.model';
 import { BehaviorSubject, Observable, combineLatest, of } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { map, switchMap, take } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -25,35 +25,40 @@ export class PortfolioService {
   ) {}
 
   getPortfolio(): Observable<IPortfolio[]> {
-    // If data is already loaded, combine it with current trades and live pricing
-    if (this.portfolioSubject.value !== null) {
-      return combineLatest([
-        this.portfolioSubject.asObservable() as Observable<IPortfolio[]>, 
-        this.tradingService.tradeHistory$,
-        this.pricingService.prices$
-      ]).pipe(
-        map(([portfolio, trades, prices]) => {
-          const portfolioWithTrades = this.mergePortfolioWithTrades(portfolio, trades);
-          return this.enrichPortfolioWithPricing(portfolioWithTrades, prices);
-        })
-      );
-    }
-
-    // Load data from JSON file and cache it, then combine with trades and pricing
-    return this.http.get<IPortfolio[]>('assets/data/portfolio.json').pipe(
-      map((portfolio) => portfolio.map((item) => ({ ...item, isNew: false }))),
+    return this.portfolio$.pipe(
+      take(1), // Only take current state to avoid infinite streams
       switchMap((portfolio) => {
-        this.portfolioSubject.next(portfolio);
-        return combineLatest([
-          of(portfolio), 
-          this.tradingService.tradeHistory$,
-          this.pricingService.prices$
-        ]);
-      }),
-      map(([portfolio, trades, prices]) => {
-        const portfolioWithTrades = this.mergePortfolioWithTrades(portfolio, trades);
-        const result = this.enrichPortfolioWithPricing(portfolioWithTrades, prices);
-        return result;
+        // If data is already loaded, combine it with current trades and live pricing
+        if (portfolio !== null) {
+          return combineLatest([
+            of(portfolio),
+            this.tradingService.tradeHistory$,
+            this.pricingService.prices$
+          ]).pipe(
+            map(([portfolioData, trades, prices]) => {
+              const portfolioWithTrades = this.mergePortfolioWithTrades(portfolioData, trades);
+              return this.enrichPortfolioWithPricing(portfolioWithTrades, prices);
+            })
+          );
+        }
+
+        // Load data from JSON file and cache it, then combine with trades and pricing
+        return this.http.get<IPortfolio[]>('assets/data/portfolio.json').pipe(
+          map((portfolioData) => portfolioData.map((item) => ({ ...item, isNew: false }))),
+          switchMap((portfolioData) => {
+            this.portfolioSubject.next(portfolioData);
+            return combineLatest([
+              of(portfolioData), 
+              this.tradingService.tradeHistory$,
+              this.pricingService.prices$
+            ]);
+          }),
+          map(([portfolioData, trades, prices]) => {
+            const portfolioWithTrades = this.mergePortfolioWithTrades(portfolioData, trades);
+            const result = this.enrichPortfolioWithPricing(portfolioWithTrades, prices);
+            return result;
+          })
+        );
       })
     );
   }
@@ -156,33 +161,44 @@ export class PortfolioService {
 
   // Simple method to add items to new items list - component will handle timers
   addToNewItems(symbol: string): void {
-    const currentNewItems = this.newItemsSubject.value;
-    if (!currentNewItems.includes(symbol)) {
-      this.newItemsSubject.next([...currentNewItems, symbol]);
-    }
+    this.newItems$.pipe(
+      take(1)
+    ).subscribe((currentNewItems) => {
+      if (!currentNewItems.includes(symbol)) {
+        this.newItemsSubject.next([...currentNewItems, symbol]);
+      }
+    });
   }
 
   // Method to remove new item status - called by component
   removeNewItemStatus(symbol: string): void {
-    const portfolio = this.portfolioSubject.value;
-    if (portfolio) {
-      const updated = portfolio.map((item) => (item.symbol === symbol ? { ...item, isNew: false } : item));
-      this.portfolioSubject.next(updated);
-    }
+    this.portfolio$.pipe(
+      take(1)
+    ).subscribe((portfolio) => {
+      if (portfolio) {
+        const updated = portfolio.map((item) => (item.symbol === symbol ? { ...item, isNew: false } : item));
+        this.portfolioSubject.next(updated);
+      }
+    });
 
-    // Remove from new items list
-    const newItems = this.newItemsSubject.value;
-    this.newItemsSubject.next(newItems.filter((item) => item !== symbol));
+    this.newItems$.pipe(
+      take(1)
+    ).subscribe((newItems) => {
+      this.newItemsSubject.next(newItems.filter((item) => item !== symbol));
+    });
   }
 
   // Clear all new item statuses - called when component is destroyed or refreshed
   clearAllNewItemStatuses(): void {
-    const portfolio = this.portfolioSubject.value;
-    if (portfolio) {
-      const updated = portfolio.map((item) => ({ ...item, isNew: false }));
-      this.portfolioSubject.next(updated);
-    }
-    this.newItemsSubject.next([]);
+    this.portfolio$.pipe(
+      take(1)
+    ).subscribe((portfolio) => {
+      if (portfolio) {
+        const updated = portfolio.map((item) => ({ ...item, isNew: false }));
+        this.portfolioSubject.next(updated);
+      }
+      this.newItemsSubject.next([]);
+    });
   }
 
   getTotalPortfolioValue(): Observable<number> {

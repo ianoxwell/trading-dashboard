@@ -50,7 +50,7 @@ export class MarketComponent implements OnInit {
     this.setupPagination();
   }
 
-  trackByProduct(index: number, product: IMarketProduct): string {
+  trackByProduct(_: number, product: IMarketProduct): string {
     return product.id;
   }
 
@@ -83,9 +83,10 @@ export class MarketComponent implements OnInit {
   private setupFiltering() {
     this.filteredProducts$ = combineLatest([
       this.searchSubject.pipe(debounceTime(300), distinctUntilChanged()),
-      this.categoryFilterSubject
+      this.categoryFilterSubject,
+      this.pageSizeSubject
     ]).pipe(
-      map(([searchTerm, category]) => {
+      map(([searchTerm, category, pageSize]) => {
         let filtered = this.allProducts;
 
         // Apply search
@@ -100,7 +101,7 @@ export class MarketComponent implements OnInit {
         }
 
         this.totalProducts$.next(filtered.length);
-        this.totalPages$.next(Math.ceil(filtered.length / this.pageSizeSubject.value));
+        this.totalPages$.next(Math.ceil(filtered.length / pageSize));
 
         return filtered;
       })

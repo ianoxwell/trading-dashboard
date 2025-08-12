@@ -4,7 +4,7 @@ import { TradingService } from '@app/core/trading.service';
 import { IPortfolio } from '@app/models/portfolio.model';
 import { IWallet } from '@app/models/wallet.model';
 import { BehaviorSubject, combineLatest, Observable, timer } from 'rxjs';
-import { first, map, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { first, map, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 import { PortfolioService } from './portfolio.service';
 
 export type SortField = 'name' | 'currentValue' | 'portfolioWeight';
@@ -98,15 +98,21 @@ export class PortfolioComponent extends ComponentBase implements OnInit {
 
   // Sorting methods
   setSortField(field: SortField): void {
-    const currentField = this.sortField$.value;
-    if (currentField === field) {
-      // Toggle direction if same field is clicked
-      this.toggleSortDirection();
-    } else {
-      // Set new field and default to descending for value fields, ascending for name
-      this.sortField$.next(field);
-      this.sortDirection$.next(field === 'name' ? 'asc' : 'desc');
-    }
+    this.sortField$
+      .pipe(
+        take(1),
+        tap((currentField) => {
+          if (currentField === field) {
+            // Toggle direction if same field is clicked
+            this.toggleSortDirection();
+          } else {
+            // Set new field and default to descending for value fields, ascending for name
+            this.sortField$.next(field);
+            this.sortDirection$.next(field === 'name' ? 'asc' : 'desc');
+          }
+        })
+      )
+      .subscribe();
   }
 
   onSortFieldChange(event: any): void {
@@ -117,8 +123,14 @@ export class PortfolioComponent extends ComponentBase implements OnInit {
   }
 
   toggleSortDirection(): void {
-    const currentDirection = this.sortDirection$.value;
-    this.sortDirection$.next(currentDirection === 'asc' ? 'desc' : 'asc');
+    this.sortDirection$
+      .pipe(
+        take(1),
+        tap((currentDirection) => {
+          this.sortDirection$.next(currentDirection === 'asc' ? 'desc' : 'asc');
+        })
+      )
+      .subscribe();
   }
 
   private sortPortfolio(portfolio: IPortfolio[], field: SortField, direction: SortDirection, totalValue: number): IPortfolio[] {
